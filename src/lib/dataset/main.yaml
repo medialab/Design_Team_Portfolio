@@ -1,0 +1,10 @@
+projects:
+  - title: "Ecologies of LLM Practices: an inquiry on daily professional usage of LLMs"
+    description: "The booming rise of large language models (LLMs) such as ChatGPT has sparked a rush to produce discourse about these technologies. The quick crystallization of a shared outlook around a few key themes has narrowed the scope of potential interrogations. Public and scientific debates focus on technical issues: algorithmic bias, confabulation, and intellectual property violations. However, the problems and consequences associated with their actual use – for both their users and their professional contexts – remain largely unexplored. This asymmetry fuels a mechanical view of technological development and its effects, as if the technical analysis of these systems were enough to predict their social impact. Moreover, these discourses present AI as a monolithic and disruptive entity, dismissing the possibility that it may be aligned with existing practices and that its effects may vary depending on situations encountered in one’s job."
+    image: "https://via.placeholder.com/150"
+    link: "https://www.google.com"
+    tag: "EL2MP"
+    year_begin: "2020"
+    year_end: "2021"
+    project_type: "Research"
+    inquiry_lead: "Tommaso Prinetti"
