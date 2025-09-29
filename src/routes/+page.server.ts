@@ -1,22 +1,20 @@
 import type { PageServerLoad } from './$types';
-import { resolve } from 'path';
+import { extractYamlData } from '$lib/functions';
+import { mediaFilesModules } from '$lib/images';
+import type { YamlData } from '$lib/functions';
 
-const yamlPath = resolve(process.cwd(), 'src/lib/dataset/main.yaml');
-const file = Bun.file(yamlPath);
-
-const text = await file.text();
-let data: any = null;
-
-try {
-	data = Bun.YAML.parse(text);
-} catch (error) {
-	console.error(error);
-}
-
-console.log(data);
-
-export const load: PageServerLoad = async () => {
-	return {
-		projects: data.projects
-	};
+export const load: PageServerLoad = () => {
+	try {
+		const data: YamlData = extractYamlData() ?? { projects: [] };
+		return {
+			projects: data.projects,
+			mediaFilesModules: mediaFilesModules,
+		};
+	} catch (error) {
+		console.error('Error loading YAML data:', error);
+		return {
+			projects: [], //bckp return an emtpy array if the yaml file is not found
+			mediaFilesModules: mediaFilesModules,
+		};
+	}
 };

@@ -43,7 +43,7 @@
 	}
 
 	:global(h2) {
-		font-size: 18px;
+		font-size: 22px;
 		font-weight: 400;
 		line-height: 1.1;
 	}
@@ -51,6 +51,12 @@
 	:global(.notes) {
 		font-size: 12px;
 		color: #AFAFAF;
+	}
+
+	:global(p) {
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 1.3;
 	}
 
 	:global(button, a) {
