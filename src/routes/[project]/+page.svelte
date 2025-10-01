@@ -2,34 +2,31 @@
     import type { PageProps } from './$types';
     import Header from '$lib/components/header.svelte';
     import Footer from '$lib/components/footer.svelte';
-    import { goto } from '$app/navigation';
-    import logo from '$lib/media/sp_logo.svg';
+    import { extractThumbnailImage } from '$lib/utils';
+    import MobNav from '$lib/components/mob_nav.svelte';
 
-    import test_image from '$lib/media/test.gif';
 
     let { data }: PageProps = $props();
     const project = data.project;
     const projectMediaFiles = data.projectMediaFiles;
 
+    let thumb = extractThumbnailImage(data.mediaFilesModules, project.tag)
+
     let videoRefs: HTMLVideoElement[] = [];
 </script>
 
-<Header isHome={false} tag={project.tag}/>
-
-
+<Header type="project" tag={project.tag} isAbout={false}/>
 
 <section class="main_container">
     <div class="scroller_container">
         
         <div class="hero_card">
             <div class="thumb_cont">
-                <img src={test_image} alt={project.title} />
+                <img src={thumb?.src ?? `https://cataas.com/cat?${Math.random()}`} alt={project.title} />
             </div>
             <div class="hero_text">
-                <img src={logo} alt="logo" class="hover_logo">
-                <a class="hover_container" onclick={() => goto('/')} id="backhome" data-sveltekit-preload-data>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1000 1000 1000" fill="#1f1f1f"><path d="M600-160v-360H272l64 64-56 56-160-160 160-160 56 56-64 64h328q33 0 56.5 23.5T680-520v360h-80Z"/></svg></a>
-                <h1>{project.title}</h1>
+               <MobNav/>
+               <h1>{project.title}</h1>
                 <div class="hero_infos">
                     <p class="notes">{project.project_type} | {project.year_begin} - {project.year_end}</p>
                     <p class="notes">Inquiry lead: {project.inquiry_lead}</p>
@@ -145,7 +142,7 @@
     .divider {
         width: 100%;
         height: 1px;
-        background-color: #1c1c1c;
+        background-color: var(--dark-primary);
         grid-column: span 2;
     }
 
@@ -157,7 +154,7 @@
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: var(--spacing-m);
         z-index: 2;
-        background-color:#F9F9F9;
+        background-color:var(--color-background);
         padding: var(--spacing-xs);
         padding-bottom: var(--spacing-xl);
     }
@@ -186,14 +183,6 @@
         object-fit: cover;
     }
 
-    .hover_container {
-        display: none;
-    }
-
-    .hover_logo  {
-        display: none;
-    }
-
     @media (max-width: 768px) {
         .main_container {
             display: flex;
@@ -217,33 +206,7 @@
             display: none;
         }
 
-        .hover_container {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            right: calc(var(--spacing-s));
-            top: calc(var(--spacing-s));
-            overflow: visible;
-            background-color: #f9f9f9;
-            z-index: 10;
-            padding: var(--spacing-xs) 0px var(--spacing-xs) var(--spacing-xs);
-        }
-
-        .hover_logo {
-            position: fixed;
-            display: inline-block;
-            left: var(--spacing-m);
-            top: var(--spacing-m);
-            margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0px;
-            width: 30px;
-            height: 30px;
-            background-color: #f9f9f9;
-        }
-
-        .hover_container > svg {
-            width: 40px;
-            height: 40px;
-        }
+        
 
         .hero_text {
             width: 100%;

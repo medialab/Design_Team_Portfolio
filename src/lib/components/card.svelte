@@ -90,7 +90,7 @@
 <a bind:this={cardEl} class="card_container" href="/{props.tag}" style="transform: scale({isMobileDevice ? 1 : 1 + 0.1 * - farness}); will-change: transform; transform-style: preserve-3d;">
     <div class="image_container"
     style="aspect-ratio: {ra}">
-        <img src={props.image} alt={props.title} data-sveltekit-preload-data="eager"/>
+        <img src={props.image} alt={props.title} data-sveltekit-preload-data="eager" loading="eager" fetchpriority="high"/>
         
         <div class="image_stack">
            <!-- {#if props.imageStacks && Object.keys(props.imageStacks).length > 0}
@@ -135,7 +135,7 @@
         column-gap: 0px;
         width: fit-content;
         height: 14vh;
-        background-color: white;
+        background-color: var(--color-surface);
         text-decoration: none;
         color: inherit;
         cursor: pointer;
@@ -202,6 +202,8 @@
         padding: var(--spacing-s);
         padding-left: 0px;
         z-index: 10;
+
+        background-color: var(--color-surface);
         
         height: 100%;
         padding-left: var(--spacing-s);
@@ -236,14 +238,14 @@
 
         #tag_container {
             position: absolute;
-            right: 0px;
+            right: var(--spacing-s);
             top: var(--spacing-s);
         }
 
         .info_container {
             padding: 0px;
             position: relative;
-            padding-top: var(--spacing-s);
+            padding: var(--spacing-s);
             width: 100%;
         }
 

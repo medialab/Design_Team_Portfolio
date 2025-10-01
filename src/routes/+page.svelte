@@ -6,32 +6,9 @@
     import type { ImageMetadata } from '$lib/images';
     import { writable } from 'svelte/store';
     import { onMount } from 'svelte';
+    import { extractThumbnailImage } from '$lib/utils';
 
     let { data }: PageProps = $props();
-
-	type ImageShape = 'Horizontal' | 'Vertical' | 'Square';
-
-	const extractThumbnailImage = (
-		mediaFilesModules: Record<string, ImageMetadata>,
-		projectTag: string
-	): { src: string; shape: ImageShape } | null => {
-		const thumbnailKey = Object.keys(mediaFilesModules)
-			.find(key => 
-				key.includes(`/${projectTag}/`) && 
-				key.toLowerCase().includes('thumb')
-			);
-		
-		if (!thumbnailKey) return null;
-
-		const meta = mediaFilesModules[thumbnailKey];
-		const shape: ImageShape = meta.width === meta.height
-			? 'Square'
-			: meta.width > meta.height
-				? 'Horizontal'
-				: 'Vertical';
-
-		return { src: meta.src, shape };
-	};
 
     const projectMediaFilesObtainer = (
         mediaFilesModules: Record<string, ImageMetadata>,
@@ -88,27 +65,28 @@
 
     </script>
     
-    <Header isHome={true}/>
+    <Header type="home" isAbout={false}/>
     
     <section class="cards_container">
 		{#each data.projects as project, index}
 			{@const thumb = extractThumbnailImage(data.mediaFilesModules, project.tag)}
-			<Card 
-				image={thumb?.src ?? `https://cataas.com/cat?${Math.random()}`}
-				tag={project.tag}
-				title={project.title}
-				project_type={project.project_type}
-				year_begin={project.year_begin}
-				year_end={project.year_end}
-				inquiry_lead={project.inquiry_lead}
-				imageShape={thumb?.shape ?? ['Horizontal', 'Square', 'Vertical'][Math.floor(Math.random() * 3)]}
-                imageStacks={projectMediaFilesObtainer(data.mediaFilesModules, project.tag) ?? ''}
-                mousePosition={$mousePosition}
-                index={index}
-                translateMultiplier={100}
-                scaleStrength={1}
-			/>
+                <Card 
+                    image={thumb?.src ?? `https://cataas.com/cat?${Math.random()}`}
+                    tag={project.tag}
+                    title={project.title}
+                    project_type={project.project_type}
+                    year_begin={project.year_begin}
+                    year_end={project.year_end}
+                    inquiry_lead={project.inquiry_lead}
+                    imageShape={thumb?.shape ?? ['Horizontal', 'Square', 'Vertical'][Math.floor(Math.random() * 3)]}
+                    imageStacks={projectMediaFilesObtainer(data.mediaFilesModules, project.tag) ?? ''}
+                    mousePosition={$mousePosition}
+                    index={index}
+                    translateMultiplier={100}
+                    scaleStrength={1}
+                />
 		{/each}
+
         <Footer />
     </section>
     

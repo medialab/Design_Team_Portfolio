@@ -23,7 +23,7 @@ footer {
 }
 
 footer > * {
-    background-color: white;
+    background-color: var(--color-surface);
 }
 
 @media (max-width: 768px) {

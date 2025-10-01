@@ -22,7 +22,9 @@ export const load: PageServerLoad = async ({ params }) => {
 		return {
 			project,
 			projectMediaFiles,
+			mediaFilesModules,
 		};
+
 	} catch (err) {
 		console.error('Error loading project data:', err);
 		throw error(404, 'Project not found');
