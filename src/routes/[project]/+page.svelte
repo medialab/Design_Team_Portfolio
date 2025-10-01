@@ -2,6 +2,8 @@
     import type { PageProps } from './$types';
     import Header from '$lib/components/header.svelte';
     import Footer from '$lib/components/footer.svelte';
+    import { goto } from '$app/navigation';
+    import logo from '$lib/media/sp_logo.svg';
 
     import test_image from '$lib/media/test.gif';
 
@@ -14,15 +16,19 @@
 
 <Header isHome={false} tag={project.tag}/>
 
-<Footer />
+
 
 <section class="main_container">
     <div class="scroller_container">
+        
         <div class="hero_card">
             <div class="thumb_cont">
                 <img src={test_image} alt={project.title} />
             </div>
             <div class="hero_text">
+                <img src={logo} alt="logo" class="hover_logo">
+                <a class="hover_container" onclick={() => goto('/')} id="backhome" data-sveltekit-preload-data>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1000 1000 1000" fill="#1f1f1f"><path d="M600-160v-360H272l64 64-56 56-160-160 160-160 56 56-64 64h328q33 0 56.5 23.5T680-520v360h-80Z"/></svg></a>
                 <h1>{project.title}</h1>
                 <div class="hero_infos">
                     <p class="notes">{project.project_type} | {project.year_begin} - {project.year_end}</p>
@@ -34,8 +40,8 @@
             <article class="article_container">
                 <hr class="divider">
                 <div>
-                    <h2>Context</h2>
-                    <p>{project.description}</p>
+                    <p class="medium">Context</p>
+                    <p id="description">{project.description}</p>
                 </div>
 
                 {#each Object.entries(projectMediaFiles) as [key, mediaFile]}
@@ -69,6 +75,7 @@
             </article>
         </div>
     </div>
+    <Footer />
 </section>
 
 <style>
@@ -177,6 +184,97 @@
         width: 100%;
         height: auto;
         object-fit: cover;
+    }
+
+    .hover_container {
+        display: none;
+    }
+
+    .hover_logo  {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .main_container {
+            display: flex;
+            flex-direction: column;
+            row-gap: var(--spacing-m);
+            width: 100%;
+            height: 100%;
+            padding: var(--spacing-m);
+            padding-top: var(--spacing-m);
+        }
+
+        .scroller_container {
+            grid-column: span 2;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .thumb_cont {
+            display: none;
+        }
+
+        .hover_container {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            right: calc(var(--spacing-s));
+            top: calc(var(--spacing-s));
+            overflow: visible;
+            background-color: #f9f9f9;
+            z-index: 10;
+            padding: var(--spacing-xs) 0px var(--spacing-xs) var(--spacing-xs);
+        }
+
+        .hover_logo {
+            position: fixed;
+            display: inline-block;
+            left: var(--spacing-m);
+            top: var(--spacing-m);
+            margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0px;
+            width: 30px;
+            height: 30px;
+            background-color: #f9f9f9;
+        }
+
+        .hover_container > svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .hero_text {
+            width: 100%;
+            position: relative;
+            padding: 0px;
+            margin-top: var(--spacing-l);
+            padding-top: var(--spacing-s);
+        }
+
+        .hero_text > h1 {
+            width: 80%;
+        }
+
+        .article_container {
+            padding: 0px;
+            display: flex;
+            flex-direction: column;
+            row-gap: var(--spacing-m);
+        }
+
+        #description {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 15;
+            line-clamp: 15;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: var(--spacing-m);
+        }
+
+        
     }
 
 

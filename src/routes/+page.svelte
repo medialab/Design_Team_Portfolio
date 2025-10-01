@@ -109,24 +109,35 @@
                 scaleStrength={1}
 			/>
 		{/each}
-
+        <Footer />
     </section>
     
-    <Footer />
+    
     
     <style>
     
-    .cards_container {
-        width: 100%;
-        height: fit-content;
-    
-        padding: var(--spacing-l);
-        margin-top: var(--spacing-xl);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        row-gap: var(--spacing-l);
-        justify-content: space-between;
-    }
+        .cards_container {
+            width: 100%;
+            height: fit-content;
+        
+            padding: var(--spacing-l);
+            margin-top: var(--spacing-xl);
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            row-gap: var(--spacing-l);
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .cards_container {
+                width: 100%;
+                padding: var(--spacing-m);
+                margin-top: 0px;
+                flex-direction: column;
+                height: max-content;
+                row-gap: var(--spacing-l);
+            }
+        }
     
     </style>

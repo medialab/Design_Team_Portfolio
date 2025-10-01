@@ -1,6 +1,9 @@
 <script lang="ts">
-    import type { ImageMetadata } from '$lib/images';
+    //import type { ImageMetadata } from '$lib/images';
+    //import { onMount } from 'svelte';
+    import { isMobile } from '$lib/utils';
     import { onMount } from 'svelte';
+    
 
     let props = $props();
 
@@ -14,7 +17,7 @@
         ra = '1/1';
     }
 
-    let mockArray = $state([0, 1 , 2 ,3]);
+    let mockArray = $state([0, 1, 2, 3]);
 
     let cardEl: HTMLAnchorElement | null = null;
 
@@ -48,7 +51,7 @@
             farness = 0;
             return;
         }
-        
+
         const rect = cardEl.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
@@ -74,9 +77,17 @@
         updateFarness();
     });
 
+    
+    let isMobileDevice = $state(false);
+
+    onMount(async () => {
+        isMobileDevice = await isMobile();
+        //console.log('Is mobile:', isMobileDevice);
+    });
+
 </script>
 
-<a bind:this={cardEl} class="card_container" href="/{props.tag}" style="transform: scale({1 + 0.1 * - farness}); will-change: transform; transform-style: preserve-3d;">
+<a bind:this={cardEl} class="card_container" href="/{props.tag}" style="transform: scale({isMobileDevice ? 1 : 1 + 0.1 * - farness}); will-change: transform; transform-style: preserve-3d;">
     <div class="image_container"
     style="aspect-ratio: {ra}">
         <img src={props.image} alt={props.title} data-sveltekit-preload-data="eager"/>
@@ -92,7 +103,7 @@
             {/if}-->
             {#each mockArray as index}
                 <img
-                    src={`https://cataas.com/cat?${Math.random()}`}
+                    src={`https://cataas.com/cat?${Math.random()}?card`}
                     alt={props.title}
                     style="z-index: {(-1 * index)}; opacity: {index === 0 ? 1 : Math.max(0.15, 1 - index * 0.12)}; transform: translate({(layerVectors[index]?.x ?? 0) * (props.translateMultiplier ?? 14) * farness * ((index + 1) / mockArray.length)}px, {(layerVectors[index]?.y ?? 0) * (props.translateMultiplier ?? 14) * farness * ((index + 1) / mockArray.length)}px);"
                     />
@@ -100,8 +111,8 @@
         </div>
     </div>
     <div class="info_container" style="max-width: {props.cardSize === 'S' ? '20ch' : props.cardSize === 'M' ? '25ch' : '35ch'}">
-        <p class="notes">#{props.tag}</p>
-        <h2>{props.title}</h2>
+        <p class="notes" id="tag_container">#{props.tag}</p>
+        <h2 id="title_container">{props.title}</h2>
         <div class="specifications_container">
             {#if props.project_type && props.year_end}
                 <p class="notes">{props.project_type} | {props.year_begin} - {props.year_end}</p>
@@ -191,7 +202,7 @@
         padding: var(--spacing-s);
         padding-left: 0px;
         z-index: 10;
-        background-color: white;
+        
         height: 100%;
         padding-left: var(--spacing-s);
     }
@@ -203,5 +214,47 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    @media (max-width: 768px) {
+        .card_container {
+            flex-direction: column;
+            height: fit-content;
+            width: 100%;
+            align-items: flex-start;
+            position: relative;
+            transform: scale(1);
+            background-color: transparent;
+        }
+
+        .image_container {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            max-height: 25vh;
+        }
+
+        #tag_container {
+            position: absolute;
+            right: 0px;
+            top: var(--spacing-s);
+        }
+
+        .info_container {
+            padding: 0px;
+            position: relative;
+            padding-top: var(--spacing-s);
+            width: 100%;
+        }
+
+        .info_container > h2 {
+            width: 80%;
+            overflow: visible;
+        }
+
+        .image_stack {
+            display: none;
+            visibility: hidden;
+        }
     }
 </style>

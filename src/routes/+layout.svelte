@@ -59,6 +59,12 @@
 		line-height: 1.3;
 	}
 
+	:global(.medium) {
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+
 	:global(button, a) {
 		all: unset;
 		box-sizing: border-box;
@@ -69,5 +75,24 @@
 		margin: 0;
 		font: inherit;
 		color: inherit;
+	}
+
+	@media (max-width: 768px) {
+		:global(h1) {
+			font-size: 36px;
+			font-weight: 500;
+			word-spacing: -0.08em;
+		}
+
+		:global(h2) {
+			font-size: 16px;
+			font-weight: 300;
+			word-spacing: -0.08em;
+		}
+
+		:global(body) {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 </style>

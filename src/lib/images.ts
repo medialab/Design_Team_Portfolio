@@ -7,6 +7,15 @@ export type ImageMetadata = {
     format: string;
 };
 
+export type OptimizedImage = {
+    img: string;
+    sources: {
+        avif: string;
+        webp: string;
+    };
+};
+
+// Optimized images with dithering effect (lower quality)
 export const mediaFilesModules: Record<string, ImageMetadata> = import.meta.glob(
     [
         '$lib/media/**/*.png',
@@ -14,15 +23,28 @@ export const mediaFilesModules: Record<string, ImageMetadata> = import.meta.glob
         '$lib/media/**/*.jpeg',
         '$lib/media/**/*.webp',
         '$lib/media/**/*.gif',
-        '$lib/media/**/*.webm'
-
     ],
     {
         eager: true,
-        // Append imagetools query to every matched file so imports resolve to metadata objects
-        // as=metadata yields an object with src, width, height, and format
-        query: { imagetools: '', as: 'metadata' }
+        query: { 
+            w: '800',
+            format: 'webp',
+            quality: '65',
+            metadata: '',
+            as: 'metadata'
+        }
     }
 );
+
+export function buildPictureSources(imagePath: string, widths: number[] = [400, 800, 1200]) {
+    const srcset = (format: string) => 
+        widths.map(w => `${imagePath}?w=${w}&format=${format} ${w}w`).join(', ');
+    
+    return {
+        avif: srcset('avif'),
+        webp: srcset('webp'),
+        fallback: srcset('jpg')
+    };
+}
 
 

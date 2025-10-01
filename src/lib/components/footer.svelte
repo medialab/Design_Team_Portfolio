@@ -25,4 +25,11 @@ footer {
 footer > * {
     background-color: white;
 }
+
+@media (max-width: 768px) {
+    footer {
+        position: static;
+        padding: var(--spacing-m) 0px var(--spacing-m) 0px;
+    }
+}
 </style>
