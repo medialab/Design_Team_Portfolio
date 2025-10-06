@@ -22,6 +22,13 @@
 <style>
 	:global(body) {
 		background-color: var(--color-background);
+		-webkit-overflow-scrolling: touch;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+	}
+
+	:global(svg) {
+		fill: var(--permanent-black);
 	}
 
 	:global(*) {
@@ -33,6 +40,8 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeLegibility;
+		-webkit-tap-highlight-color: transparent;
+		-webkit-touch-callout: none;
 	}
 
 	:global(:root) {
@@ -43,49 +52,61 @@
 		--spacing-xl: 80px;
 		--spacing-xxl: 160px;
 
+		
+		--curve: cubic-bezier(.65,.12,.62,.96);
 		--permanent-black: #1f1f1f;
+		--permanent-white: #ffffff;
 	}
 
 	:global([data-theme="light"]) {
 		--color-background: #F9F9F9; /*For bg*/
 		--color-surface: #FFFFFF;/* For info container and things that are currently purely white */
 	
-		--dark-primary: #1F1F1F; /* For text and other things that are currently purely black */
-		--dark-secondary: #AFAFAF; /* For text calss notes */
+		--primary-black: #000000; /* For text and other things that are currently purely black */
+		--secondary-dark: #AFAFAF; /* For text calss notes */
+		--primary-white: #ffffff;
+		
 	}
 
 	:global([data-theme="dark"]) {
 		/* Light mode colors (default) */
-		--color-background: #000000; /*For bg*/
-		--color-surface: #FFFFFF; /* For info container and things that are currently purely white */
+		--color-background: #101010; /*For bg*/
+		--color-surface: #141414; /* For info container and things that are currently purely white */
 
-		--dark-primary: #dcdcdc; /* For text and other things that are currently purely black */
-		--dark-secondary: #575757; /* For text calss notes */
+		--primary-black: #ffffff; /* For text and other things that are currently purely black */
+		--secondary-dark: #c0c0c0; /* For text calss notes */
+		--primary-white: #000;
 	}
+
+	:global(::selection) {
+        background-color: var(--primary-black);
+        color: var(--primary-white);
+    }
 
 	:global(h1) {
 		font-size: 18px;
 		font-weight: 400;
 		line-height: 1.1;
-		color: var(--dark-primary);
+		color: var(--primary-black);
 	}
 
 	:global(h2) {
 		font-size: 22px;
 		font-weight: 400;
 		line-height: 1.1;
+		color: var(--primary-black);
 	}
 
 	:global(.notes) {
 		font-size: 12px;
-		color: var(--dark-secondary);
+		color: var(--secondary-dark);
 	}
 
 	:global(p) {
 		font-size: 16px;
 		font-weight: 400;
 		line-height: 1.3;
-		color: var(--dark-primary);
+		color: var(--primary-black);
 	}
 
 	:global(.medium) {
@@ -128,6 +149,37 @@
 		scrollbar-color: var(--color-surface) var(--color-background);
 	}
 
+	:global(.hidden) {
+		transform: translateY(+10%);
+		opacity: 0;
+		clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+		transition: transform 1s var(--curve), opacity 1s var(--curve), clip-path 1s var(--curve), filter 1s var(--curve);
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		-webkit-transform: translateY(+10%);
+		-webkit-transform: translateZ(0);
+		will-change: transform, opacity, clip-path;
+		filter: blur(2px);
+	}
+
+	:global(.transitioned) {
+		transform: translateY(0%);
+		opacity: 1;
+		clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+		transition: transform 1s var(--curve), opacity 1s var(--curve), clip-path 1s var(--curve), filter 1s var(--curve);
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		-webkit-transform: translateY(0%);
+		-webkit-transform: translateZ(0);
+		will-change: transform, opacity, clip-path;
+		filter: blur(0px);
+	}
+
+	:global(.hover_container > svg) {
+		width: 30px;
+		height: 30px;
+	}
+
 	@media (max-width: 768px) {
 		:global(h1) {
 			font-size: 36px;
@@ -145,6 +197,11 @@
 			display: flex;
 			flex-direction: column;
 		}
+
+		:global(.hover_container > svg) {
+            width: 25px;
+            height: 25px;
+        }
 
 
 		
