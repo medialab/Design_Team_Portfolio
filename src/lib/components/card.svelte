@@ -251,7 +251,7 @@
         object-fit: cover;
         position: static;
         z-index: 1;
-        mix-blend-mode: hard-light;
+        mix-blend-mode: multiply;
         filter: grayscale(1);
         transition: mix-blend-mode 0.2s var(--curve);
     }
@@ -284,7 +284,7 @@
         right: 0;
         bottom: 0;
         transition: transform 0.12s var(--curve);
-        mix-blend-mode:hard-light;
+        mix-blend-mode: multiply;
     }
 
     .info_container {
