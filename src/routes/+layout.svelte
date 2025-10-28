@@ -28,7 +28,7 @@
 	}
 
 	:global(svg) {
-		fill: var(--permanent-black);
+		fill: var(--primary-black);
 	}
 
 	:global(*) {

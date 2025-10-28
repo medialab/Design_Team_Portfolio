@@ -10,14 +10,14 @@ export function dither(node: HTMLImageElement, options: DitherOptions = {}) {
 
     // Set crossOrigin before the image loads to avoid CORS issues (only for external images)
     if (!node.src.startsWith(window.location.origin) && !node.src.startsWith('/')) {
-        node.crossOrigin = 'anonymous';
+        node.crossOrigin = 'anonymous   ';
     }
 
     const handleDither = () => {
         try {
-            console.log('Attempting to dither:', node.src);
-            console.log('Image naturalWidth:', node.naturalWidth, 'naturalHeight:', node.naturalHeight);
-            console.log('Image complete:', node.complete, 'crossOrigin:', node.crossOrigin);
+            //console.log('Attempting to dither:', node.src);
+            //console.log('Image naturalWidth:', node.naturalWidth, 'naturalHeight:', node.naturalHeight);
+            //console.log('Image complete:', node.complete, 'crossOrigin:', node.crossOrigin);
             
             applyDither(node, dotSize);
             

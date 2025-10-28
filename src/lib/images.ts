@@ -5,6 +5,7 @@ export type ImageMetadata = {
     width: number;
     height: number;
     format: string;
+    default: string;
 };
 
 export type OptimizedImage = {
@@ -23,6 +24,7 @@ export const mediaFilesModules: Record<string, ImageMetadata> = import.meta.glob
         '$lib/media/**/*.jpeg',
         '$lib/media/**/*.webp',
         '$lib/media/**/*.gif',
+        '$lib/media/**/*.pdf',
     ],
     {
         eager: true,

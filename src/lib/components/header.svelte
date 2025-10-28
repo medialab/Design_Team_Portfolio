@@ -31,7 +31,7 @@
 {/snippet}
 
 {#snippet colorswitch_container()}
-    <div class="hover_container">
+    <div class="hover_container" class:hidden={!isPageLoaded} class:transitioned={isPageLoaded} style="transition-delay: 1s;">
         <p class="notes">Switch reading mode</p>
 
         <div class="navigator_links">
@@ -62,6 +62,7 @@
 {#if props.type === 'home'}
     <header id="mobile_home_header">
         <!--{@render colorswitch_container()}-->
+        {@render colorswitch_container()}
         <div class="logo_container" class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 25" >
                 <path d="M12.999 0C19.7316 0 25.1894 5.45783 25.1895 12.1904C25.1895 18.9231 19.7317 24.3809 12.999 24.3809C6.26642 24.3808 0.808594 18.9231 0.808594 12.1904C0.808676 5.45788 6.26647 8.19504e-05 12.999 0ZM13.0557 1.00195C6.84562 1.00195 1.81055 6.03703 1.81055 12.2471C1.81077 18.4569 6.84576 23.4912 13.0557 23.4912C19.2654 23.491 24.2996 18.4568 24.2998 12.2471C24.2998 6.03716 19.2655 1.00218 13.0557 1.00195Z" fill="inherit"/>
@@ -78,7 +79,7 @@
 {:else if props.type === 'project'}
     <header id="mobile_home_header" style="min-height: unset; height: fit-content;">
         {@render colorswitch_container()}
-        <button class="hover_container" onclick={() => goto('/')} id="backhome" data-sveltekit-preload-data aria-label="Back to home" style="left: unset; right: var(--spacing-m); align-items: flex-end;">
+        <button class="hover_container" onclick={() => goto('/')} id="backhome" data-sveltekit-preload-data aria-label="Back to home" style="left: unset; right: var(--spacing-m); align-items: flex-end; transition-delay: 1s;" class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>
             <p class="notes">Back to home</p>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -720 700 800"><path d="M600-160v-360H272l64 64-56 56-160-160 160-160 56 56-64 64h328q33 0 56.5 23.5T680-520v360h-80Z"/>
             </svg>
@@ -107,9 +108,6 @@
         </div>
     {:else if props.type === 'project'}
         {@render colorswitch_container()}
-
-        {@render logo_container()}
-
         <a class="hover_container" href="/" id="backhome">
             <p class="notes">Back to home</p>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z"/></svg>
@@ -266,7 +264,7 @@
         }
 
         .logo_container > h1 {
-            color: var(--permanent-black);
+            color: var(--primary-black);
         }
 
         #mobile_home_header {

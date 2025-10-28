@@ -13,8 +13,6 @@
 
     import ditheringLottie from '$lib/assets/DITHERING.json';
 
-    
-
     let props = $props();
 
     let ra: string = $state('4/3');
