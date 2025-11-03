@@ -33,7 +33,8 @@
 		"@types/js-yaml": "^4.0.9",
 		"html-to-image": "^1.11.13",
 		"js-yaml": "^4.1.0",
-		"svelte-pdf": "file:../svelte-pdf",
+		"svelte-inview": "^4.0.4",
+		"svelte-pdf": "github:TommasoPrinetti/svelte-pdf",
 		"sveltekit-device-detector": "^2.0.1"
 	}
 }

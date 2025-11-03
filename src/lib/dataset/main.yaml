@@ -1,257 +1,252 @@
 projects:
-  - title: "Ecologies of LLM Practices: an inquiry on daily professional usage of LLMs"
-    description: "The booming rise of large language models (LLMs) such as ChatGPT has sparked a rush to produce discourse about these technologies. The quick crystallization of a shared outlook around a few key themes has narrowed the scope of potential interrogations. Public and scientific debates focus on technical issues: algorithmic bias, confabulation, and intellectual property violations. However, the problems and consequences associated with their actual use – for both their users and their professional contexts – remain largely unexplored. This asymmetry fuels a mechanical view of technological development and its effects, as if the technical analysis of these systems were enough to predict their social impact. Moreover, these discourses present AI as a monolithic and disruptive entity, dismissing the possibility that it may be aligned with existing practices and that its effects may vary depending on situations encountered in one’s job."
-    link: "https://medialab.sciencespo.fr/en/activities/emaps/"
-    tag: "EL2MP"
-    year_begin: "2011"
-    year_end: "2014"
-    project_type: "Research"
-    inquiry_lead: "Bruno Latour"
-  - title: "Future Obs"
-    description: "How to map controversies linked to ageing or climate change adaptation?"
-    link: "https://medialab.sciencespo.fr/en/activities/emaps/"
-    tag: "FOBS"
-    year_begin: "2011"
-    year_end: "2014"
-    project_type: "Research"
-    inquiry_lead: "Bruno Latour"
-  - title: "Reset Modernity!"
-    description: "An exhibition and research project led by Bruno Latour that experimented with collaborative and participatory methods to map, describe and intervene in environmental and technological challenges. It aimed to facilitate public involvement in technological and scientific issues." # :contentReference[oaicite:0]{index=0}
-    link: "http://www.modesofexistence.org/ime/en/cont/16526" # reference from project media catalogue (modesofexistence entry) :contentReference[oaicite:1]{index=1}
-    tag: "REM"
-    year_begin: "2016"
-    year_end: "2016"
-    project_type: "Exhibition / Research" # Reset Modernity! presented as an exhibition at ZKM and as a research/edited volume :contentReference[oaicite:2]{index=2}
-    inquiry_lead: "Bruno Latour" # project lead / public inquiry lead :contentReference[oaicite:3]{index=3}
-  - title: "Climate Negotiations Browser"
-    description: "A platform to explore 20+ years of UNFCCC negotiations via the Earth Negotiations Bulletin, with faceted search and visual diagrams."
-    link: "https://medialab.sciencespo.fr/en/activities/climate-negotiations-browser/"
-    tag: "CNB"
-    year_begin: "2015"
-    year_end: "2017"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "WebClim"
-    description: "Investigates how web platforms and their algorithms influence access to climate information and public attitudes over time."
-    link: "https://medialab.sciencespo.fr/en/activities/webclim/"
-    tag: "WEBCLIM"
-    year_begin: "2019"
-    year_end: "2021"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "Espace public numérique"
-    description: "Structural analysis of France's digital public sphere since 2018, tracking information flows across news sites and social platforms."
-    link: "https://medialab.sciencespo.fr/en/activities/espace-public-numerique/"
-    tag: "EPN"
-    year_begin: "2018"
-    year_end: "2020"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "DIME SHS / Web"
-    description: "Support and methods for using the web as a digital fieldwork space in the social sciences (collection, curation, analysis, tools like Hyphe)."
-    link: "https://medialab.sciencespo.fr/en/activities/dime-shs-web/"
-    tag: "DIME-WEB"
-    year_begin: "2011"
-    year_end: "2020"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "European Polarisation Observatory (EPO) avec CIVICA Research"
-    description: "Proof‑of‑concept for an observatory measuring multi‑issue ideological polarisation in Europe using scaled social‑network data."
-    link: "https://medialab.sciencespo.fr/en/activities/epo/"
-    tag: "EPO"
-    year_begin: "2021"
-    year_end: "2023"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "AI‑Political Machines"
-    description: "Tests whether recommender systems learn and leverage users' political opinions and how this shapes information dynamics and governance."
-    link: "https://medialab.sciencespo.fr/en/activities/ai-political-machine/"
-    tag: "AI-PM"
-    year_begin: "2022"
-    year_end: "2024"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "Gouverner la parole en ligne"
-    description: "Explores norms and practices of content moderation and possible democratic governance of problematic speech online."
-    link: "https://medialab.sciencespo.fr/en/activities/gouverner-la-parole-en-ligne/"
-    tag: "GPL"
-    year_begin: "2021"
-    year_end: "2022"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "Traces et Méthodes numériques"
-    description: "Research axis designing end‑to‑end chains to collect, model, and visualize heterogeneous digital traces; open‑source by default."
-    link: "https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/"
-    tag: "TMN"
-    year_begin: "2015"
-    year_end: "2017"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "GOPI"
-    description: "How to modelize the discursive space on public health controversies? Uses innovative language‑analysis methods to map argument dynamics."
-    link: "https://medialab.sciencespo.fr/en/activities/gopi/"
-    tag: "GOPI"
-    year_begin: "2016"
-    year_end: "2018"
-    project_type: "Research"
-    inquiry_lead: "Tommaso Venturini"
-  - title: "RICardo"
-    description: "Trade globalization and regional effects: which interactions? Historical and computational approaches to economic exchanges."
-    link: "https://medialab.sciencespo.fr/en/activities/ricardo/"
-    tag: "RICARDO"
-    year_begin: "2017"
-    year_end: "2019"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "TOFLIT18"
+  - title: 'Ecologies of LLM Practices: an inquiry on daily professional usage of LLMs'
+    description: 'How can we reframe the role of LLMs in ordinary work practices? The booming rise of large language models (LLMs) such as ChatGPT has sparked a rush to produce discourse about these technologies. The quick crystallization of a shared outlook around a few key themes has narrowed the scope of potential interrogations. Public and scientific debates focus on technical issues: algorithmic bias, confabulation, and intellectual property violations. However, the problems and consequences associated with their actual use – for both their users and their professional contexts – remain largely unexplored. This asymmetry fuels a mechanical view of technological development and its effects, as if the technical analysis of these systems were enough to predict their social impact. Moreover, these discourses present AI as a monolithic and disruptive entity, dismissing the possibility that it may be aligned with existing practices and that its effects may vary depending on situations encountered in ones job.'
+    link: 'https://ecologiesofllm.medialab.sciencespo.fr/'
+    tag: 'EL2MP'
+    year_begin: '2024'
+    year_end: '2026'
+    project_type: 'Participatory Research'
+    team_people: 'Donato Ricci, Gabriel Alcaras, Tommaso Prinetti, Zoé de Vries'
+
+  - title: 'FUTURE-OBS'
+    description: 'How can digital traces help to identify and represent human interactions with fragile coastal socio-ecosystems? The livelihoods of more than 3 billion people depend on coastal marine ecosystems. The "FUTURE-OBS: Augmented Observatory for coastal socio-ecosystems" project is a pioneering initiative to advance the understanding of coastal socio-ecosystems in the face of increasing anthropogenic pressures. The project combines traditional ocean observing methods with cutting-edge techniques such as environmental genomics and in situ biodiversity imaging. By using social media data to monitor human interactions with these vulnerable spaces - the work package led by the médialab - the project pushes the boundaries of what is possible to observe and understand these complex systems.'
+    link: 'https://medialab.sciencespo.fr/en/activities/future-obs/'
+    tag: 'FOBS'
+    year_begin: '2022'
+    year_end: '2026'
+    project_type: 'Participatory Research'
+    team_people: 'Donato Ricci, Nicolas Benvegnu, Jean-Philippe Cointet'
+
+  - title: 'Reset Modernity!'
+    description: 'What do you do when you are disoriented, when the compass of your phone goes haywire? You reset it. The procedure depends on the situation and device, but you always have to stay calm and carefully follow instructions if you want the compass to capture signals again. Modernity was a way to differentiate past and future, North and South, progress and regress, radical and conservative. However, at a time of deep ecological mutation, such a compass is running in wild circles without offering much bearing anymore. This is why it is time for a reset.'
+    link: 'https://medialab.sciencespo.fr/en/productions/2016-04-reset-modernity/'
+    tag: 'REM'
+    year_begin: '2016'
+    year_end: '2016'
+    project_type: 'Exhibition / Research'
+    team_people: 'Bruno Latour, Martin Guinard-Terrin, Donato Ricci, Christophe Leclercq, Daria Mille'
+
+  - title: 'Climate Negotiations Browser'
+    description: "The Climate Negotiations Browser develops a climate change debate exploration platform focusing on deliberations at the highest level of the UNFCCC (United Nation Framework Convention on Climate Change). The platform allows users to navigate over 20 years of UN climate negotiations as captured by IISD's reporting system: the Earth Negotiations Bulletin. It provides a series of visual diagrams presenting the main actors (countries and negotiating groupings), the stakes of negotiations (mitigation, adaptation, Kyoto Protocol, post-Kyoto…) as well as the evolution of their respective and combined visibility over time, and a search engine allowing users to filter and browse the verbatims of the Earth Negotiations Bulletin."
+    link: 'https://medialab.sciencespo.fr/en/activities/climate-negotiations-browser/'
+    tag: 'CNB'
+    year_begin: '2015'
+    year_end: '2017'
+    project_type: 'Research'
+    team_people: 'Benjamin Ooghe-Tabanou, Guillaume Plique, Tommaso Venturini, Mathieu Jacomy, Paul Girard, Kari De Pryck, Gabriel Varela, Alexis Jacomy'
+  - title: 'WebClim'
+    description: 'The Webclim project investigates the extent to which the practices and algorithms of web platforms contribute to shaping the public''s access to climate information and their attitudes towards climate change. The project develops methodologies to monitor and document the effects of algorithmic personalization and the temporal changes introduced by platforms to their recommendation engines. This allows to study how results to frequent climate queries are changing over time, and the extent to which personalization contributes to enclose people in "information bubbles". The project also designs experimental protocols to investigate how changes in access to climate information on platforms might influence public understanding of climate change and attitude towards climate policies.'
+    link: 'https://medialab.sciencespo.fr/en/activities/webclim/'
+    tag: 'WEBCLIM'
+    year_begin: '2019'
+    year_end: '2021'
+    project_type: 'Research'
+    team_people: 'Emmanuel Vincent, Héloïse Théro'
+  - title: 'Espace public numérique'
+    description: 'How to represent with digital methods the French media and political spaces? The circuits of information have been profoundly transformed by the emergence of the digital public space which now occupies a central place in the formation of public opinion. The objective of this project is to conduct a structural analysis of these transformations in order to put into context questions relating to disinformation, political polarisation and the production of public problems. Based on a systematic collection begun in 2018 of articles published by nearly 460 French media (newspaper websites, radio, TV, blogs, etc.), this project relies on a data collection infrastructure allowing to track the circulation of information on the web, Twitter, Facebook and YouTube. Its objective is to develop a structural approach to the digital public space that is mapped using methods of automatic categorisation and embedding of textual, relational or even visual data from content.'
+    link: 'https://medialab.sciencespo.fr/en/activities/espace-public-numerique/'
+    tag: 'EPN'
+    year_begin: '2018'
+    year_end: '2020'
+    project_type: 'Research'
+    team_people: 'Dominique Cardon, Jean-Philippe Cointet, Manon Berriche, Benjamin Tainturier, Andrei Mogoutov, Audrey Baneyx, Emmanuel Vincent, Héloïse Théro'
+  - title: 'DIME SHS / Web'
+    description: "The DIME Web instrument (part of the DIME-SHS EquipEx - Excellence Facility for Survey Data Infrastructures and Methods in the Humanities and Social Sciences) is a team of engineers from Sciences Po's médialab which supports Social Science research projects in the development and use of digital methods to exploit the web as a survey medium. In particular, it provides support to collect, enhance, clean up, visualize and analyze data from digital traces accessible online. The instrument stands at the intersection of the fields of methodological research and digital methods in social sciences. As well as supporting researchers in their methodology, the team offers them its skills in network analysis and web archiving, as well as in controversy analysis following Bruno Latour's Actor Network Theory (ANT). The instrument created several dedicated digital social science tools released as open source, such as the web crawler Hyphe and the Twitter collection software Gazouilloire."
+    link: 'https://medialab.sciencespo.fr/en/activities/dime-shs-web/'
+    tag: 'DIME-WEB'
+    year_begin: '2011'
+    year_end: '2020'
+    project_type: 'Research'
+    team_people: 'Benjamin Ooghe-Tabanou, Guillaume Plique, Paul Girard, Mathieu Jacomy, Daniele Guido'
+  - title: 'European Polarisation Observatory (EPO) avec CIVICA Research'
+    description: "How to measure polarisation in multipolar and multi-issue European socio-political systems? Traditionally, people's opinions on different issues of the public debate have been studied through polls and surveys. But recent advancements in network scaling methods have shown that digital behavioral traces (typically following/follower networks) in social media platforms can be used to mine opinions at a massive scale. This project seeks to develop a proof of concept for a European Polarisation Observatory of ideologies and attitudes towards issues of the public debate. It will study the ideological dynamics of users and media outlets to measure polarization on various issues, and investigate the role of algorithmic recommendations on user access to ideologically diverse news."
+    link: 'https://medialab.sciencespo.fr/en/activities/epo/'
+    tag: 'EPO'
+    year_begin: '2021'
+    year_end: '2023'
+    project_type: 'Research'
+    team_people: 'Pedro Ramaciotti Morales, Jean-Philippe Cointet'
+  - title: 'AI‑Political Machines'
+    description: 'Do AI systems learn and leverage political opinions of users in recommendations? AIPM as a project is a point of articulation between algorithmic and social dynamics, and thus proposes a computer science and sociological angle to the question of the political impact of algorithms on social media. The project builds on ideological social network embedding methods and political surveys research to propose a double network and opinion space modeling of digital public spaces. Using this double network and spatial opinion analysis, the project proposes to test whether algorithms learn and leverage political opinions of users through algorithmic explainability, how they affect information dynamics in public debate, and to open a path towards actionable tools capable of guiding algorithm design, governance, and policy.'
+    link: 'https://medialab.sciencespo.fr/en/activities/ai-political-machine/'
+    tag: 'AI-PM'
+    year_begin: '2022'
+    year_end: '2024'
+    project_type: 'Research'
+    team_people: 'Pedro Ramaciotti Morales, Tim Faverjon, Antoine Vendeville'
+  - title: 'Gouverner la parole en ligne'
+    description: 'Explores norms and practices of content moderation and possible democratic governance of problematic speech online.'
+    link: 'https://medialab.sciencespo.fr/en/activities/gouverner-la-parole-en-ligne/'
+    tag: 'GPL'
+    year_begin: '2021'
+    year_end: '2022'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
+  - title: 'Traces et Méthodes numériques'
+    description: 'Research axis designing end‑to‑end chains to collect, model, and visualize heterogeneous digital traces; open‑source by default.'
+    link: 'https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/'
+    tag: 'TMN'
+    year_begin: '2015'
+    year_end: '2017'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
+  - title: 'GOPI'
+    description: 'How to modelize the discursive space on public health controversies? Uses innovative language‑analysis methods to map argument dynamics.'
+    link: 'https://medialab.sciencespo.fr/en/activities/gopi/'
+    tag: 'GOPI'
+    year_begin: '2016'
+    year_end: '2018'
+    project_type: 'Research'
+    team_people: 'Tommaso Venturini'
+  - title: 'RICardo'
+    description: 'Trade globalization and regional effects: which interactions? Historical and computational approaches to economic exchanges.'
+    link: 'https://medialab.sciencespo.fr/en/activities/ricardo/'
+    tag: 'RICARDO'
+    year_begin: '2017'
+    year_end: '2019'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
+  - title: 'TOFLIT18'
     description: "Quelle transformation de l'économie française entre 1716–1821? Étudie les statistiques du commerce international français sur la période."
-    link: "https://medialab.sciencespo.fr/activites/toflit18/"
-    tag: "TOFLIT18"
-    year_begin: "2017"
-    year_end: "2019"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "PORTIC"
-    description: "How to study 18th‑century economic exchanges using uncertain historical data? Interdisciplinary inquiries on French trade around 1789."
-    link: "https://medialab.sciencespo.fr/activites/portic/"
-    tag: "PORTIC"
-    year_begin: "2018"
-    year_end: "2020"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "La Fabrique de la Loi"
+    link: 'https://medialab.sciencespo.fr/activites/toflit18/'
+    tag: 'TOFLIT18'
+    year_begin: '2017'
+    year_end: '2019'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
+  - title: 'PORTIC'
+    description: 'How to study 18th‑century economic exchanges using uncertain historical data? Interdisciplinary inquiries on French trade around 1789.'
+    link: 'https://medialab.sciencespo.fr/activites/portic/'
+    tag: 'PORTIC'
+    year_begin: '2018'
+    year_end: '2020'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
+  - title: 'La Fabrique de la Loi'
     description: "Does the Parliament make the law? Opens the 'black box' of French legislative procedure through parliamentary data exploration."
-    link: "https://medialab.sciencespo.fr/activites/la-fabrique-de-la-loi/"
-    tag: "LFDLL"
-    year_begin: "2019"
-    year_end: "2021"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
+    link: 'https://medialab.sciencespo.fr/activites/la-fabrique-de-la-loi/'
+    tag: 'LFDLL'
+    year_begin: '2019'
+    year_end: '2021'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
   - title: "RésIn – Le réseau d'ingénieurs à Paris"
-    description: "How to federate the research engineering professions? Community infrastructure for research engineering in Paris."
-    link: "https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/"
-    tag: "RESIN"
-    year_begin: "2020"
-    year_end: "2022"
-    project_type: "Research"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "FUTURE‑OBS"
-    description: "Augmented observatory for coastal socio‑ecosystems; uses digital traces to understand human–coast interactions amid environmental change."
-    link: "https://medialab.sciencespo.fr/en/activities/future-obs/"
-    tag: "FUTURE-OBS"
-    year_begin: "2021"
-    year_end: "2023"
-    project_type: "Research"
-    inquiry_lead: "Tommaso Venturini"
-  - title: "Studio for Better Problems"
-    description: "Open pedagogical format linking the description of socio‑technical/ecological issues with the generation of response projects."
-    link: "https://medialab.sciencespo.fr/en/activities/studio-for-better-problems/"
-    tag: "SFBP"
-    year_begin: "2022"
-    year_end: "2024"
-    project_type: "Teaching"
-    inquiry_lead: "Tommaso Venturini"
+    description: 'How to federate the research engineering professions? Community infrastructure for research engineering in Paris.'
+    link: 'https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/'
+    tag: 'RESIN'
+    year_begin: '2020'
+    year_end: '2022'
+    project_type: 'Research'
+    team_people: 'Mathieu Jacomy'
+  - title: 'Studio for Better Problems'
+    description: 'The Studio for Better Problems is an open pedagogical format that articulates the description of socio-environmental and socio-technical issues with the generation of projects that address them. Problems are made and could be made otherwise. The Studio adapts research methodology to pedagogical objectives of higher education and continuous training, in particular when students are invited to apply the knowledge produced by social sciences and humanities in order to effectuate social change, to innovate or to generate transformative projects. Rather than searching for quick fixes, we aim at the slow composition of problems. Composing better problems requires tools to navigate the different types of expertise, stemming from disciplinary background, epistemic authority, economic interests, social positions, or lived experience, that see issues differently.'
+    link: 'https://medialab.sciencespo.fr/en/activities/studio-for-better-problems/'
+    tag: 'SFBP'
+    year_begin: '2022'
+    year_end: '2024'
+    project_type: 'Teaching'
+    team_people: 'Donato Ricci, Gabriel Alcaras, Axel Meunier, Robin de Mourat, Tommaso Prinetti'
   - title: "Trajectoires d'implication"
-    description: "Research paths involving external actors and co‑construction of knowledge, often in citizen‑science and data‑grounded lab settings."
-    link: "https://medialab.sciencespo.fr/en/activities/trajectoires-dimplication/"
-    tag: "TRAJ-IMP"
-    year_begin: "2020"
-    year_end: "2022"
-    project_type: "Research"
-    inquiry_lead: "Tommaso Venturini"
-  - title: "Algoglitch"
-    description: "How do we want to be calculated? Public sensitivities to algorithmic computation and alternative ways of governing calculation."
-    link: "https://medialab.sciencespo.fr/en/activities/algoglitch/"
-    tag: "ALGOGLITCH"
-    year_begin: "2019"
-    year_end: "2021"
-    project_type: "Research"
-    inquiry_lead: "Tommaso Venturini"
-  - title: "AIME : An Inquiry Into Modes of Existence"
-    description: "How do we compose a common world? An inquiry into modernity's modes to restart the project 'on a new footing'."
-    link: "https://medialab.sciencespo.fr/en/activities/aime-an-inquiry-into-modes-of-existence/"
-    tag: "AIME"
-    year_begin: "2011"
-    year_end: "2015"
-    project_type: "Research"
-    inquiry_lead: "Bruno Latour"
-  - title: "FORCCAST"
-    description: "Teaching and resource environment for mapping controversies (methods, pedagogical resources, tools, training, classrooms)."
-    link: "https://medialab.sciencespo.fr/en/activities/forccast/"
-    tag: "FORCCAST"
-    year_begin: "2016"
-    year_end: "2018"
-    project_type: "Teaching"
-    inquiry_lead: "Tommaso Venturini"
-  - title: "Méthodes numériques en Sciences sociales"
-    description: "Coursework on exploiting web data and applying digital methods to social‑science inquiry."
-    link: "https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/"
-    tag: "MNSS"
-    year_begin: "2017"
-    year_end: "2019"
-    project_type: "Teaching"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "MetAt : atelier de méthodes"
-    description: "Workshops to share methodological expertise and skills in digital methods."
-    link: "https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/"
-    tag: "METAT"
-    year_begin: "2018"
-    year_end: "2020"
-    project_type: "Teaching"
-    inquiry_lead: "Mathieu Jacomy"
-  - title: "Styles de Modération"
-    description: "How problematic speech elicits reception practices beyond current platform moderation; towards new horizons for collective life."
-    link: "https://medialab.sciencespo.fr/en/activities/espace-public-numerique/"
-    tag: "STYLES-MOD"
-    year_begin: "2019"
-    year_end: "2021"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "Enquêtes collectives et formats inventifs"
-    description: "Co‑inquiry spaces blending STS, design, and pragmatism to describe public issues and prototype responses."
-    link: "https://medialab.sciencespo.fr/en/activities/enquetes-collectives-et-formats-inventifs/"
-    tag: "ENQUETES-FORMATS"
-    year_begin: "2017"
-    year_end: "2019"
-    project_type: "Research"
-    inquiry_lead: "Tommaso Venturini"
-  - title: "La réception de la désinformation"
-    description: "Thesis‑scale study of how audiences receive mis/disinformation and the emergence of new enunciation forms under verification pressures."
-    link: "https://medialab.sciencespo.fr/en/activities/espace-public-numerique/"
-    tag: "REC-DESINFO"
-    year_begin: "2018"
-    year_end: "2020"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "Empreinte antisémite sur YouTube"
-    description: "Method to detect antisemitic expressions in YouTube comments across news channels; study of distribution and contexts."
-    link: "https://medialab.sciencespo.fr/en/activities/espace-public-numerique/"
-    tag: "ANTISEM-YT"
-    year_begin: "2019"
-    year_end: "2021"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
+    description: 'Research paths involving external actors and co‑construction of knowledge, often in citizen‑science and data‑grounded lab settings.'
+    link: 'https://medialab.sciencespo.fr/en/activities/trajectoires-dimplication/'
+    tag: 'TRAJ-IMP'
+    year_begin: '2020'
+    year_end: '2022'
+    project_type: 'Research'
+    team_people: 'Tommaso Venturini'
+  - title: 'Algoglitch'
+    description: 'How do we want to be calculated? Public sensitivities to algorithmic computation and alternative ways of governing calculation.'
+    link: 'https://medialab.sciencespo.fr/en/activities/algoglitch/'
+    tag: 'ALGOGLITCH'
+    year_begin: '2019'
+    year_end: '2021'
+    project_type: 'Research'
+    team_people: 'Tommaso Venturini'
+  - title: 'AIME : An Inquiry Into Modes of Existence'
+    description: "How do we compose a common world? Not so long ago, the project that wished to see modernization spread all over the world came across unexpected opposition from the world itself. Should we give up, deny the problem, or grit our teeth and hope for a miracle? Alternatively we could inquire into what this modern project means so as to find how it can start again on a new footing. Such an inquiry becomes possible if we accept that there is a huge gap between the Moderns' experience and the accounts they give of it. The aim, both ambitious and modest, will be to propose an alternative for the term 'modernize', one which is compatible with the expression 'ecologize' and which we sum up with the term 'composition'. Learning how to compose the common world is what is at stake."
+    link: 'https://medialab.sciencespo.fr/en/activities/aime-an-inquiry-into-modes-of-existence/'
+    tag: 'AIME'
+    year_begin: '2011'
+    year_end: '2015'
+    project_type: 'Research'
+    team_people: 'Bruno Latour, Guillaume Plique, Benoît Verjat, Robin de Mourat, Donato Ricci, Christophe Leclercq, Heiko Müller, Pierre-Laurent Boulanger, Paul Girard, Pierre Jullian de la Fuente, Dario Rodighiero'
+  - title: 'FORCCAST'
+    description: 'FORCCAST (Training through mapping of controversies by analyzing science and technical innovation) is an educational innovation project that relies on mapping controversies. Based on Science and Technology Studies (STS) research originally led by Bruno Latour, FORCCAST trains different audiences to explore contemporary controversies generated by the massive proliferation of scientific and technical innovations. The program proposes two complementary experiences that have in common to make students actors of their learning: controversy mapping and negotiation and debate simulations. All these experiences aim to learn how to orient oneself, express oneself, and decide in situations of uncertainty.'
+    link: 'https://medialab.sciencespo.fr/en/activities/forccast/'
+    tag: 'FORCCAST'
+    year_begin: '2012'
+    year_end: '2020'
+    project_type: 'Research'
+    team_people: 'Bruno Latour, Nicolas Benvegnu, Thomas Tari, Robin de Mourat, Donato Ricci, Tommaso Venturini, Audrey Lohard, Liam Heaphy, Benjamin Sylvand, Marine Denis, Justine Gaucherand, Vincent Casanova, Antoine Trouche, Dominique Boullier, Isabel Ruck, Estelle Chauvard, Daniele Guido, Henri Landes, Pamela Schwartz'
+  - title: 'Méthodes numériques en Sciences sociales'
+    description: 'Coursework on exploiting web data and applying digital methods to social‑science inquiry.'
+    link: 'https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/'
+    tag: 'MNSS'
+    year_begin: '2017'
+    year_end: '2019'
+    project_type: 'Teaching'
+    team_people: 'Mathieu Jacomy'
+  - title: 'MetAt : atelier de méthodes'
+    description: 'Workshops to share methodological expertise and skills in digital methods.'
+    link: 'https://medialab.sciencespo.fr/en/activities/traces-et-methodes-numeriques/'
+    tag: 'METAT'
+    year_begin: '2018'
+    year_end: '2020'
+    project_type: 'Teaching'
+    team_people: 'Mathieu Jacomy'
+  - title: 'Styles de Modération'
+    description: 'How problematic speech elicits reception practices beyond current platform moderation; towards new horizons for collective life.'
+    link: 'https://medialab.sciencespo.fr/en/activities/espace-public-numerique/'
+    tag: 'STYLES-MOD'
+    year_begin: '2019'
+    year_end: '2021'
+    project_type: 'Research'
+    team_people: 'Dominique Cardon'
+  - title: 'Enquêtes collectives et formats inventifs'
+    description: 'How can we create spaces for co-inquiry, develop new forms of description, and rethink our engagement with public issues? By integrating social sciences and design—drawing from Science and Technology Studies (STS) and pragmatism—we perceive problems as emerging and evolving through interactions among actors, objects, and research methods. Our team (designers, sociologists, artists, political scientists, and semioticians) creates experimental formats that blur the line between investigators and participants to better understand these issues. From online speech circulation mediated by digital platforms to the impact of AI on labour practices, from the liminal presence of nature in urban settings to human pressure on marine ecosystems, or even the counting of deaths linked to humanitarian crises—a multitude of subjects that provoke individual troubles and public issues, which our team strives to describe and explore.'
+    link: 'https://medialab.sciencespo.fr/en/activities/enquetes-collectives-et-formats-inventifs/'
+    tag: 'ENQUETES-FORMATS'
+    year_begin: '2017'
+    year_end: '2019'
+    project_type: 'Research'
+    team_people: 'Loup Cellard, Pauline Gourlet, Clémence Seurat, Maxime Crépel, Donato Ricci, Axel Meunier, Gabriel Alcaras, Imane Bayoub, Tommaso Prinetti, Robin de Mourat, Léone-Alix Mazaud, Benoit Verjat, Marie Boishus'
+  - title: 'La réception de la désinformation'
+    description: 'Thesis‑scale study of how audiences receive mis/disinformation and the emergence of new enunciation forms under verification pressures.'
+    link: 'https://medialab.sciencespo.fr/en/activities/espace-public-numerique/'
+    tag: 'REC-DESINFO'
+    year_begin: '2018'
+    year_end: '2020'
+    project_type: 'Research'
+    team_people: 'Dominique Cardon'
+  - title: 'Empreinte antisémite sur YouTube'
+    description: 'Method to detect antisemitic expressions in YouTube comments across news channels; study of distribution and contexts.'
+    link: 'https://medialab.sciencespo.fr/en/activities/espace-public-numerique/'
+    tag: 'ANTISEM-YT'
+    year_begin: '2019'
+    year_end: '2021'
+    project_type: 'Research'
+    team_people: 'Dominique Cardon'
   - title: "L'extrême‑droite en ligne"
-    description: "Analyses discursive strategies and shifting legitimacy of radical‑right content in the contemporary media sphere."
-    link: "https://medialab.sciencespo.fr/en/activities/espace-public-numerique/"
-    tag: "EXTREME-DROITE"
-    year_begin: "2020"
-    year_end: "2022"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "Espace idéologique latent"
-    description: "Infers ideological spaces from Twitter follow networks and propagates signals to URLs and media to study polarization dynamics."
-    link: "https://medialab.sciencespo.fr/en/activities/espace-public-numerique/"
-    tag: "EIL"
-    year_begin: "2021"
-    year_end: "2023"
-    project_type: "Research"
-    inquiry_lead: "Dominique Cardon"
-  - title: "Environmental Diplomacy and Geopolitics (EDGE)"
-    description: "Knowledge transfer and collaboration on environmental governance and public policy across universities with complementary expertise."
-    link: "https://medialab.sciencespo.fr/en/activities/environmental-diplomacy-and-geopolitics-edge/"
-    tag: "EDGE"
-    year_begin: "2022"
-    year_end: "2024"
-    project_type: "Research"
-    inquiry_lead: "Tommaso Venturini"
+    description: 'Analyses discursive strategies and shifting legitimacy of radical‑right content in the contemporary media sphere.'
+    link: 'https://medialab.sciencespo.fr/en/activities/espace-public-numerique/'
+    tag: 'EXTREME-DROITE'
+    year_begin: '2020'
+    year_end: '2022'
+    project_type: 'Research'
+    team_people: 'Dominique Cardon'
+  - title: 'Espace idéologique latent'
+    description: 'Infers ideological spaces from Twitter follow networks and propagates signals to URLs and media to study polarization dynamics.'
+    link: 'https://medialab.sciencespo.fr/en/activities/espace-public-numerique/'
+    tag: 'EIL'
+    year_begin: '2021'
+    year_end: '2023'
+    project_type: 'Research'
+    team_people: 'Dominique Cardon'
+  - title: 'Environmental Diplomacy and Geopolitics (EDGE)'
+    description: 'EDGE is a European twinning project dedicated to the interrelation between environmental and (geo)political questions. As environment takes on growing importance in geopolitical questions, the EDGE project promotes knowledge transfer in terms of environment and public policies and supports cooperation between universities with complementary skills. The project aims to support student exchanges between three universities (Bratislava University of Economics, Sciences Po and University of Liège) to enable them to increase their knowledge in environmental and geopolitical diplomacy. The EDGE program includes also a Summer School to stimulate scientific exchange and promote the program works.'
+    link: 'https://medialab.sciencespo.fr/en/activities/environmental-diplomacy-and-geopolitics-edge/'
+    tag: 'EDGE'
+    year_begin: '2016'
+    year_end: '2019'
+    project_type: 'Research'
+    team_people: 'Jean-Philippe Cointet, François Gemenne, Marine Denis'
