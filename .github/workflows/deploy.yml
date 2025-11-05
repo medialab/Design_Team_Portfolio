@@ -1,0 +1,70 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Checkout svelte-pdf dependency
+        uses: actions/checkout@v4
+        with:
+          repository: TommasoPrinetti/svelte-pdf
+          path: ../svelte-pdf
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install svelte-pdf dependencies
+        working-directory: ../svelte-pdf
+        run: npm install --legacy-peer-deps
+
+      - name: Build svelte-pdf
+        working-directory: ../svelte-pdf
+        run: npm run package
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build SvelteKit app
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
