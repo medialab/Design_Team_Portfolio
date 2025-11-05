@@ -1,6 +1,7 @@
 import adapter from '@sveltejs/adapter-static';
-
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+
+const dev = process.env.NODE_ENV !== 'production';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -9,10 +10,11 @@ const config = {
 	kit: {
 		adapter: adapter({
 			fallback: '404.html'
-		})
+		}),
+		paths: {
+			base: dev ? '' : '/Design_Team_Portfolio'
+		}
 	}
 };
-
-config.paths = { base: process.argv.includes('dev') ? '' : "/Design_Team_Portfolio" }
 
 export default config;

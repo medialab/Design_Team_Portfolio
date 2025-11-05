@@ -53,6 +53,8 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Build SvelteKit app
+        env:
+          NODE_ENV: production
         run: npm run build
 
       - name: Upload artifact

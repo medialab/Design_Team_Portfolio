@@ -3,6 +3,16 @@ import { extractYamlData, projectMediaFilesObtainer } from '$lib/functions';
 import { mediaFilesModules } from '$lib/images';
 import { error, type HttpError } from '@sveltejs/kit';
 
+export function entries() {
+	const data = extractYamlData();
+	if (!data) {
+		return [];
+	}
+	return data.projects.map((project) => ({
+		project: project.tag
+	}));
+}
+
 export const load: PageServerLoad = async ({ params }) => {
 	try {
 		const data = extractYamlData();
