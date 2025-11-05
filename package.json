@@ -11,11 +11,12 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check ."
+		"lint": "prettier --check .",
+		"deploy": "npm run build && npx gh-pages -d build -t true"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^6.0.0",
-		"@sveltejs/adapter-static": "^3.0.9",
+		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
 		"@types/bun": "^1.2.22",
@@ -32,6 +33,7 @@
 	"dependencies": {
 		"@lottiefiles/svelte-lottie-player": "^0.3.1",
 		"@types/js-yaml": "^4.0.9",
+		"gh-pages": "^6.3.0",
 		"html-to-image": "^1.11.13",
 		"js-yaml": "^4.1.0",
 		"svelte-pdf": "file:../svelte-pdf"
