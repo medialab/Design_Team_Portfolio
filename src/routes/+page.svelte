@@ -97,6 +97,7 @@
                         index={index}
                         translateMultiplier={100}
                         scaleStrength={1}
+                        isMobile={data.deviceType.isMobile}
                     />
             {/each}
 

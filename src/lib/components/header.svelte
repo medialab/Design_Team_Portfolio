@@ -1,6 +1,4 @@
 <script>
-
-    import { goto } from '$app/navigation';
     import { colorMode } from '$lib/utils';
 	import { onMount } from 'svelte';
     import { resolve } from '$app/paths';
@@ -17,7 +15,7 @@
 </script>
 
 {#snippet logo_container()}
-    <button class="logo_container" onclick={() => goto('/')}>
+    <a class="logo_container" href={resolve('/')}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 25" >
             <path d="M12.999 0C19.7316 0 25.1894 5.45783 25.1895 12.1904C25.1895 18.9231 19.7317 24.3809 12.999 24.3809C6.26642 24.3808 0.808594 18.9231 0.808594 12.1904C0.808676 5.45788 6.26647 8.19504e-05 12.999 0ZM13.0557 1.00195C6.84562 1.00195 1.81055 6.03703 1.81055 12.2471C1.81077 18.4569 6.84576 23.4912 13.0557 23.4912C19.2654 23.491 24.2996 18.4568 24.2998 12.2471C24.2998 6.03716 19.2655 1.00218 13.0557 1.00195Z"/>
             <path d="M6.93168 18.5363H4.87208L4.31543 17.0333L5.87405 15.8644L5.3174 14.5284L6.4307 12.0792V10.5206L6.93168 10.0752L6.4307 9.90825L6.76468 9.46294V9.18461L6.37503 9.46294L6.4307 6.06739L6.93168 6.45704L7.04301 6.06739L7.32133 6.45704H8.3233L8.71295 6.79103L8.49029 6.84669V6.95802H9.1026L10.4386 7.51467L10.1046 7.95999H8.43463V9.68559L9.1026 11.4669L9.60359 11.8565L9.77058 9.40727H12.3312L12.8321 9.90825L13.3331 9.40727H15.838L16.0607 11.8565L16.673 11.1885L17.341 9.40727L17.007 8.34964H16.005L15.671 7.40334L17.007 7.06935L17.174 6.62403H17.8976L18.0646 5.84473L19.2893 6.17872L20.0129 6.84669H19.4562L20.0129 7.84866H19.5676L20.0129 8.34964V9.40727L19.4562 8.90629L19.8459 9.68559L18.8996 10.6876L20.4025 14.4728L19.8459 15.9757L21.4045 16.9777V17.256L20.7922 18.5363H19.1779V17.9796H19.7346L20.0129 17.3673L18.3986 16.1984V15.9757L18.7883 14.9737L17.007 12.6915L17.508 11.9122L16.2277 12.6915L16.339 14.0274H13.5558L12.9435 14.6954L12.1085 14.0274H9.49226V12.6915L8.1563 11.9122L8.76861 12.5802L6.93168 14.9737V15.1407L7.32133 16.1984L5.70705 17.3673L5.98538 17.9796L6.93168 18.2023V18.5363Z"/>
@@ -28,7 +26,7 @@
           </svg>
             <p class="notes">What is this website</p>
             <h1>Portfolio of Sciences Po medialab's Design team</h1>
-    </button>
+        </a>
 {/snippet}
 
 {#snippet colorswitch_container()}
@@ -73,18 +71,18 @@
                 <path d="M4.31543 7.51467L3.92578 9.29594L4.3711 9.35161L4.31543 12.5802H4.87208L5.20607 13.9161L5.92971 11.9678L5.87405 9.18461L4.31543 7.51467Z" fill="inherit"/>
                 <path d="M22.1838 10.0752V11.5225L21.1819 10.0196H20.9592L20.1799 10.8546V11.1885L20.9592 12.8585V13.2481L20.6252 13.9161H20.5139L19.4562 10.8546V10.6876L21.4045 8.62796H21.5158L22.1838 10.0752Z" fill="inherit"/>
               </svg>
-                <h1 class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>This is the portfolio of the <u><button onclick={() => goto('/about')}>Design team</button></u>, inside mèdialab Sciences Po</h1>
+                <h1 class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>This is the portfolio of the <u><a href={resolve('/about')}>Design team</a></u>, inside mèdialab Sciences Po</h1>
                 <p class="notes" class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>All the projects listed are part of the collective effort of conducting participatory inquiries via design-first methods.</p>
         </div>
     </header>
 {:else if props.type === 'project'}
     <header id="mobile_home_header" style="min-height: unset; height: fit-content;">
         {@render colorswitch_container()}
-        <button class="hover_container" onclick={() => goto('/')} id="backhome" data-sveltekit-preload-data aria-label="Back to home" style="left: unset; right: var(--spacing-m); align-items: flex-end; transition-delay: 1s;" class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>
+        <a class="hover_container" href={resolve('/')} id="backhome" data-sveltekit-preload-data aria-label="Back to home" style="left: unset; right: var(--spacing-m); align-items: flex-end; transition-delay: 1s;" class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>
             <p class="notes">Back to home</p>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -720 700 800"><path d="M600-160v-360H272l64 64-56 56-160-160 160-160 56 56-64 64h328q33 0 56.5 23.5T680-520v360h-80Z"/>
             </svg>
-        </button>
+        </a>
     </header>
 {/if}
 
@@ -98,13 +96,13 @@
         <div class="navigator_container">
             <p class="notes">Navigator</p>
             <div class="navigator_links">
-                <button onclick={() => goto('/')} style="opacity:{props.isAbout ? '0.5' : '1'}; pointer-events:{props.isAbout ? 'auto' : 'none'}">
+                <a href={resolve('/')} style="opacity:{props.isAbout ? '0.5' : '1'}; pointer-events:{props.isAbout ? 'auto' : 'none'}">
                     <p>mosaic</p>
-                </button>
+                </a>
                 <p>/</p>
-                <button onclick={() => goto('/about')} style="opacity:{props.isAbout ? '1' : '0.5'}; pointer-events:{props.isAbout ? 'none' : 'auto'}">
+                <a href={resolve('/about')} style="opacity:{props.isAbout ? '1' : '0.5'}; pointer-events:{props.isAbout ? 'none' : 'auto'}">
                     <p>about</p>
-                </button>
+                </a>
             </div>
         </div>
     {:else if props.type === 'project'}
@@ -136,7 +134,7 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 1;
+        z-index: 20;
     }
 
     .navigator_container {
@@ -202,6 +200,7 @@
         row-gap: var(--spacing-xs);
         background-color: var(--permanent-white);
         padding: var(--spacing-xs);
+        z-index: 20;
     }
 
     #mobile_home_header {

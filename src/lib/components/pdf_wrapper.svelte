@@ -7,11 +7,25 @@
 
     // Functions to control page navigation
     function nextPage() {
-        pdfPage++;
+        if (props.twoPage) {
+            if (pdfPage % 2 === 0) {
+                pdfPage++;
+            } else {
+                pdfPage += 2;
+            }
+        } else {
+            pdfPage++;
+        }
     }
 
     function prevPage() {
-        if (pdfPage > 1) {
+        if (props.twoPage) {
+            if (pdfPage % 2 === 0) {
+                pdfPage--;
+            } else {
+                pdfPage -= 2;
+            }
+        } else {
             pdfPage--;
         }
     }
@@ -25,7 +39,13 @@
     <button onclick={prevPage} class="navigator_container sx">
         <p class="navigator_button notes">←</p>
     </button>
-    <PdfViewer url={props.mediafile.default} showButtons={[]} pageNum={pdfPage}  showBorder={false} scale={props.scale} />
+    <PdfViewer
+    url={props.mediafile.default}
+    showButtons={[]}
+    pageNum={pdfPage} 
+    showBorder={false}
+    scale={props.scale}
+    twoPage={props.twoPage} />
 </div>
 
 <style>

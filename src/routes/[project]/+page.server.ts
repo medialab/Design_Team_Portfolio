@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types';
 import { extractYamlData, projectMediaFilesObtainer } from '$lib/functions';
 import { mediaFilesModules } from '$lib/images';
 import { error, type HttpError } from '@sveltejs/kit';
-import { resolve } from '$app/paths';
+
 
 export function entries() {
 	const data = extractYamlData();
@@ -14,14 +14,20 @@ export function entries() {
 	}));
 }
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, parent }) => {
+	
 	try {
 		const data = extractYamlData();
+		const { deviceType } = await parent();
 		
 		if (!data) {
 			throw error(500, 'Failed to load data');
 		}
-		
+
+		if (!deviceType) {
+			throw error(500, 'Failed to load device type');
+		}
+
 		const project = data.projects.find((p) => p.tag === params.project);
 		
 		if (!project) {
@@ -34,6 +40,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			project,
 			projectMediaFiles,
 			mediaFilesModules,
+			deviceType,
 		};
 
 	} catch (err) {

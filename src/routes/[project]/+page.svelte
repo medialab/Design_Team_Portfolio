@@ -131,7 +131,7 @@
                
                     {#if mediaFile.default}
                         <div class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>
-                            <PdfWrapper mediafile={mediaFile} scale={0.7}/>
+                            <PdfWrapper mediafile={mediaFile} scale={0.7} twoPage={data.deviceType.isMobile ? false : true}/>
                         </div>
                     {/if}
                 {:else}

@@ -133,7 +133,6 @@
             {#if browser && isPageLoaded}
             <div transition:fade={{ duration: 500, easing: cubicOut }}>
                 <LottiePlayer
-                    
                     src={ditheringLottie}
                     autoplay={true}
                     loop={true}
@@ -172,7 +171,7 @@
             class:dithered={allImagesDithered}
         />
 
-        {#if !isMobileDevice}
+        {#if !isMobileDevice && !props.isMobile}
             <div class="image_stack">
                 <!-- {#if props.imageStacks && Object.keys(props.imageStacks).length > 0}
                     {#each Object.entries(props.imageStacks) as [, imageSrc], index}
