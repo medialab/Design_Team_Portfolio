@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
     import { colorMode } from '$lib/utils';
 	import { onMount } from 'svelte';
+    import { resolve } from '$app/paths';
 
     let props = $props();
     let isPageLoaded = $state(false)
@@ -108,7 +109,7 @@
         </div>
     {:else if props.type === 'project'}
         {@render colorswitch_container()}
-        <a class="hover_container" href="/" id="backhome">
+        <a class="hover_container" href={resolve('/')} id="backhome">
             <p class="notes">Back to home</p>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z"/></svg>
         </a>

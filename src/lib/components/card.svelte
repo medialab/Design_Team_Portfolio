@@ -7,6 +7,8 @@
     import {browser} from '$app/environment';
     import {fade} from 'svelte/transition'
     import {cubicOut} from 'svelte/easing'
+    import { resolve } from '$app/paths';
+
     
     //@ts-ignore
     import { LottiePlayer } from '@lottiefiles/svelte-lottie-player';
@@ -117,7 +119,7 @@
 <a 
     bind:this={cardEl} 
     class="card_container" 
-    href="/{props.tag}" 
+    href={resolve('/[project]', { project: props.tag })}
     style="transform: scale({isMobileDevice ? 1 : 1 + 0.1 * - farness}); will-change: transform; transform-style: preserve-3d; background-color: {isPageLoaded ? 'var(--primary-white)' : 'transparent'};"
 >   
     <div class="image_container"

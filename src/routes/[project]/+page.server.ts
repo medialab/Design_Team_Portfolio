@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { extractYamlData, projectMediaFilesObtainer } from '$lib/functions';
 import { mediaFilesModules } from '$lib/images';
 import { error, type HttpError } from '@sveltejs/kit';
+import { resolve } from '$app/paths';
 
 export function entries() {
 	const data = extractYamlData();
