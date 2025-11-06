@@ -103,6 +103,10 @@
 
 	let isPageLoaded = $state(false);
 
+	const getCatImage = async () => {
+		return Promise.resolve(`https://cataas.com/cat?${Math.random()}`);
+	}
+
 	onMount(async () => {
 		isMobileDevice = await isMobile();
 		//console.log('Is mobile:', isMobileDevice);
@@ -160,10 +164,10 @@
 				</div>
 			{/if}
 		</div>
-
+	{#if props.image}
 		<img
 			use:dither={{ onDithered: () => (mainImageDithered = true) }}
-			src={props.image || `https://cataas.com/cat?width=800&height=600&t=${Math.random()}`}
+			src={props.image}
 			alt={props.title}
 			data-sveltekit-preload-data="eager"
 			loading="eager"
@@ -172,6 +176,19 @@
 			class:dithering={!allImagesDithered}
 			class:dithered={allImagesDithered}
 		/>
+	{:else}
+		{#await getCatImage()}
+			<p>Loading cat image...</p>
+		{:then catImage}
+		<img
+			use:dither={{ onDithered: () => (mainImageDithered = true) }}
+			src={catImage}
+			alt={props.title}
+			class:dithering={!allImagesDithered}
+			class:dithered={allImagesDithered}
+		/>
+	{/await}
+	{/if}
 
 		{#if !isMobileDevice && !props.isMobile}
 			<div class="image_stack">

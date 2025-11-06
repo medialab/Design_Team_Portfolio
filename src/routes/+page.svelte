@@ -59,7 +59,6 @@
 		return () => {};
 	};
 
-	// Store the cleanup function so we can call it on destroy
 	let cleanupMouseTracking: (() => void) | null = null;
 
 	onMount(() => {

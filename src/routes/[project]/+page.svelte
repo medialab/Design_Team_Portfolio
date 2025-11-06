@@ -82,6 +82,10 @@
 		URL.revokeObjectURL(url);
 	};
 
+	const getCatImage = () => {
+		return Promise.resolve(`https://cataas.com/cat?${Math.random()}`);
+	}
+
 	onMount(() => {
 		isPageLoaded = true;
 	});
@@ -114,11 +118,23 @@
 				class:hidden={!isPageLoaded}
 				class:transitioned={isPageLoaded}
 			>
-				<img
-					src={thumb?.src ?? `https://cataas.com/cat?${Math.random()}`}
-					alt={project.title}
-					class:grayscaled={$colorMode === 'dark'}
-				/>
+				{#if thumb?.src}
+					<img
+						src={thumb?.src}
+						alt={project.title}
+						class:grayscaled={$colorMode === 'dark'}
+					/>
+				{:else}
+					{#await getCatImage()}
+						<p>Loading cat image...</p>
+					{:then catImage}
+					<img
+							src={catImage}
+							alt={project.title}
+							class:grayscaled={$colorMode === 'dark'}
+						/>
+					{/await}
+				{/if}
 			</div>
 			<div class="hero_text">
 				<h1 class:hidden={!isPageLoaded} class:transitioned={isPageLoaded}>{project.title}</h1>
@@ -237,7 +253,7 @@
 		flex-direction: row;
 		position: relative;
 		width: 100%;
-		height: 100%;
+		min-height: 100vh;
 		padding-top: 110px;
 		column-gap: var(--spacing-m);
 	}
@@ -360,6 +376,7 @@
 		display: grid;
 		grid-row-gap: var(--spacing-m);
 		width: 60%;
+		min-height: calc(100vh - 110px);
 		height: fit-content;
 		grid-template-columns: repeat(2, 1fr);
 		grid-column-gap: var(--spacing-m);
@@ -413,7 +430,7 @@
 			width: 100%;
 			height: 100%;
 			padding: var(--spacing-m);
-			padding-top: var(--spacing-m);
+			margin-top: var(--spacing-m);
 		}
 
 		.thumb_cont {
