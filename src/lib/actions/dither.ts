@@ -15,13 +15,7 @@ export function dither(node: HTMLImageElement, options: DitherOptions = {}) {
 
     const handleDither = () => {
         try {
-            //console.log('Attempting to dither:', node.src);
-            //console.log('Image naturalWidth:', node.naturalWidth, 'naturalHeight:', node.naturalHeight);
-            //console.log('Image complete:', node.complete, 'crossOrigin:', node.crossOrigin);
-            
             applyDither(node, dotSize);
-            
-            
             // Call the callback when dithering is complete
             if (onDithered) {
                 onDithered();

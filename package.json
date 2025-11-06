@@ -36,5 +36,8 @@
 		"svelte-inview": "^4.0.4",
 		"svelte-pdf": "github:TommasoPrinetti/svelte-pdf",
 		"sveltekit-device-detector": "^2.0.1"
+	},
+	"optionalDependencies":  {  
+		"@rollup/rollup-linux-arm64-gnu": "^4.0.0"  
 	}
 }

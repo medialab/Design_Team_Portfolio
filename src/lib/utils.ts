@@ -130,3 +130,78 @@ export const applyDither = (img: HTMLImageElement, dotSize: number = 3): void =>
 	// Replace image src with dithered version
 	img.src = canvas.toDataURL();
 };
+
+export const ditherConversion = (imageSrc: string, dotSize: number = 3): Promise<string> => {
+	if (typeof window === 'undefined') {
+		return Promise.reject(new Error('Dithering can only be performed in the browser'));
+	}
+
+	return new Promise((resolve, reject) => {
+		const img = new Image();
+		
+		// Set crossOrigin before the image loads to avoid CORS issues (only for external images)
+		if (!imageSrc.startsWith(window.location.origin) && !imageSrc.startsWith('/')) {
+			img.crossOrigin = 'anonymous';
+		}
+
+		img.onload = () => {
+			try {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d', { willReadFrequently: true });
+				if (!ctx) {
+					reject(new Error('Could not get canvas context'));
+					return;
+				}
+
+				const originalWidth = img.naturalWidth || img.width;
+				const originalHeight = img.naturalHeight || img.height;
+
+				// Calculate scaled down size for bigger dots
+				const scaledWidth = Math.floor(originalWidth / dotSize);
+				const scaledHeight = Math.floor(originalHeight / dotSize);
+
+				// Create temporary canvas for downscaling
+				const tempCanvas = document.createElement('canvas');
+				const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
+				if (!tempCtx) {
+					reject(new Error('Could not get temp canvas context'));
+					return;
+				}
+
+				tempCanvas.width = scaledWidth;
+				tempCanvas.height = scaledHeight;
+
+				// Draw scaled down image
+				tempCtx.imageSmoothingEnabled = false;
+				tempCtx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+
+				// Get image data from scaled down version
+				const imageData = tempCtx.getImageData(0, 0, scaledWidth, scaledHeight);
+
+				// Apply Floyd-Steinberg dithering
+				const ditheredData = floydSteinbergDither(imageData);
+
+				// Put dithered data back
+				tempCtx.putImageData(ditheredData, 0, 0);
+
+				// Scale back up to original size
+				canvas.width = originalWidth;
+				canvas.height = originalHeight;
+				ctx.imageSmoothingEnabled = false; // Keep sharp pixels for bigger dots effect
+				ctx.drawImage(tempCanvas, 0, 0, scaledWidth, scaledHeight, 0, 0, originalWidth, originalHeight);
+
+				// Return the dithered image data URL
+				resolve(canvas.toDataURL());
+			} catch (error) {
+				console.error('❌ Failed to dither image:', imageSrc, error);
+				reject(error);
+			}
+		};
+
+		img.onerror = () => {
+			reject(new Error(`Failed to load image: ${imageSrc}`));
+		};
+
+		img.src = imageSrc;
+	});
+}; 

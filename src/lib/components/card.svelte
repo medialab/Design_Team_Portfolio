@@ -3,16 +3,17 @@
 	//import { onMount } from 'svelte';
 	import { isMobile } from '$lib/utils';
 	import { onMount } from 'svelte';
-	import { dither } from '$lib/actions/dither';
 	import { browser } from '$app/environment';
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { resolve } from '$app/paths';
+	import { ditherConversion } from '$lib/utils';
 
 	//@ts-ignore
 	import { LottiePlayer } from '@lottiefiles/svelte-lottie-player';
 
 	import ditheringLottie from '$lib/assets/DITHERING.json';
+	
 
 	let props = $props();
 
@@ -29,22 +30,14 @@
 	let mockArray = $state([0, 1, 2, 3, 4]);
 
 	let cardEl: HTMLAnchorElement | null = null;
+	console.log(props.imageStacks);
 
 	type Vec2 = { x: number; y: number };
 	let layerVectors = $state<Vec2[]>([]);
 	let farness = $state(0);
 
-	// Track dithering state
-	let mainImageDithered = $state(false);
 	let stackImagesDithered = $state<boolean[]>([]);
 	let isMobileDevice: Boolean = $state(false);
-
-	// Computed variable: true when ALL images are dithered
-	let allImagesDithered = $derived(
-		isMobileDevice
-			? mainImageDithered // On mobile, only check main image
-			: mainImageDithered && stackImagesDithered.every((isDithered) => isDithered) // On desktop, check all
-	);
 
 	const limitTranslation = (v: number) => Math.max(0, Math.min(1, v));
 
@@ -130,11 +123,8 @@
 		: 'transparent'};"
 >
 	<div class="image_container" style="aspect-ratio: {ra};">
-		<div
-			class="card_container_dithering"
-			class:dithering={allImagesDithered}
-			class:dithered={!allImagesDithered}
-		>
+	{#if props.image}
+		{#await ditherConversion(props.image)}
 			{#if browser && isPageLoaded}
 				<div transition:fade={{ duration: 500, easing: cubicOut }}>
 					<LottiePlayer
@@ -144,8 +134,8 @@
 						controls={false}
 						renderer="svg"
 						background="tra"
-						height="800px"
-						width="800px"
+						height="100%"
+						width="100%"
 						controlsLayout={[
 							'previousFrame',
 							'playpause',
@@ -163,62 +153,91 @@
 					/>
 				</div>
 			{/if}
-		</div>
-	{#if props.image}
-		<img
-			use:dither={{ onDithered: () => (mainImageDithered = true) }}
-			src={props.image}
-			alt={props.title}
-			data-sveltekit-preload-data="eager"
-			loading="eager"
-			fetchpriority="high"
-			{...props.image ? {} : { crossorigin: 'anonymous' }}
-			class:dithering={!allImagesDithered}
-			class:dithered={allImagesDithered}
-		/>
+		{:then ditheredImage: string}
+			<img
+				src={ditheredImage as string}
+				alt={props.title}
+				data-sveltekit-preload-data="eager"
+				loading="eager"
+				fetchpriority="high"
+				{...props.image ? {} : { crossorigin: 'anonymous' }}
+			/>
+		{/await}
 	{:else}
-		{#await getCatImage()}
-			<p>Loading cat image...</p>
-		{:then catImage}
-		<img
-			use:dither={{ onDithered: () => (mainImageDithered = true) }}
-			src={catImage}
-			alt={props.title}
-			class:dithering={!allImagesDithered}
-			class:dithered={allImagesDithered}
-		/>
-	{/await}
+		{#await getCatImage() then catImage}
+			{#await ditherConversion(catImage)}
+				{#if browser && isPageLoaded}
+						<LottiePlayer
+							src={ditheringLottie}
+							autoplay={true}
+							loop={true}
+							controls={false}
+							renderer="svg"
+							background="tra"
+							height="100%"
+							width="100%"
+							controlsLayout={[
+								'previousFrame',
+								'playpause',
+								'stop',
+								'nextFrame',
+								'progress',
+								'frame',
+								'loop',
+								'spacer',
+								'background',
+								'snapshot',
+								'zoom',
+								'info'
+							]}
+						/>
+				{/if}
+			{:then ditheredCatImage}
+				<img
+					src={ditheredCatImage}
+					alt={props.title}
+				/>
+			{/await}
+		{/await}
 	{/if}
 
 		{#if !isMobileDevice && !props.isMobile}
 			<div class="image_stack">
-				<!-- {#if props.imageStacks && Object.keys(props.imageStacks).length > 0}
-                    {#each Object.entries(props.imageStacks) as [, imageSrc], index}
-                        <img
-                        src={(imageSrc as ImageMetadata).src}
-                        alt={props.title}
-                        style="z-index: {index + 1}; opacity: {Math.max(0.15, 1 - index * 0.12)};"/>
-                    {/each}
-                {/if}-->
-				{#each mockArray as _, index}
-					<img
-						use:dither={{ onDithered: () => (stackImagesDithered[index] = true) }}
-						crossorigin="anonymous"
-						src={`https://cataas.com/cat?${Math.random()}?card`}
-						alt={props.title}
-						style="z-index: {-1 * index}; opacity: {stackImagesDithered[index]
-							? index === 0
-								? 1
-								: Math.max(0.15, 1 - index * 0.12)
-							: 0}; transform: translate({(layerVectors[index]?.x ?? 0) *
-							(props.translateMultiplier ?? 14) *
-							farness *
-							((index + 1) / mockArray.length)}px, {(layerVectors[index]?.y ?? 0) *
-							(props.translateMultiplier ?? 14) *
-							farness *
-							((index + 1) / mockArray.length)}px); transition: opacity 0.3s var(--curve);"
-					/>
-				{/each}
+				{#if props.imageStacks}
+					{#await ditherConversion(props.imageStacks) then ditheredImageStacks}
+						{#each Object.entries(ditheredImageStacks) as [, imageSrc], index}
+							<img
+							src={imageSrc}
+							alt={props.title}
+							style="z-index: {index + 1}; opacity: {Math.max(0.15, 1 - index * 0.12)};"/>
+						{/each}
+					{/await}
+				{:else if browser && isPageLoaded}
+					{#each mockArray as _, index}
+						{#await ditherConversion(`https://cataas.com/cat?${Math.random()}?card`) then ditheredCatImage}
+							<img
+								crossorigin="anonymous"
+								src={ditheredCatImage}
+								alt={props.title}
+								style="z-index: {-1 * index}; opacity: {stackImagesDithered[index]
+									? index === 0
+										? 1
+										: Math.max(0.15, 1 - index * 0.12)
+									: 0}; transform: translate({(layerVectors[index]?.x ?? 0) *
+									(props.translateMultiplier ?? 14) *
+									farness *
+									((index + 1) / mockArray.length)}px, {(layerVectors[index]?.y ?? 0) *
+									(props.translateMultiplier ?? 14) *
+									farness *
+									((index + 1) / mockArray.length)}px); transition: opacity 0.3s var(--curve);"
+							/>
+						{:catch error}
+							<p>Error dithering image: {error}</p>
+						{/await}
+					{/each}
+                {/if}
+
+				
 			</div>
 		{/if}
 	</div>
@@ -357,35 +376,6 @@
 		background-color: var(--primary-white);
 	}
 
-	.card_container_dithering {
-		width: 100%;
-		height: 100%;
-		background-color: transparent;
-		position: absolute;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 10;
-		transition: all 1s var(--curve);
-	}
-
-	.dithering {
-		opacity: 0;
-		transform: translateY(+10%);
-		clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-		transition: all 1s var(--curve);
-	}
-
-	.dithered {
-		opacity: 1;
-		transform: translateY(0%);
-		clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
-		transition: all 1s var(--curve);
-	}
 
 	#people {
 		line-clamp: 1;
