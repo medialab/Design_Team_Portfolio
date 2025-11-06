@@ -14,7 +14,7 @@
 	let { data }: PageProps = $props();
 	const project = data.project;
 
-	console.log(data.mediaFilesModules);
+	//console.log(data.mediaFilesModules);
 
 	const projectMediaFiles = data.projectMediaFiles;
 
