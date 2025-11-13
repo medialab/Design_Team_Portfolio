@@ -3,7 +3,7 @@
 	import Footer from '$lib/components/footer.svelte';
 	import Card from '$lib/components/card.svelte';
 	import type { PageProps } from './$types';
-	import type { ImageMetadata } from '$lib/images';
+	import type { ImageMetadata } from '$lib/medias';
 	import { writable } from 'svelte/store';
 	import { onMount, onDestroy } from 'svelte';
 	import { extractThumbnailImage } from '$lib/utils';
@@ -15,7 +15,9 @@
 		projectTag: string
 	): Record<string, ImageMetadata> => {
 		return Object.keys(mediaFilesModules)
+			.filter((key) => key.includes(`.jpeg`) || key.includes(`.jpg`) || key.includes(`.png`) || key.includes(`.webp`))
 			.filter((key) => key.includes(`/${projectTag}/`))
+			.slice(0, 5) // Limit to max 6 elements
 			.reduce((obj: Record<string, ImageMetadata>, key) => {
 				obj[key] = mediaFilesModules[key];
 				return obj;
@@ -79,7 +81,7 @@
 	{#each data.projects as project, index}
 		{@const thumb = extractThumbnailImage(data.mediaFilesModules, project.tag)}
 		<Card
-			image={thumb?.src ?? ''}
+			thumb={thumb?.src ?? ''}
 			tag={project.tag}
 			title={project.title}
 			project_type={project.project_type}
@@ -88,7 +90,7 @@
 			team_people={project.team_people}
 			imageShape={thumb?.shape ??
 				['Horizontal', 'Square', 'Vertical'][Math.floor(Math.random() * 3)]}
-			imageStacks={projectMediaFilesObtainer(data.mediaFilesModules, project.tag) ?? ''}
+			imageStack={projectMediaFilesObtainer(data.mediaFilesModules, project.tag) ?? ''}
 			mousePosition={$mousePosition}
 			{index}
 			translateMultiplier={100}

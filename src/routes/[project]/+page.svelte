@@ -14,8 +14,6 @@
 	let { data }: PageProps = $props();
 	const project = data.project;
 
-	//console.log(data.mediaFilesModules);
-
 	const projectMediaFiles = data.projectMediaFiles;
 
 	let thumb = extractThumbnailImage(data.mediaFilesModules, project.tag);

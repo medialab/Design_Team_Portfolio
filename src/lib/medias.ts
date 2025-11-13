@@ -16,7 +16,6 @@ export type OptimizedImage = {
 	};
 };
 
-// Optimized images with dithering effect (lower quality)
 export const mediaFilesModules: Record<string, ImageMetadata> = import.meta.glob(
 	[
 		'$lib/media/**/*.png',

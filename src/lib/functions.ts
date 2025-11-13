@@ -3,7 +3,7 @@
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import { load as yamlLoad } from 'js-yaml';
-import type { ImageMetadata } from './images';
+import type { ImageMetadata } from './medias';
 
 type Project = {
     tag: string;

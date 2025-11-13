@@ -1,5 +1,4 @@
 <script lang="ts">
-	//import type { ImageMetadata } from '$lib/images';
 	//import { onMount } from 'svelte';
 	import { isMobile } from '$lib/utils';
 	import { onMount } from 'svelte';
@@ -30,7 +29,6 @@
 	let mockArray = $state([0, 1, 2, 3, 4]);
 
 	let cardEl: HTMLAnchorElement | null = null;
-	console.log(props.imageStacks);
 
 	type Vec2 = { x: number; y: number };
 	let layerVectors = $state<Vec2[]>([]);
@@ -82,8 +80,8 @@
 
 	$effect(() => {
 		const stacksCount =
-			props.imageStacks && Object.keys(props.imageStacks).length > 0
-				? Object.keys(props.imageStacks).length
+			props.imageStack && Object.keys(props.imageStack).length > 0
+				? Object.keys(props.imageStack).length
 				: mockArray.length;
 		ensureLayerVectors(stacksCount);
 	});
@@ -102,8 +100,6 @@
 
 	onMount(async () => {
 		isMobileDevice = await isMobile();
-		//console.log('Is mobile:', isMobileDevice);
-
 		setTimeout(() => {
 			isPageLoaded = true;
 		}, 100);
@@ -123,8 +119,8 @@
 		: 'transparent'};"
 >
 	<div class="image_container" style="aspect-ratio: {ra};">
-	{#if props.image}
-		{#await ditherConversion(props.image)}
+	{#if props.thumb}
+		{#await ditherConversion(props.thumb)}
 			{#if browser && isPageLoaded}
 				<div transition:fade={{ duration: 500, easing: cubicOut }}>
 					<LottiePlayer
@@ -160,7 +156,7 @@
 				data-sveltekit-preload-data="eager"
 				loading="eager"
 				fetchpriority="high"
-				{...props.image ? {} : { crossorigin: 'anonymous' }}
+				{...props.thumb ? {} : { crossorigin: 'anonymous' }}
 			/>
 		{/await}
 	{:else}
@@ -196,6 +192,9 @@
 				<img
 					src={ditheredCatImage}
 					alt={props.title}
+					loading="eager"
+					fetchpriority="high"
+					data-sveltekit-preload-data="eager"
 				/>
 			{/await}
 		{/await}
@@ -203,15 +202,24 @@
 
 		{#if !isMobileDevice && !props.isMobile}
 			<div class="image_stack">
-				{#if props.imageStacks}
-					{#await ditherConversion(props.imageStacks) then ditheredImageStacks}
-						{#each Object.entries(ditheredImageStacks) as [, imageSrc], index}
-							<img
-							src={imageSrc}
-							alt={props.title}
-							style="z-index: {index + 1}; opacity: {Math.max(0.15, 1 - index * 0.12)};"/>
+				{#if props.imageStack && Object.keys(props.imageStack).length > 0}
+						{#each Object.keys(props.imageStack) as imageSrc, index}
+								{#await ditherConversion(imageSrc as string) then ditheredImg}
+									<img
+									src={ditheredImg}
+									loading="lazy"
+									fetchpriority="low"
+									alt={props.title}
+									style="z-index: {index + 1}; opacity: {Math.max(0.15, 1 - index * 0.12)}; transform: translate({(layerVectors[index]?.x ?? 0) *
+										(props.translateMultiplier ?? 14) *
+										farness *
+										((index + 1) / Object.keys(props.imageStack).length)}px, {(layerVectors[index]?.y ?? 0) *
+										(props.translateMultiplier ?? 14) *
+										farness *
+										((index + 1) / Object.keys(props.imageStack).length)}px); transition: transform 0.12s var(--curve);"/>
+								{/await}
 						{/each}
-					{/await}
+					
 				{:else if browser && isPageLoaded}
 					{#each mockArray as _, index}
 						{#await ditherConversion(`https://cataas.com/cat?${Math.random()}?card`) then ditheredCatImage}

@@ -1,5 +1,5 @@
 // Client-side utility functions
-import type { ImageMetadata } from '$lib/images';
+import type { ImageMetadata } from '$lib/medias';
 import { writable } from 'svelte/store';
 
 type ImageShape = 'Horizontal' | 'Vertical' | 'Square';
@@ -30,34 +30,24 @@ export const extractThumbnailImage = (
 	return { src: meta.src, shape };
 };
 
-// Black and white palette for dithering - PURE B&W only
-const BW_PALETTE = [
-	[0, 0, 0], // pure black
-	[255, 255, 255] // pure white
-];
-
-// Floyd-Steinberg dithering algorithm with pure B&W
-function floydSteinbergDither(imageData: ImageData, palette: number[][] = BW_PALETTE): ImageData {
+// Optimized Floyd-Steinberg dithering algorithm with pure B&W
+function floydSteinbergDither(imageData: ImageData): ImageData {
 	const pixels = imageData.data;
 	const width = imageData.width;
 	const height = imageData.height;
+	const dataLength = pixels.length;
 
-	const distributeError = (x: number, y: number, err: number, factor: number) => {
-		if (x < 0 || x >= width || y < 0 || y >= height) return;
-
-		const idx = (y * width + x) * 4;
-		// Apply error to all RGB channels equally for grayscale
-		const newVal = pixels[idx] + err * factor;
-		pixels[idx] = Math.max(0, Math.min(255, newVal));
-		pixels[idx + 1] = Math.max(0, Math.min(255, newVal));
-		pixels[idx + 2] = Math.max(0, Math.min(255, newVal));
-	};
+	// Pre-calculate error distribution factors
+	const FACTOR_RIGHT = 7 / 16;
+	const FACTOR_DOWN_LEFT = 3 / 16;
+	const FACTOR_DOWN = 5 / 16;
+	const FACTOR_DOWN_RIGHT = 1 / 16;
 
 	for (let y = 0; y < height; y++) {
 		for (let x = 0; x < width; x++) {
 			const idx = (y * width + x) * 4;
 
-			// Convert to grayscale first using luminance
+			// Convert to grayscale using luminance
 			const oldR = pixels[idx];
 			const oldG = pixels[idx + 1];
 			const oldB = pixels[idx + 2];
@@ -74,66 +64,38 @@ function floydSteinbergDither(imageData: ImageData, palette: number[][] = BW_PAL
 			// Calculate error
 			const err = oldLuminance - newColor;
 
-			// Floyd-Steinberg error distribution
-			distributeError(x + 1, y, err, 7 / 16);
-			distributeError(x - 1, y + 1, err, 3 / 16);
-			distributeError(x, y + 1, err, 5 / 16);
-			distributeError(x + 1, y + 1, err, 1 / 16);
+			// Optimized error distribution with inline bounds checking
+			const addError = (offset: number, factor: number) => {
+				const targetIdx = idx + offset;
+				if (targetIdx >= 0 && targetIdx < dataLength) {
+					const newVal = pixels[targetIdx] + err * factor;
+					const clamped = Math.max(0, Math.min(255, newVal));
+					pixels[targetIdx] = clamped;
+					pixels[targetIdx + 1] = clamped;
+					pixels[targetIdx + 2] = clamped;
+				}
+			};
+
+			// Floyd-Steinberg error distribution (right, down-left, down, down-right)
+			if (x < width - 1) addError(4, FACTOR_RIGHT);
+			if (x > 0 && y < height - 1) addError((width - 1) * 4, FACTOR_DOWN_LEFT);
+			if (y < height - 1) addError(width * 4, FACTOR_DOWN);
+			if (x < width - 1 && y < height - 1) addError((width + 1) * 4, FACTOR_DOWN_RIGHT);
 		}
 	}
 
 	return imageData;
 }
 
-// Apply dithering to an image element with bigger dots
-export const applyDither = (img: HTMLImageElement, dotSize: number = 3): void => {
-	if (typeof window === 'undefined') return;
-
-	const canvas = document.createElement('canvas');
-	const ctx = canvas.getContext('2d', { willReadFrequently: true });
-	if (!ctx) return;
-
-	const originalWidth = img.naturalWidth || img.width;
-	const originalHeight = img.naturalHeight || img.height;
-
-	// Calculate scaled down size for bigger dots
-	const scaledWidth = Math.floor(originalWidth / dotSize);
-	const scaledHeight = Math.floor(originalHeight / dotSize);
-
-	// Create temporary canvas for downscaling
-	const tempCanvas = document.createElement('canvas');
-	const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-	if (!tempCtx) return;
-
-	tempCanvas.width = scaledWidth;
-	tempCanvas.height = scaledHeight;
-
-	// Draw scaled down image
-	tempCtx.imageSmoothingEnabled = false;
-	tempCtx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
-
-	// Get image data from scaled down version
-	const imageData = tempCtx.getImageData(0, 0, scaledWidth, scaledHeight);
-
-	// Apply Floyd-Steinberg dithering
-	const ditheredData = floydSteinbergDither(imageData);
-
-	// Put dithered data back
-	tempCtx.putImageData(ditheredData, 0, 0);
-
-	// Scale back up to original size
-	canvas.width = originalWidth;
-	canvas.height = originalHeight;
-	ctx.imageSmoothingEnabled = false; // Keep sharp pixels for bigger dots effect
-	ctx.drawImage(tempCanvas, 0, 0, scaledWidth, scaledHeight, 0, 0, originalWidth, originalHeight);
-
-	// Replace image src with dithered version
-	img.src = canvas.toDataURL();
-};
-
+// Optimized dithering function - lighter weight with fewer canvas operations
 export const ditherConversion = (imageSrc: string, dotSize: number = 3): Promise<string> => {
 	if (typeof window === 'undefined') {
 		return Promise.reject(new Error('Dithering can only be performed in the browser'));
+	}
+
+	// Type guard: ensure imageSrc is a string
+	if (typeof imageSrc !== 'string' || !imageSrc) {
+		return Promise.reject(new Error(`Invalid image source: expected string, got ${typeof imageSrc}`));
 	}
 
 	return new Promise((resolve, reject) => {
@@ -146,52 +108,57 @@ export const ditherConversion = (imageSrc: string, dotSize: number = 3): Promise
 
 		img.onload = () => {
 			try {
+				const originalWidth = img.naturalWidth || img.width;
+				const originalHeight = img.naturalHeight || img.height;
+
+				// Cap maximum dimensions to avoid processing huge images (reduces memory and processing time)
+				const MAX_DIMENSION = 2000;
+				const scale = Math.min(1, MAX_DIMENSION / Math.max(originalWidth, originalHeight));
+				const cappedWidth = Math.floor(originalWidth * scale);
+				const cappedHeight = Math.floor(originalHeight * scale);
+
+				// Calculate scaled down size for bigger dots
+				const scaledWidth = Math.floor(cappedWidth / dotSize);
+				const scaledHeight = Math.floor(cappedHeight / dotSize);
+
+				// Create single canvas (reuse if possible, but create new for thread safety)
 				const canvas = document.createElement('canvas');
+				canvas.width = scaledWidth;
+				canvas.height = scaledHeight;
+				
 				const ctx = canvas.getContext('2d', { willReadFrequently: true });
 				if (!ctx) {
 					reject(new Error('Could not get canvas context'));
 					return;
 				}
 
-				const originalWidth = img.naturalWidth || img.width;
-				const originalHeight = img.naturalHeight || img.height;
+				// Draw scaled down image directly
+				ctx.imageSmoothingEnabled = false;
+				ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
 
-				// Calculate scaled down size for bigger dots
-				const scaledWidth = Math.floor(originalWidth / dotSize);
-				const scaledHeight = Math.floor(originalHeight / dotSize);
-
-				// Create temporary canvas for downscaling
-				const tempCanvas = document.createElement('canvas');
-				const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-				if (!tempCtx) {
-					reject(new Error('Could not get temp canvas context'));
-					return;
-				}
-
-				tempCanvas.width = scaledWidth;
-				tempCanvas.height = scaledHeight;
-
-				// Draw scaled down image
-				tempCtx.imageSmoothingEnabled = false;
-				tempCtx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
-
-				// Get image data from scaled down version
-				const imageData = tempCtx.getImageData(0, 0, scaledWidth, scaledHeight);
-
-				// Apply Floyd-Steinberg dithering
+				// Get image data and apply dithering
+				const imageData = ctx.getImageData(0, 0, scaledWidth, scaledHeight);
 				const ditheredData = floydSteinbergDither(imageData);
+				ctx.putImageData(ditheredData, 0, 0);
 
-				// Put dithered data back
-				tempCtx.putImageData(ditheredData, 0, 0);
-
-				// Scale back up to original size
-				canvas.width = originalWidth;
-				canvas.height = originalHeight;
-				ctx.imageSmoothingEnabled = false; // Keep sharp pixels for bigger dots effect
-				ctx.drawImage(tempCanvas, 0, 0, scaledWidth, scaledHeight, 0, 0, originalWidth, originalHeight);
-
-				// Return the dithered image data URL
-				resolve(canvas.toDataURL());
+				// Scale back up to capped size (only if needed)
+				if (scale < 1 || dotSize > 1) {
+					const finalCanvas = document.createElement('canvas');
+					const finalCtx = finalCanvas.getContext('2d');
+					if (!finalCtx) {
+						reject(new Error('Could not get final canvas context'));
+						return;
+					}
+					finalCanvas.width = cappedWidth;
+					finalCanvas.height = cappedHeight;
+					finalCtx.imageSmoothingEnabled = false;
+					finalCtx.drawImage(canvas, 0, 0, scaledWidth, scaledHeight, 0, 0, cappedWidth, cappedHeight);
+					// Use JPEG with 85% quality for smaller file size (vs PNG)
+					resolve(finalCanvas.toDataURL('image/jpeg', 0.85));
+				} else {
+					// Use JPEG with 85% quality for smaller file size (vs PNG)
+					resolve(canvas.toDataURL('image/jpeg', 0.85));
+				}
 			} catch (error) {
 				console.error('❌ Failed to dither image:', imageSrc, error);
 				reject(error);

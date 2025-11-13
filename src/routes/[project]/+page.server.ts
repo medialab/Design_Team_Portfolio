@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { extractYamlData, projectMediaFilesObtainer } from '$lib/functions';
-import { mediaFilesModules } from '$lib/images';
+import { mediaFilesModules } from '$lib/medias';
 import { error, type HttpError } from '@sveltejs/kit';
 
 
