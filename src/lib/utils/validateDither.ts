@@ -31,7 +31,8 @@ const printPreview = (label: string, values: string[]): void => {
 
 const runValidation = async (): Promise<void> => {
 	const sourceFiles = (await walkFiles(inputDir)).filter((filePath: string) =>
-		isHomeCardSourceImage(filePath, inputDir)
+		isHomeCardSourceImage(filePath, inputDir) &&
+		filePath.toLowerCase().includes('thumb')
 	);
 	const outputFiles = (await walkFiles(outputDir)).filter(isOutputImage);
 

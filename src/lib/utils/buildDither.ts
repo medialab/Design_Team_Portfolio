@@ -99,7 +99,8 @@ const runDither = async (): Promise<void> => {
 	await fs.mkdir(outputDir, { recursive: true });
 
 	const sourceImages = (await walkFiles(inputDir)).filter((filePath) =>
-		isHomeCardSourceImage(filePath, inputDir)
+		isHomeCardSourceImage(filePath, inputDir) &&
+		filePath.toLowerCase().includes('thumb')
 	);
 
 	if (sourceImages.length === 0) {
