@@ -1,123 +1,91 @@
-# Design Team Portfolio – Sciences Po médialab
+# Design Team Portfolio — Sciences Po médialab
 
-This repository hosts the portfolio of the **design team inside Sciences Po's médialab**.  
-It provides a **shared visual space** where projects initiated within the design team can be explored by internal and external audiences.
+Portfolio des projets de l'équipe design du médialab, déployé automatiquement sur GitHub Pages.
 
-## Tech Stack
+## Ajouter un nouveau projet
 
-- Svelte 5 / SvelteKit 2
-- TypeScript
-- Tailwind CSS 4
-- Vite 7 + vite-imagetools
-- Bun
-- Static site generation (GitHub Pages)
-
-## Purpose
-
-- **Document projects**: track visual, interactive, and editorial outputs.
-- **Share with others**: offer a clear entry point for discovering the team's work.
-- **Support collaboration**: reference past projects when starting new ones.
-
-## How to Contribute
-
-For **design team members**:
-
-1. **Create a project folder**  
-   Inside `src/lib/projects/`, create a folder named with the project's **TAG** (all caps, e.g. `AIME`).
-
-2. **Add a `project.yaml`**  
-   Inside the project folder, create `project.yaml`:
-
-   ```yaml
-   title: 'Title of your project'
-   description: 'Description of your project'
-   link: 'https://website.url'
-   tag: 'YOUR_TAG'
-   year_begin: 'YYYY'
-   ```
-
-   Optional fields: `year_end`, `project_type`, `team_people`, `author`.
-
-3. **Upload your media files**  
-   Supported formats:
-   - Images: `.png`, `.jpg`, `.webp`, `.avif`, `.gif`
-   - Video: `.mp4`, `.mov`
-   - Documents: `.pdf`
-
-4. **Add a thumbnail**  
-   Include at least one image with `thumb` in the filename. This is used for the homepage card.
-
-5. **Add descriptions (optional)**  
-   For each media file, create a companion `.yml` file with:
-   ```yaml
-   imgDescription: "Caption text here"
-   ```
-
-6. **Run dither pipeline**  
-   ```bash
-   bun run dither:all
-   ```
-
-7. **Test locally**  
-   ```bash
-   bun run dev
-   ```
-
-8. **Open a pull request**
-
-## Available Scripts
-
-| Script | Purpose |
-|--------|---------|
-| `dev` | Development server |
-| `build` | Full build (dither + check + vite) |
-| `check` | Svelte type checking |
-| `lint` | Prettier formatting check |
-| `dither` | Generate dithered thumbnails |
-| `dither:check` | Validate dither parity |
-| `migrate` | Migrate `main.yaml` entries to per-project `project.yaml` |
-| `validate` | Validate all project folders |
-| `imgYmlCreator` | Create missing `.yml` description files |
-| `sync-media` | Create missing media folders from `main.yaml` |
-
-## Project Structure
-
-```
-src/lib/projects/<TAG>/
-├── project.yaml        # Project metadata (auto-discovered)
-├── thumb.*             # Homepage card thumbnail
-├── *.yml               # Per-file descriptions
-├── *.jpg / *.png / etc # Media files
-├── *.mp4 / *.mov       # Video files
-├── *.pdf               # PDF documents
-└── _gallery/           # Sub-gallery images (optional)
-```
-
-## Configuration
-
-Set environment variables to customise the production URL:
+### 1. Créer le projet
 
 ```bash
-SITE_ORIGIN=https://example.com SITE_BASE_PATH=/portfolio bun run build
+bun scripts/create-project.ts TAG "Titre du projet"
 ```
 
-## Deployment
+Exemple :
 
-Automatically deployed to GitHub Pages on push to `main`. See `.github/workflows/deploy.yml`. The dither pipeline runs as part of the build.
+```bash
+bun scripts/create-project.ts MONPROJ "Mon Beau Projet"
+```
 
-## Browser Compatibility Policy
+Cette commande crée `src/lib/projects/MONPROJ/project.yaml`.
 
-This project targets **current stable browsers**:
+### 2. Ajouter les fichiers
 
-- Chrome (latest major)
-- Edge (latest major)
-- Firefox (latest major)
-- Safari (latest major)
-- iOS Safari (latest major)
+- Déposer les images (`.png`, `.jpg`, `.webp`, `.avif`, `.gif`), vidéos (`.mp4`, `.mov`) et PDFs dans `src/lib/projects/MONPROJ/`
+- Ajouter au moins une image avec `thumb` dans le nom (pour la vignette d'accueil)
 
-Not in scope:
+### 3. Modifier project.yaml
 
-- Internet Explorer
-- Legacy Safari/iOS versions
+Éditer `src/lib/projects/MONPROJ/project.yaml` :
 
-Compatibility is codified via `browserslist` in `package.json`.
+```yaml
+title: 'Mon Beau Projet'
+description: 'Description du projet'
+link: 'https://exemple.com'
+tag: MONPROJ
+year_begin: '2024'
+```
+
+Options supplémentaires : `year_end`, `project_type`, `team_people`, `author`.
+
+### 4. Prévisualiser en local (optionnel)
+
+```bash
+bun install    # première fois seulement
+bun run dev    # http://localhost:5173
+```
+
+### 5. Push sur GitHub — le déploiement est automatique
+
+```bash
+git add src/lib/projects/MONPROJ/
+git commit -m "feat: ajout projet MONPROJ"
+git push origin main
+```
+
+La GitHub Action s'occupe de tout : bootstrap, dither, build → déploiement sur GitHub Pages.
+
+## Commandes utiles
+
+| Commande | Utilité |
+|----------|---------|
+| `bun run dev` | Serveur de développement |
+| `bun run validate` | Valide tous les projets |
+| `bun run imgYmlCreator` | Crée les fichiers .yml de description pour chaque média |
+| `bun run dither` | Génère les vignettes dithered |
+| `bun run build` | Build complet (dither + build) |
+
+## Structure d'un projet
+
+```
+src/lib/projects/MONPROJ/
+├── project.yaml
+├── THUMB.png              # Vignette d'accueil
+├── image1.jpg
+├── image2.png
+├── video1.mp4
+├── _videos/               # Vidéos (déplacées auto au push)
+├── _documents/            # PDFs (déplacés auto au push)
+└── _gallery/              # Sous-galerie (optionnel)
+```
+
+## Captions (légendes)
+
+Pour ajouter des légendes aux médias, éditer le champ `media_captions` dans project.yaml :
+
+```yaml
+media_captions:
+  image1.jpg: 'Légende de l'image'
+  video1.mp4: 'Légende de la vidéo'
+```
+
+Ou lancer `bun run imgYmlCreator` pour créer des fichiers `.yml` séparés.
