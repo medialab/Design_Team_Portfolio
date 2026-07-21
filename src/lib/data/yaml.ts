@@ -20,7 +20,7 @@ const isYamlData = (value: unknown): value is YamlData => {
 
 let cachedYamlData: YamlData | undefined;
 let cachedYamlMtimeMs: number | undefined;
-const mediaDir = resolve(process.cwd(), 'src/lib/media');
+const mediaDir = resolve(process.cwd(), 'src/lib/projects');
 
 function readProjectYamls(): Project[] {
 	const projects: Project[] = [];

@@ -58,6 +58,9 @@ jobs:
       - name: Install project dependencies
         run: bun install
 
+      - name: Bootstrap new projects and sort media
+        run: bun scripts/bootstrap-project.ts
+
       - name: Create image twins
         run: bun run imgYmlCreator
 

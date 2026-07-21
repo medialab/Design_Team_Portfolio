@@ -9,6 +9,7 @@ export type Project = {
 	team_people?: string;
 	author?: string;
 	sections?: MarkdownSection[];
+	media_captions?: Record<string, string>;
 };
 
 export type MarkdownSection = {
@@ -71,8 +72,16 @@ export type CardProps = {
 	thumbnail: HomeCardThumbnail;
 	tag: string;
 	title: string;
+	year_begin: string;
+	year_end: string | undefined;
+	team_people: string | undefined;
 	stackPreview?: HomeCardPreviewImage[];
+	mousePosition?: MousePosition;
 	index: number;
+	translateMultiplier?: number;
+	scaleStrength?: number;
+	minScale?: number;
+	maxScale?: number;
 };
 
 export type HomeCardPreviewImage = Pick<ImageMetadata, 'src' | 'width' | 'height'>;
@@ -82,6 +91,9 @@ export type HomeCardThumbnail = HomeCardPreviewImage;
 export type HomeCardDTO = {
 	tag: string;
 	title: string;
+	year_begin: string;
+	year_end?: string;
+	team_people?: string;
 	thumb: HomeCardThumbnail;
 	stackPreview: HomeCardPreviewImage[];
 };

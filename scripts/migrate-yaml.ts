@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
 
 const MAIN_YAML = resolve(repoRoot, 'src/lib/dataset/main.yaml');
-const MEDIA_DIR = resolve(repoRoot, 'src/lib/media');
+const MEDIA_DIR = resolve(repoRoot, 'src/lib/projects');
 
 interface Project {
 	title: string;

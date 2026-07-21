@@ -2,8 +2,8 @@ import type { PageServerLoad } from './$types';
 import { extractYamlData } from '$lib/data/yaml';
 import { homeMediaMetadataLoaders, homeDitheredMediaMetadataLoaders } from '$lib/utils/medias';
 import type { HomeCardDTO, ImageMetadata, Project, YamlData } from '$lib/utils/types';
-import { normalizeImageMetadata } from '$lib/media/guards';
-import { getProjectImageKeys } from '$lib/media/project-files';
+import { normalizeImageMetadata } from '$lib/projects/guards';
+import { getProjectImageKeys } from '$lib/projects/project-files';
 
 type MediaMetadataLoader = () => Promise<ImageMetadata | { default: ImageMetadata }>;
 
@@ -57,6 +57,7 @@ const buildHomeCard = async (project: Project): Promise<HomeCardDTO | null> => {
 	const card: HomeCardDTO = {
 		tag: project.tag,
 		title: project.title,
+		year_begin: project.year_begin,
 		thumb: {
 			src: thumbnailMeta.src,
 			width: thumbnailMeta.width,
@@ -68,6 +69,14 @@ const buildHomeCard = async (project: Project): Promise<HomeCardDTO | null> => {
 			height: meta.height
 		}))
 	};
+
+	if (project.year_end) {
+		card.year_end = project.year_end;
+	}
+
+	if (project.team_people) {
+		card.team_people = project.team_people;
+	}
 
 	return card;
 };

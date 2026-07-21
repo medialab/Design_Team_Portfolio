@@ -1,7 +1,7 @@
 import path from 'path';
 import { isHomeCardSourceImage, isOutputImage, walkFiles } from '$lib/scripts/media-walk';
 
-const inputDir = path.resolve(process.cwd(), 'src/lib/media');
+const inputDir = path.resolve(process.cwd(), 'src/lib/projects');
 const outputDir = path.resolve(process.cwd(), 'src/lib/ditheredMedia');
 
 const toExpectedRelativeOutputPath = (sourcePath: string): string => {

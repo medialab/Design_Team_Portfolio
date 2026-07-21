@@ -6,10 +6,10 @@ import { dirname } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
-const MEDIA_DIR = resolve(repoRoot, 'src/lib/media');
+const MEDIA_DIR = resolve(repoRoot, 'src/lib/projects');
 
 const REQUIRED_TEXT_FIELDS = ['title', 'description', 'link', 'tag', 'year_begin'] as const;
-const OPTIONAL_FIELDS = ['year_end', 'project_type', 'team_people', 'author', 'sections'];
+const OPTIONAL_FIELDS = ['year_end', 'project_type', 'team_people', 'author', 'sections', 'media_captions'];
 
 interface ValidationResult {
 	tag: string;

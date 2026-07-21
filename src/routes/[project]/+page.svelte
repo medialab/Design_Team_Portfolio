@@ -6,7 +6,7 @@
 	import { deviceType } from '$lib/stores/device-type';
 	import { SITE_NAME } from '$lib/utils/seo';
 	import { SITE_ORIGIN, SITE_BASE_PATH } from '$lib/config';
-	import { isImageMetadata } from '$lib/media/guards';
+	import { isImageMetadata } from '$lib/projects/guards';
 	import { createPointerTrailMask } from '$lib/utils/pointer-trail';
 	import { onDestroy } from 'svelte';
 	import { fly } from 'svelte/transition';

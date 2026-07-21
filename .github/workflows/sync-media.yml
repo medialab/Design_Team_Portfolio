@@ -5,6 +5,8 @@ on:
     branches: ['main']
     paths:
       - 'src/lib/dataset/main.yaml'
+      - 'src/lib/projects/*/project.yaml'
+      - 'src/lib/projects/*/*.{png,jpg,jpeg,webp,gif,mp4,mov,pdf}'
   workflow_dispatch:
 
 jobs:
@@ -22,11 +24,17 @@ jobs:
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+      - name: Bootstrap new projects and sort media
+        run: bun scripts/bootstrap-project.ts
+
       - name: Sync media folders
         run: bun run scripts/sync-media-folders.js
+
+      - name: Create image descriptions
+        run: bun run imgYmlCreator
 
       - name: Commit and push if needed
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore: sync media folders from main.yaml'
-          file_pattern: 'src/lib/media/*'
+          commit_message: 'chore: auto-bootstrap projects and sync media'
+          file_pattern: 'src/lib/projects/*'

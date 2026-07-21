@@ -45,7 +45,7 @@ const DEFAULT_DITHER_PROFILE: DitherProfile = {
 	}
 };
 
-const inputDir = path.resolve(process.cwd(), 'src/lib/media');
+const inputDir = path.resolve(process.cwd(), 'src/lib/projects');
 const outputDir = path.resolve(process.cwd(), 'src/lib/ditheredMedia');
 
 const sourceToOutputPath = (sourcePath: string): string => {

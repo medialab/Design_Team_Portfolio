@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { resolve } from '$app/paths';
 	import type { CardProps, CardVec2 } from '$lib/utils/types';
+	import { fly } from 'svelte/transition';
 
 	let props: CardProps = $props();
 	const dispatch = createEventDispatcher<{
@@ -13,6 +14,9 @@
 	}>();
 	type CardSize = 's' | 'm' | 'l' | 'xl';
 
+	let cardEl: HTMLAnchorElement | null = null;
+
+	let farness = $state(0);
 	let isHovered = $state(false);
 	let isThumbnailLoaded = $state(false);
 	let splitVectors = $state<CardVec2[]>([]);
@@ -39,7 +43,26 @@
 		return '3/4';
 	});
 
+	const cardScale = $derived.by(() => {
+		if (props.isMobile) return 1;
+		const minScale = Math.max(0, props.minScale ?? 0.7);
+		const maxScale = Math.max(minScale, props.maxScale ?? 1);
+		return maxScale - (maxScale - minScale) * farness;
+	});
+
+	const cardTransform = $derived.by(() => {
+		if (props.isMobile) return 'none';
+		return `translateY(var(--card-hover-y, 0px)) scale(${cardScale})`;
+	});
 	const cardOpacity = $derived.by(() => (props.isMobile ? 1 : props.isDimmed ? 0.2 : 1));
+	const hoverSpread = $derived.by(() => (props.isMobile || !isHovered ? 0 : 1));
+
+	const limitTranslation = (v: number) => Math.max(0, Math.min(1, v));
+
+	const logScale = (n: number, k: number) => {
+		const kk = Math.max(0.0001, k);
+		return Math.log1p(kk * n) / Math.log1p(kk);
+	};
 
 	const SPLIT_VECTOR_COUNT = 24;
 	const circularSplitVectors = Array.from({ length: SPLIT_VECTOR_COUNT }, (_, index) => {
@@ -66,9 +89,32 @@
 		const total = Math.max(1, stackPreview.length);
 		const direction =
 			splitVectors[stackIndex] ?? circularSplitVectors[stackIndex % circularSplitVectors.length];
-		const spread = 14 * ((stackIndex + 1) / total) * (isHovered ? 1 : 0);
+		const spread = (props.translateMultiplier ?? 14) * ((stackIndex + 1) / total) * hoverSpread;
 		return `translate(${direction.x * spread}px, ${direction.y * spread}px)`;
 	};
+
+	const updateFarness = () => {
+		if (typeof window === 'undefined' || !cardEl) {
+			farness = 0;
+			return;
+		}
+
+		const rect = cardEl.getBoundingClientRect();
+		const cx = rect.left + rect.width / 2;
+		const cy = rect.top + rect.height / 2;
+		const mx = props.mousePosition?.x ?? cx;
+		const my = props.mousePosition?.y ?? cy;
+		const dist = Math.hypot(mx - cx, my - cy);
+		const maxDist = Math.hypot(window.innerWidth, window.innerHeight) / 2;
+		const n = limitTranslation(dist / (maxDist || 1));
+		const k = props.scaleStrength ?? 4;
+		farness = limitTranslation(logScale(n, k));
+	};
+
+	$effect(() => {
+		void props.mousePosition;
+		updateFarness();
+	});
 
 	$effect(() => {
 		ensureSplitVectors(stackPreview.length);
@@ -96,13 +142,18 @@
 </script>
 
 <a
-	class="group flex h-[14vh] w-fit flex-row items-center justify-start gap-0 bg-(--primary-white) origin-[left_center] transition-transform duration-250 ease-(--curve) hover:scale-[1.02] max-md:relative max-md:h-fit max-md:w-full max-md:flex-col max-md:items-start max-md:bg-transparent"
+	bind:this={cardEl}
+	class="group [--card-hover-y:0px] flex h-[14vh] w-fit flex-row items-center justify-start gap-0 bg-(--primary-white) origin-[left_center] rounded-lg transition-all duration-250 ease-(--curve) hover:[--card-hover-y:-2px] max-md:relative max-md:h-fit max-md:w-full max-md:flex-col max-md:items-start max-md:bg-transparent"
 	href={resolve('/[project]', { project: props.tag })}
 	onpointerenter={() => setCardHoverState(true)}
 	onpointerleave={() => setCardHoverState(false)}
 	onfocus={() => setCardHoverState(true)}
 	onblur={() => setCardHoverState(false)}
-	style="opacity: {cardOpacity};"
+	style="transform: {cardTransform}; will-change: {props.isMobile
+		? 'auto'
+		: 'transform, opacity'}; transform-style: {props.isMobile
+		? 'flat'
+		: 'preserve-3d'}; opacity: {cardOpacity};"
 >
 	<div
 		class="relative z-[5] h-full max-h-full self-center max-md:h-auto max-md:max-h-[25vh] max-md:w-full max-md:aspect-16/9"
@@ -150,15 +201,31 @@
 		{/if}
 	</div>
 	<div
-		class="z-10 flex h-full w-fit flex-col items-start justify-center gap-2.5 p-2.5 max-md:relative max-md:w-full bg-surface"
+		class="z-10 flex h-full w-fit flex-col items-start justify-center gap-2.5 p-2.5 transition-colors duration-250 ease-(--curve) max-md:relative max-md:w-full bg-surface group-hover:bg-(--permanent-black)"
 		style={`max-width: ${props.isMobile ? 'none' : cardSizeMaxWidth};`}
 		in:fade={{ duration: 260 }}
 	>
 		<h2
 			id="title_container"
-			class="w-full bg-surface [display:-webkit-box] overflow-visible text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-3 line-clamp-3 max-md:w-[95%]"
+			class="w-full bg-surface transition-colors duration-250 ease-(--curve) [display:-webkit-box] overflow-visible text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-3 line-clamp-3 max-md:w-[95%] group-hover:bg-(--permanent-black) group-hover:text-(--permanent-white)"
+			in:fly={{ y: 16, duration: 650, delay: 60 }}
 		>
 			{props.title}
 		</h2>
+		<div class="bg-surface transition-colors duration-250 ease-(--curve) group-hover:bg-(--permanent-black)" in:fly={{ y: 16, duration: 650, delay: 110 }}>
+			{#if props.year_end}
+				<p class="notes transition-colors duration-250 ease-(--curve) group-hover:text-(--permanent-white)">{props.year_begin} &ndash; {props.year_end}</p>
+			{:else}
+				<p class="notes transition-colors duration-250 ease-(--curve) group-hover:text-(--permanent-white)">{props.year_begin}</p>
+			{/if}
+			{#if props.team_people}
+				<p
+					class="notes transition-colors duration-250 ease-(--curve) [display:-webkit-box] overflow-hidden text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-2 line-clamp-2 group-hover:text-(--permanent-white)"
+					id="people"
+				>
+					{props.team_people}
+				</p>
+			{/if}
+		</div>
 	</div>
 </a>

@@ -1,21 +1,19 @@
 import type { PageServerLoad } from './$types';
 import { extractYamlData } from '$lib/data/yaml';
 import {
-	didascaliaModules,
 	ditheredMediaFilesModules,
 	mediaFilesModules,
 	subGalleryModules
 } from '$lib/utils/medias';
-import type { ImageMetadata, YamlTextModule, Project } from '$lib/utils/types';
+import type { ImageMetadata, Project } from '$lib/utils/types';
 import { error, type HttpError } from '@sveltejs/kit';
-import { getProjectFilesByTag } from '$lib/media/project-files';
-import { isImageMetadata } from '$lib/media/guards';
-import { buildDidascaliaByStem } from '$lib/media/didascalia';
+import { getProjectFilesByTag } from '$lib/projects/project-files';
+import { isImageMetadata } from '$lib/projects/guards';
+import { buildDidascaliaByStem } from '$lib/projects/didascalia';
 
 type ProjectMediaFile = ImageMetadata | { default: string };
 type MediaFileLoader = () => Promise<ImageMetadata | string>;
 type ImageMetadataLoader = () => Promise<ImageMetadata>;
-type YamlTextLoader = () => Promise<string>;
 
 const resolveProjectMediaFiles = async (
 	projectTag: string
@@ -42,21 +40,6 @@ const resolveProjectImageFiles = async (
 	const projectLoaders = getProjectFilesByTag(loaderMap, projectTag);
 	const entries = await Promise.all(
 		Object.entries(projectLoaders).map(async ([key, loader]) => [key, await loader()] as const)
-	);
-	return Object.fromEntries(entries);
-};
-
-const resolveProjectDidascaliaEntries = async (
-	projectTag: string
-): Promise<Record<string, YamlTextModule>> => {
-	const projectLoaders = getProjectFilesByTag(
-		didascaliaModules as Record<string, YamlTextLoader>,
-		projectTag
-	);
-	const entries = await Promise.all(
-		Object.entries(projectLoaders).map(
-			async ([key, loader]) => [key, { default: await loader() }] as const
-		)
 	);
 	return Object.fromEntries(entries);
 };
@@ -90,8 +73,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			subGalleryModules as Record<string, ImageMetadataLoader>,
 			project.tag
 		);
-		const didascaliaEntries = await resolveProjectDidascaliaEntries(project.tag);
-		const didascaliaByStem = buildDidascaliaByStem(didascaliaEntries);
+		const didascaliaByStem = buildDidascaliaByStem(project.media_captions || {});
 		const ditheredProjectMediaFiles = await resolveProjectImageFiles(
 			ditheredMediaFilesModules as Record<string, ImageMetadataLoader>,
 			project.tag

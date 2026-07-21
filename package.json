@@ -9,6 +9,7 @@
 		"sync-media": "bun scripts/sync-media-folders.js",
 		"migrate": "bun scripts/migrate-yaml.ts",
 		"validate": "bun scripts/validate-projects.ts",
+		"bootstrap": "bun scripts/bootstrap-project.ts",
 		"dither": "bun src/lib/utils/buildDither.ts",
 		"dither:check": "bun src/lib/utils/validateDither.ts",
 		"dither:all": "bun run dither && bun run dither:check",

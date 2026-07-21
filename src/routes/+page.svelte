@@ -1,10 +1,12 @@
 <script lang="ts">
 	import Card from '$lib/components/card.svelte';
 	import type { PageProps } from './$types';
+	import type { MousePosition } from '$lib/utils/types';
 	import { SITE_NAME, SITE_DESCRIPTION, DEFAULT_OG_IMAGE, buildCanonicalUrl } from '$lib/utils/seo';
+	import { fly } from 'svelte/transition';
+	import { writable } from 'svelte/store';
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
 	import { deviceType } from '$lib/stores/device-type';
 
 	let { data }: PageProps = $props();
@@ -14,7 +16,15 @@
 	const pageUrl = buildCanonicalUrl('/');
 	const pageImage = DEFAULT_OG_IMAGE;
 
+	const mousePosition = writable<MousePosition>({ x: 0, y: 0 });
 	let hoveredCardIndex = $state<number | null>(null);
+
+	const updateMousePosition = (event: MouseEvent) => {
+		mousePosition.set({
+			x: event.clientX,
+			y: event.clientY
+		});
+	};
 
 	const handleCardHoverChange = (event: CustomEvent<{ index: number; hovered: boolean }>) => {
 		if (event.detail.hovered) {
@@ -33,6 +43,8 @@
 		isPageLoaded = true;
 	});
 </script>
+
+<svelte:window onmousemove={updateMousePosition} />
 
 <svelte:head>
 	<title>{pageTitle}</title>
@@ -82,8 +94,16 @@
 			thumbnail={card.thumb}
 			tag={card.tag}
 			title={card.title}
+			year_begin={card.year_begin}
+			year_end={card.year_end}
+			team_people={card.team_people}
 			stackPreview={card.stackPreview}
+			mousePosition={$mousePosition}
 			{index}
+			translateMultiplier={220}
+			scaleStrength={4}
+			minScale={0.8}
+			maxScale={1}
 			on:hoverchange={handleCardHoverChange}
 		/>
 	{/each}

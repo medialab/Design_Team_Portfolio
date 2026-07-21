@@ -23,7 +23,7 @@ It provides a **shared visual space** where projects initiated within the design
 For **design team members**:
 
 1. **Create a project folder**  
-   Inside `src/lib/media/`, create a folder named with the project's **TAG** (all caps, e.g. `AIME`).
+   Inside `src/lib/projects/`, create a folder named with the project's **TAG** (all caps, e.g. `AIME`).
 
 2. **Add a `project.yaml`**  
    Inside the project folder, create `project.yaml`:
@@ -83,7 +83,7 @@ For **design team members**:
 ## Project Structure
 
 ```
-src/lib/media/<TAG>/
+src/lib/projects/<TAG>/
 ├── project.yaml        # Project metadata (auto-discovered)
 ├── thumb.*             # Homepage card thumbnail
 ├── *.yml               # Per-file descriptions
