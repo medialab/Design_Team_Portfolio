@@ -13,7 +13,7 @@ function getMediaFiles(dir: string, prefix = ''): string[] {
 	const files: string[] = [];
 	const entries = readdirSync(dir, { withFileTypes: true });
 	for (const entry of entries) {
-		if (entry.name.startsWith('.')) continue;
+	if (entry.name.startsWith('.') || entry.name.startsWith('_')) continue;
 		if (entry.name === 'project.yaml') continue;
 		const fullPath = join(dir, entry.name);
 		if (entry.isDirectory()) {

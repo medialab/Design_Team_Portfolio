@@ -142,6 +142,7 @@ let failed = 0;
 
 for (const entry of entries) {
 	if (!entry.isDirectory()) continue;
+	if (entry.name.startsWith('.') || entry.name.startsWith('_')) continue;
 
 	const yamlPath = resolve(MEDIA_DIR, entry.name, 'project.yaml');
 	const result = validateProjectYaml(entry.name, yamlPath);

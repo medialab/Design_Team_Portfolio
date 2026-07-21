@@ -4,7 +4,7 @@ on:
   push:
     branches: ['main']
     paths:
-      - 'src/lib/dataset/main.yaml'
+      - 'src/lib/projects/_dataset/main.yaml'
       - 'src/lib/projects/*/project.yaml'
       - 'src/lib/projects/*/*.{png,jpg,jpeg,webp,gif,mp4,mov,pdf}'
   workflow_dispatch:

@@ -5,7 +5,7 @@ import yaml from 'js-yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, '..');
-const yamlPath = resolve(rootDir, 'src/lib/dataset/main.yaml');
+const yamlPath = resolve(rootDir, 'src/lib/projects/_dataset/main.yaml');
 const mediaDir = resolve(rootDir, 'src/lib/projects');
 
 const tags = new Set();

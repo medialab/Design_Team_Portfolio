@@ -46,7 +46,7 @@ function safeMove(src: string, destDir: string, filename: string): void {
 
 for (const entry of entries) {
 	if (!entry.isDirectory()) continue;
-	if (entry.name.startsWith('.')) continue;
+	if (entry.name.startsWith('.') || entry.name.startsWith('_')) continue;
 
 	const projectDir = resolve(projectsDir, entry.name);
 	const yamlPath = resolve(projectDir, 'project.yaml');

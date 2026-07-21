@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { colorMode } from '$lib/stores/color-mode';
+	import { colorMode } from '$lib/utils/stores/color-mode';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 </script>

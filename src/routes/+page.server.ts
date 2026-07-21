@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { extractYamlData } from '$lib/data/yaml';
+import { extractYamlData } from '$lib/projects/yaml';
 import { homeMediaMetadataLoaders, homeDitheredMediaMetadataLoaders } from '$lib/utils/medias';
 import type { HomeCardDTO, ImageMetadata, Project, YamlData } from '$lib/utils/types';
 import { normalizeImageMetadata } from '$lib/projects/guards';

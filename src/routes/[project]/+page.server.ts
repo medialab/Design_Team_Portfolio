@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { extractYamlData } from '$lib/data/yaml';
+import { extractYamlData } from '$lib/projects/yaml';
 import {
 	ditheredMediaFilesModules,
 	mediaFilesModules,

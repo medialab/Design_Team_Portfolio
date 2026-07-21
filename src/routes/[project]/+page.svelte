@@ -2,10 +2,10 @@
 	import type { PageProps } from './$types';
 	import PdfWrapper from '$lib/components/pdf_wrapper.svelte';
 
-	import { colorMode } from '$lib/stores/color-mode';
-	import { deviceType } from '$lib/stores/device-type';
+	import { colorMode } from '$lib/utils/stores/color-mode';
+	import { deviceType } from '$lib/utils/stores/device-type';
 	import { SITE_NAME } from '$lib/utils/seo';
-	import { SITE_ORIGIN, SITE_BASE_PATH } from '$lib/config';
+	import { SITE_ORIGIN, SITE_BASE_PATH } from '$lib/utils/config';
 	import { isImageMetadata } from '$lib/projects/guards';
 	import { createPointerTrailMask } from '$lib/utils/pointer-trail';
 	import { onDestroy } from 'svelte';

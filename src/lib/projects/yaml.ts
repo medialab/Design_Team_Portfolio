@@ -53,7 +53,7 @@ export const extractYamlData = (): YamlData | undefined => {
 			return { projects: perProject };
 		}
 
-		const yamlPath = resolve(process.cwd(), 'src/lib/dataset/main.yaml');
+		const yamlPath = resolve(process.cwd(), 'src/lib/projects/_dataset/main.yaml');
 		if (!existsSync(yamlPath)) {
 			console.warn('No main.yaml or per-project yaml files found');
 			return undefined;

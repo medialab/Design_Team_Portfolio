@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 
 const sveltePdfSourceEntry = fileURLToPath(
-	new URL('./src/lib/vendor/svelte-pdf/index.js', import.meta.url)
+	new URL('./src/lib/utils/vendor/svelte-pdf/index.js', import.meta.url)
 );
 
 export default defineConfig({
