@@ -3,7 +3,7 @@ import { resolve, join } from 'path';
 import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
 
 const MEDIA_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp4', '.mov', '.pdf'];
-const SKIP_DIRS = new Set(['_videos', '_documents']);
+const SKIP_DIRS = new Set();
 
 function getMediaFiles(dir: string, prefix = ''): string[] {
 	if (!existsSync(dir)) return [];
