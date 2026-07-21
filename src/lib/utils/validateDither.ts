@@ -1,5 +1,5 @@
 import path from 'path';
-import { isHomeCardSourceImage, isOutputImage, walkFiles } from '$lib/scripts/media-walk';
+import { isHomeCardSourceImage, isOutputImage, walkFiles } from '$lib/utils/media-walk';
 
 const inputDir = path.resolve(process.cwd(), 'src/lib/projects');
 const outputDir = path.resolve(process.cwd(), 'src/lib/ditheredMedia');
