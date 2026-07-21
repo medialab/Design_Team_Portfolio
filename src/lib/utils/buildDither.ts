@@ -57,39 +57,45 @@ const ditherOne = async (
 	sourcePath: string,
 	outputPath: string,
 	profile: DitherProfile
-): Promise<void> => {
-	await fs.mkdir(path.dirname(outputPath), { recursive: true });
+): Promise<boolean> => {
+	try {
+		await fs.mkdir(path.dirname(outputPath), { recursive: true });
 
-	const sourcePipeline = sharp(sourcePath).resize(profile.resize.width, profile.resize.height, {
-		fit: profile.resize.fit,
-		withoutEnlargement: profile.resize.withoutEnlargement
-	});
+		const sourcePipeline = sharp(sourcePath).resize(profile.resize.width, profile.resize.height, {
+			fit: profile.resize.fit,
+			withoutEnlargement: profile.resize.withoutEnlargement
+		});
 
-	const { data, info } = await sourcePipeline
-		.rotate()
-		.flatten({ background: '#ffffff' })
-		.greyscale()
-		.raw()
-		.toBuffer({ resolveWithObject: true });
+		const { data, info } = await sourcePipeline
+			.rotate()
+			.flatten({ background: '#ffffff' })
+			.greyscale()
+			.raw()
+			.toBuffer({ resolveWithObject: true });
 
-	const grayscalePixels = Uint8Array.from(data);
-	const image = intBuffer(info.width, info.height, GRAY8, grayscalePixels);
+		const grayscalePixels = Uint8Array.from(data);
+		const image = intBuffer(info.width, info.height, GRAY8, grayscalePixels);
 
-	orderedDither(image, profile.bayer.size, profile.bayer.numColors);
+		orderedDither(image, profile.bayer.size, profile.bayer.numColors);
 
-	await sharp(Buffer.from(image.data as Uint8Array), {
-		raw: {
-			width: info.width,
-			height: info.height,
-			channels: 1
-		}
-	})
-		.png(profile.png)
-		.toFile(outputPath);
+		await sharp(Buffer.from(image.data as Uint8Array), {
+			raw: {
+				width: info.width,
+				height: info.height,
+				channels: 1
+			}
+		})
+			.png(profile.png)
+			.toFile(outputPath);
+
+		return true;
+	} catch (error) {
+		console.error(`  ✗ Failed to dither ${path.relative(process.cwd(), sourcePath)}:`, error);
+		return false;
+	}
 };
 
 const runDither = async (): Promise<void> => {
-	await fs.rm(outputDir, { recursive: true, force: true });
 	await fs.mkdir(outputDir, { recursive: true });
 
 	const sourceImages = (await walkFiles(inputDir)).filter((filePath) =>
@@ -103,13 +109,21 @@ const runDither = async (): Promise<void> => {
 
 	console.log(`Dithering ${sourceImages.length} image(s)...`);
 
+	let success = 0;
+	let failed = 0;
+
 	for (const sourceImage of sourceImages) {
 		const outputPath = sourceToOutputPath(sourceImage);
-		await ditherOne(sourceImage, outputPath, DEFAULT_DITHER_PROFILE);
-		console.log(`✓ ${path.relative(process.cwd(), outputPath)}`);
+		const ok = await ditherOne(sourceImage, outputPath, DEFAULT_DITHER_PROFILE);
+		if (ok) {
+			success++;
+			console.log(`  ✓ ${path.relative(process.cwd(), outputPath)}`);
+		} else {
+			failed++;
+		}
 	}
 
-	console.log('✓ Dither generation completed');
+	console.log(`✓ Dither generation completed: ${success} succeeded, ${failed} failed`);
 };
 
 void runDither().catch((error) => {

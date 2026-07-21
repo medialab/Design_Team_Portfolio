@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
 import { load as yamlLoad } from 'js-yaml';
 import { fileURLToPath } from 'url';
@@ -11,11 +11,34 @@ const MEDIA_DIR = resolve(repoRoot, 'src/lib/projects');
 const REQUIRED_TEXT_FIELDS = ['title', 'description', 'link', 'tag', 'year_begin'] as const;
 const OPTIONAL_FIELDS = ['year_end', 'project_type', 'team_people', 'author', 'sections', 'media_captions'];
 
+const IMAGE_EXTS = ['.png', '.jpg', '.jpeg', '.JPG', '.JPEG', '.webp', '.gif', '.avif', '.svg'];
+const ALL_MEDIA_EXTS = [...IMAGE_EXTS, '.mp4', '.mov', '.MOV', '.pdf'];
+
 interface ValidationResult {
 	tag: string;
 	path: string;
 	errors: string[];
 	warnings: string[];
+}
+
+function getMediaFilesRecursive(dir: string, prefix = ''): string[] {
+	if (!existsSync(dir)) return [];
+	const files: string[] = [];
+	const entries = readdirSync(dir, { withFileTypes: true });
+	for (const entry of entries) {
+		if (entry.name.startsWith('.')) continue;
+		if (entry.name === 'project.yaml') continue;
+		const fullPath = resolve(dir, entry.name);
+		if (entry.isDirectory()) {
+			files.push(...getMediaFilesRecursive(fullPath, prefix ? `${prefix}/${entry.name}` : entry.name));
+		} else if (entry.isFile()) {
+			const ext = entry.name.slice(entry.name.lastIndexOf('.'));
+			if (ALL_MEDIA_EXTS.includes(ext)) {
+				files.push(prefix ? `${prefix}/${entry.name}` : entry.name);
+			}
+		}
+	}
+	return files;
 }
 
 function validateProjectYaml(tag: string, yamlPath: string): ValidationResult {
@@ -55,7 +78,10 @@ function validateProjectYaml(tag: string, yamlPath: string): ValidationResult {
 		(f) => f !== 'project.yaml' && !f.startsWith('.')
 	);
 	if (mediaFiles.length === 0) {
-		result.warnings.push('No media files found in folder');
+		const allFiles = getMediaFilesRecursive(resolve(MEDIA_DIR, tag));
+		if (allFiles.length === 0) {
+			result.warnings.push('No media files found in folder');
+		}
 	}
 
 	const hasThumb = mediaFiles.some(
@@ -63,6 +89,39 @@ function validateProjectYaml(tag: string, yamlPath: string): ValidationResult {
 	);
 	if (!hasThumb) {
 		result.warnings.push('No thumbnail file found (filename should contain "thumb")');
+	}
+
+	// Validate media_captions integrity
+	const captions = data.media_captions as Record<string, string> | undefined;
+	if (captions) {
+		const actualFiles = getMediaFilesRecursive(resolve(MEDIA_DIR, tag));
+		const actualSet = new Set(actualFiles);
+
+		for (const key of Object.keys(captions)) {
+			if (!actualSet.has(key)) {
+				result.warnings.push(`media_captions: "${key}" has no matching file on disk`);
+			}
+		}
+
+		for (const file of actualFiles) {
+			if (!(file in captions)) {
+				result.warnings.push(`media_captions: "${file}" exists but has no entry in project.yaml`);
+			}
+		}
+
+		// Check for stem collisions (same filename, different extension or path)
+		const stems = new Map<string, string[]>();
+		for (const key of Object.keys(captions)) {
+			const name = key.split('/').pop() || key;
+			const stem = name.replace(/\.[^.]+$/, '');
+			if (!stems.has(stem)) stems.set(stem, []);
+			stems.get(stem)!.push(key);
+		}
+		for (const [stem, keys] of stems) {
+			if (keys.length > 1) {
+				result.warnings.push(`stem collision: "${stem}" matches ${keys.length} files (${keys.join(', ')})`);
+			}
+		}
 	}
 
 	const extraneous = Object.keys(data).filter(

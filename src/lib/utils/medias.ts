@@ -10,15 +10,19 @@ export const mediaFilesModules = import.meta.glob(
 		'$lib/projects/*/*.png',
 		'$lib/projects/*/*.jpg',
 		'$lib/projects/*/*.jpeg',
+		'$lib/projects/*/*.JPG',
+		'$lib/projects/*/*.JPEG',
 		'$lib/projects/*/*.webp',
 		'$lib/projects/*/*.gif',
 		'$lib/projects/*/*.pdf',
 		'$lib/projects/*/*.mp4',
 		'$lib/projects/*/*.mov',
 		'$lib/projects/*/*.MOV',
+		'$lib/projects/*/*.webm',
 		'$lib/projects/*/_videos/*.mp4',
 		'$lib/projects/*/_videos/*.mov',
 		'$lib/projects/*/_videos/*.MOV',
+		'$lib/projects/*/_videos/*.webm',
 		'$lib/projects/*/_documents/*.pdf'
 	],
 	{
@@ -43,6 +47,8 @@ export const subGalleryModules = import.meta.glob(
 		'$lib/projects/*/*/*.png',
 		'$lib/projects/*/*/*.jpg',
 		'$lib/projects/*/*/*.jpeg',
+		'$lib/projects/*/*/*.JPG',
+		'$lib/projects/*/*/*.JPEG',
 		'$lib/projects/*/*/*.webp',
 		'$lib/projects/*/*/*.gif'
 	],
@@ -78,6 +84,8 @@ export const homeMediaMetadataLoaders = import.meta.glob(
 		'$lib/projects/*/*.png',
 		'$lib/projects/*/*.jpg',
 		'$lib/projects/*/*.jpeg',
+		'$lib/projects/*/*.JPG',
+		'$lib/projects/*/*.JPEG',
 		'$lib/projects/*/*.webp',
 		'$lib/projects/*/*.gif'
 	],

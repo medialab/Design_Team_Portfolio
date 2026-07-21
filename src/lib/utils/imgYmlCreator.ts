@@ -2,8 +2,11 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { resolve, join } from 'path';
 import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
 
-const MEDIA_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp4', '.mov', '.pdf'];
-const SKIP_DIRS = new Set();
+const MEDIA_EXTENSIONS = new Set([
+	'.png', '.jpg', '.jpeg', '.webp', '.gif', '.avif', '.svg',
+	'.mp4', '.mov', '.MOV',
+	'.pdf'
+]);
 
 function getMediaFiles(dir: string, prefix = ''): string[] {
 	if (!existsSync(dir)) return [];
@@ -14,11 +17,10 @@ function getMediaFiles(dir: string, prefix = ''): string[] {
 		if (entry.name === 'project.yaml') continue;
 		const fullPath = join(dir, entry.name);
 		if (entry.isDirectory()) {
-			if (SKIP_DIRS.has(entry.name)) continue;
 			files.push(...getMediaFiles(fullPath, prefix ? `${prefix}/${entry.name}` : entry.name));
 		} else if (entry.isFile()) {
 			const ext = entry.name.toLowerCase().slice(entry.name.lastIndexOf('.'));
-			if (MEDIA_EXTENSIONS.includes(ext)) {
+			if (MEDIA_EXTENSIONS.has(ext)) {
 				files.push(prefix ? `${prefix}/${entry.name}` : entry.name);
 			}
 		}
@@ -56,14 +58,18 @@ for (const entry of entries) {
 		} else {
 			updatedCaptions[file] = '';
 			changed = true;
-			console.log(`  ${entry.name}/project.yaml: added "${file}" → ""`);
+			console.log(`  ${entry.name}/project.yaml: added "${file}"`);
 		}
 	}
 
 	for (const key of Object.keys(existing)) {
 		if (!mediaFiles.includes(key)) {
+			if (existing[key] && existing[key].trim().length > 0) {
+				console.warn(`  ⚠ ${entry.name}/project.yaml: REMOVED "${key}" — had caption "${existing[key].trim()}"`);
+			} else {
+				console.log(`  ${entry.name}/project.yaml: removed "${key}" (file gone)`);
+			}
 			changed = true;
-			console.log(`  ${entry.name}/project.yaml: removed "${key}" (file gone)`);
 		}
 	}
 
@@ -74,4 +80,8 @@ for (const entry of entries) {
 	}
 }
 
-console.log(`Updated ${updated} project.yaml file(s)`);
+if (updated === 0) {
+	console.log('All project.yaml files are up to date');
+} else {
+	console.log(`Updated ${updated} project.yaml file(s)`);
+}

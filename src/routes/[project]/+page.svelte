@@ -15,18 +15,16 @@
 	const options = {};
 	const pointerTrail = createPointerTrailMask(1000);
 
-	const stemFromFilePath = (filePath: string): string | null => {
+	const fileName = (filePath: string): string | null => {
 		const baseName = filePath.split('/').pop();
-		if (!baseName) return null;
-		const stem = baseName.replace(/\.[^.]+$/, '');
-		return stem || null;
+		return baseName || null;
 	};
 
 	const didascaliaFromFilePath = (filePath: string | undefined): string | null => {
 		if (!filePath) return null;
-		const stem = stemFromFilePath(filePath);
-		if (!stem) return null;
-		return data.didascaliaByStem?.[stem] ?? null;
+		const name = fileName(filePath);
+		if (!name) return null;
+		return data.didascaliaByStem?.[name] ?? null;
 	};
 
 	let { data }: PageProps = $props();

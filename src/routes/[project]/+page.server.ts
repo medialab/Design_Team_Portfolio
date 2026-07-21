@@ -89,7 +89,7 @@ export const load: PageServerLoad = async ({ params }) => {
 				: null;
 
 		const ditherThumbKey = sourceThumbKey
-			? sourceThumbKey.replace('/media/', '/ditheredMedia/').replace(/\.\w+$/, '.png')
+			? sourceThumbKey.replace('/projects/', '/ditheredMedia/').replace(/\.[^.]+$/, '.png')
 			: null;
 		const ditherThumbnailSrc =
 			(ditherThumbKey ? ditheredProjectMediaFiles[ditherThumbKey]?.src : null) ??

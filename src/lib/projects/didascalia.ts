@@ -1,23 +1,27 @@
-const fileStem = (pathOrName: string): string | null => {
-	const baseName = pathOrName.split('/').pop();
-	if (!baseName) return null;
-	const withoutExt = baseName.replace(/\.[^.]+$/, '');
-	return withoutExt || null;
+const fileName = (pathOrName: string): string => {
+	const base = pathOrName.split('/').pop() || pathOrName;
+	return base;
 };
 
 export const buildDidascaliaByStem = (
 	mediaCaptions: Record<string, string>
 ): Record<string, string> => {
 	const result: Record<string, string> = {};
+	const seen = new Set<string>();
 
-	for (const [filename, description] of Object.entries(mediaCaptions)) {
-		const stem = fileStem(filename);
-		if (!stem) continue;
+	for (const [key, description] of Object.entries(mediaCaptions)) {
+		const name = fileName(key);
+		if (!name) continue;
 		if (description.trim().length === 0) continue;
-		result[stem] = description.trim();
+
+		if (seen.has(name)) {
+			console.warn(`Duplicate stem collision: "${name}" appears multiple times (from "${key}"). Using the last entry.`);
+		}
+		seen.add(name);
+		result[name] = description.trim();
 	}
 
 	return result;
 };
 
-export const stemFromFilePath = (pathOrName: string): string | null => fileStem(pathOrName);
+export const stemFromFilePath = (pathOrName: string): string => fileName(pathOrName);
