@@ -1,91 +1,90 @@
 # Design Team Portfolio — Sciences Po médialab
 
-Portfolio des projets de l'équipe design du médialab, déployé automatiquement sur GitHub Pages.
+A shared visual space for projects by the médialab design team. Automatically deployed to GitHub Pages.
 
-## Ajouter un nouveau projet
+## Adding a new project
 
-### 1. Créer le projet
-
-```bash
-bun scripts/create-project.ts TAG "Titre du projet"
-```
-
-Exemple :
+### 1. Scaffold the project
 
 ```bash
-bun scripts/create-project.ts MONPROJ "Mon Beau Projet"
+bun scripts/create-project.ts TAG "Project Title"
 ```
 
-Cette commande crée `src/lib/projects/MONPROJ/project.yaml`.
+Example:
 
-### 2. Ajouter les fichiers
+```bash
+bun scripts/create-project.ts MYPROJ "My Project"
+```
 
-- Déposer les images (`.png`, `.jpg`, `.webp`, `.avif`, `.gif`), vidéos (`.mp4`, `.mov`) et PDFs dans `src/lib/projects/MONPROJ/`
-- Ajouter au moins une image avec `thumb` dans le nom (pour la vignette d'accueil)
+This creates `src/lib/projects/MYPROJ/project.yaml` with basic fields.
 
-### 3. Modifier project.yaml
+### 2. Add media files
 
-Éditer `src/lib/projects/MONPROJ/project.yaml` :
+Drop images (`.png`, `.jpg`, `.webp`, `.avif`, `.gif`), videos (`.mp4`, `.mov`), and PDFs into `src/lib/projects/MYPROJ/`.
+
+Include at least one image with `thumb` in the filename — it becomes the homepage card thumbnail.
+
+### 3. Edit project.yaml
 
 ```yaml
-title: 'Mon Beau Projet'
-description: 'Description du projet'
-link: 'https://exemple.com'
-tag: MONPROJ
+title: 'My Project'
+description: 'A short description of the project'
+link: 'https://example.com'
+tag: MYPROJ
 year_begin: '2024'
 ```
 
-Options supplémentaires : `year_end`, `project_type`, `team_people`, `author`.
+Optional: `year_end`, `project_type`, `team_people`, `author`.
 
-### 4. Prévisualiser en local (optionnel)
+### 4. Preview locally (optional)
 
 ```bash
-bun install    # première fois seulement
+bun install    # first time only
 bun run dev    # http://localhost:5173
 ```
 
-### 5. Push sur GitHub — le déploiement est automatique
+### 5. Push to GitHub — auto-deployed
 
 ```bash
-git add src/lib/projects/MONPROJ/
-git commit -m "feat: ajout projet MONPROJ"
+git add src/lib/projects/MYPROJ/
+git commit -m "feat: add MYPROJ project"
 git push origin main
 ```
 
-La GitHub Action s'occupe de tout : bootstrap, dither, build → déploiement sur GitHub Pages.
+The GitHub Action handles the rest: bootstrap, dithering, build → GitHub Pages.
 
-## Commandes utiles
+## Useful commands
 
-| Commande | Utilité |
-|----------|---------|
-| `bun run dev` | Serveur de développement |
-| `bun run validate` | Valide tous les projets |
-| `bun run imgYmlCreator` | Crée les fichiers .yml de description pour chaque média |
-| `bun run dither` | Génère les vignettes dithered |
-| `bun run build` | Build complet (dither + build) |
+| Command | What it does |
+|---------|--------------|
+| `bun run dev` | Start dev server |
+| `bun run validate` | Validate all project folders |
+| `bun run imgYmlCreator` | Create missing `.yml` description files for media |
+| `bun run dither` | Generate dithered thumbnails |
+| `bun run build` | Full build (dither + dither check + vite) |
 
-## Structure d'un projet
+## Project structure
 
 ```
-src/lib/projects/MONPROJ/
+src/lib/projects/MYPROJ/
 ├── project.yaml
-├── THUMB.png              # Vignette d'accueil
+├── THUMB.png              # Homepage card thumbnail
 ├── image1.jpg
 ├── image2.png
 ├── video1.mp4
-├── _videos/               # Vidéos (déplacées auto au push)
-├── _documents/            # PDFs (déplacés auto au push)
-└── _gallery/              # Sous-galerie (optionnel)
+├── _videos/               # Videos (auto-sorted on push)
+├── _documents/            # PDFs (auto-sorted on push)
+└── _gallery/              # Sub-gallery (optional)
 ```
 
-## Captions (légendes)
+## Captions
 
-Pour ajouter des légendes aux médias, éditer le champ `media_captions` dans project.yaml :
+Add captions for each media file directly in `project.yaml`:
 
 ```yaml
 media_captions:
-  image1.jpg: 'Légende de l'image'
-  video1.mp4: 'Légende de la vidéo'
+  image1.jpg: 'A descriptive caption'
+  video1.mp4: 'Description of the video'
 ```
 
-Ou lancer `bun run imgYmlCreator` pour créer des fichiers `.yml` séparés.
+Or run `bun run imgYmlCreator` to generate separate `.yml` files.
