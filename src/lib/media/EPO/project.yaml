@@ -1,0 +1,15 @@
+title: European Polarisation Observatory (EPO) avec CIVICA Research
+description: >-
+  How to measure polarisation in multipolar and multi-issue European socio-political systems? Traditionally, people's
+  opinions on different issues of the public debate have been studied through polls and surveys. But recent advancements
+  in network scaling methods have shown that digital behavioral traces (typically following/follower networks) in social
+  media platforms can be used to mine opinions at a massive scale. This project seeks to develop a proof of concept for
+  a European Polarisation Observatory of ideologies and attitudes towards issues of the public debate. It will study the
+  ideological dynamics of users and media outlets to measure polarization on various issues, and investigate the role of
+  algorithmic recommendations on user access to ideologically diverse news.
+link: https://medialab.sciencespo.fr/en/activities/epo/
+tag: EPO
+year_begin: '2021'
+year_end: '2023'
+project_type: Research
+team_people: Pedro Ramaciotti Morales, Jean-Philippe Cointet

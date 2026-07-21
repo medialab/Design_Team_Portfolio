@@ -87,7 +87,7 @@
 		class="relative flex min-h-screen w-full flex-row gap-5 max-md:mt-5 max-md:h-full max-md:w-full max-md:flex-col max-md:gap-5 max-md:p-5"
 	>
 		<div
-			class="sticky top-40 ml-10 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-2.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
+			class="sticky top-20 self-start ml-10 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-2.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
 		>
 			<!-- <button
 					class="hero_backhome sharing_button"
@@ -133,7 +133,6 @@
 				>
 					{project.title}
 				</h1>
-				<div class="flex h-fit w-full flex-col gap-0">
 			</div>
 			<hr
 				class="h-px w-full bg-(--permanent-black)"
@@ -171,7 +170,7 @@
 		</div>
 
 		<article
-			class="relative z-0 grid h-fit min-h-[calc(100vh-110px)] w-3/5 grid-cols-2 gap-x-5 gap-y-5 bg-background pt-40 pr-10 pb-20 max-md:flex max-md:w-full max-md:flex-col max-md:gap-2.5 max-md:p-0"
+			class="relative z-0 grid h-fit min-h-[calc(100vh-110px)] w-3/5 grid-cols-2 gap-x-5 gap-y-5 bg-background pt-40 pr-10 pb-20 max-md:flex max-md:w-full max-md:flex-col max-md:gap-2.5 max-md:p-0 xl:grid-cols-3"
 		>
 			{#each orderedProjectMediaFiles as key, index}
 				{@const mediaFile = data.projectMediaFiles[key]}
@@ -244,7 +243,7 @@
 				{/if}
 			{/each}
 			{#if orderedSubGalleryMediaFiles.length > 0}
-				<div class="grid grid-flow-dense grid-cols-3 gap-2.5 max-md:grid-cols-2">
+				<div class="grid grid-flow-dense grid-cols-3 gap-2.5 max-md:grid-cols-2 xl:grid-cols-4">
 					{#each orderedSubGalleryMediaFiles as m}
 						{@const mediaFile = data.subGalleryMediaFiles[m]}
 
