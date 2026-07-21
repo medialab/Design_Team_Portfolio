@@ -57,7 +57,6 @@ const buildHomeCard = async (project: Project): Promise<HomeCardDTO | null> => {
 	const card: HomeCardDTO = {
 		tag: project.tag,
 		title: project.title,
-		year_begin: project.year_begin,
 		thumb: {
 			src: thumbnailMeta.src,
 			width: thumbnailMeta.width,
@@ -69,14 +68,6 @@ const buildHomeCard = async (project: Project): Promise<HomeCardDTO | null> => {
 			height: meta.height
 		}))
 	};
-
-	if (project.year_end) {
-		card.year_end = project.year_end;
-	}
-
-	if (project.team_people) {
-		card.team_people = project.team_people;
-	}
 
 	return card;
 };

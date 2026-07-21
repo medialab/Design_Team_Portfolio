@@ -4,7 +4,8 @@
 
 	import { colorMode } from '$lib/stores/color-mode';
 	import { deviceType } from '$lib/stores/device-type';
-	import { SITE_NAME, DEFAULT_OG_IMAGE, buildCanonicalUrl, toAbsoluteUrl } from '$lib/utils/seo';
+	import { SITE_NAME } from '$lib/utils/seo';
+	import { SITE_ORIGIN, SITE_BASE_PATH } from '$lib/config';
 	import { isImageMetadata } from '$lib/media/guards';
 	import { createPointerTrailMask } from '$lib/utils/pointer-trail';
 	import { onDestroy } from 'svelte';
@@ -42,8 +43,8 @@
 
 	const pageTitle = `${project.title} | ${SITE_NAME}`;
 	const pageDescription = project.description;
-	const pageUrl = buildCanonicalUrl(`/${encodeURIComponent(project.tag)}`);
-	const pageImage = data.thumbnailSrc ? toAbsoluteUrl(data.thumbnailSrc) : DEFAULT_OG_IMAGE;
+	const pageUrl = `${SITE_ORIGIN}${SITE_BASE_PATH}/${encodeURIComponent(project.tag)}/`;
+	const pageImage = data.thumbnailSrc ? `${SITE_ORIGIN}${data.thumbnailSrc}` : `${SITE_ORIGIN}${SITE_BASE_PATH}/og/og.png`;
 
 	let videoRefs: HTMLVideoElement[] = $state([]);
 
@@ -133,21 +134,6 @@
 					{project.title}
 				</h1>
 				<div class="flex h-fit w-full flex-col gap-0">
-					<p
-						class="notes"
-						in:fly={{ y: 20, duration: 700, delay: 200 }}
-						style="transition-delay: 0.2s;"
-					>
-						Period: {project.year_begin} - {project.year_end}
-					</p>
-					<p
-						class="notes"
-						in:fly={{ y: 20, duration: 700, delay: 240 }}
-						style="transition-delay: 0.2s;"
-					>
-						Team: {project.team_people}
-					</p>
-				</div>
 			</div>
 			<hr
 				class="h-px w-full bg-(--permanent-black)"
@@ -171,6 +157,16 @@
 				>
 					{project.description}
 				</p>
+				{#if project.sections?.length}
+					<div class="flex flex-col gap-4 mt-6">
+						{#each project.sections as section}
+							<section id={section.id} class="flex flex-col gap-1 scroll-mt-40">
+								<h3 class="text-base font-medium text-(--permanent-black)">{section.title}</h3>
+								<p class="text-sm text-(--permanent-black)">{section.content}</p>
+							</section>
+						{/each}
+					</div>
+				{/if}
 			</div>
 		</div>
 

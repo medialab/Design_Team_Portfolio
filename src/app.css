@@ -131,7 +131,13 @@
 @media (hover: hover) and (pointer: fine) {
 	button:hover,
 	a:hover {
-		filter: invert(100%) !important;
+		background-color: var(--primary-black);
+		color: var(--primary-white);
+	}
+
+	button:hover img,
+	a:hover img {
+		filter: invert(1);
 	}
 }
 
