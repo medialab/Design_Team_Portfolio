@@ -5,19 +5,25 @@ import type { ImageMetadata } from './types';
 type MediaFileModule = ImageMetadata | string;
 type MediaFileLoader = () => Promise<MediaFileModule>;
 type ImageMetadataLoader = () => Promise<ImageMetadata>;
-type YamlTextLoader = () => Promise<string>;
-
 export const mediaFilesModules = import.meta.glob(
 	[
-		'$lib/media/*/*.png',
-		'$lib/media/*/*.jpg',
-		'$lib/media/*/*.jpeg',
-		'$lib/media/*/*.webp',
-		'$lib/media/*/*.gif',
-		'$lib/media/*/*.pdf',
-		'$lib/media/*/*.mp4',
-		'$lib/media/*/*.mov',
-		'$lib/media/*/*.MOV'
+		'$lib/projects/*/*.png',
+		'$lib/projects/*/*.jpg',
+		'$lib/projects/*/*.jpeg',
+		'$lib/projects/*/*.JPG',
+		'$lib/projects/*/*.JPEG',
+		'$lib/projects/*/*.webp',
+		'$lib/projects/*/*.gif',
+		'$lib/projects/*/*.pdf',
+		'$lib/projects/*/*.mp4',
+		'$lib/projects/*/*.mov',
+		'$lib/projects/*/*.MOV',
+		'$lib/projects/*/*.webm',
+		'$lib/projects/*/_videos/*.mp4',
+		'$lib/projects/*/_videos/*.mov',
+		'$lib/projects/*/_videos/*.MOV',
+		'$lib/projects/*/_videos/*.webm',
+		'$lib/projects/*/_documents/*.pdf'
 	],
 	{
 		eager: false,
@@ -36,21 +42,15 @@ export const mediaFilesModules = import.meta.glob(
 	}
 ) as Record<string, MediaFileLoader>;
 
-export const didascaliaModules = import.meta.glob(['$lib/media/*/*.yml', '$lib/media/*/*/*.yml'], {
-	eager: false,
-	import: 'default',
-	query: {
-		raw: ''
-	}
-}) as Record<string, YamlTextLoader>;
-
 export const subGalleryModules = import.meta.glob(
 	[
-		'$lib/media/*/*/*.png',
-		'$lib/media/*/*/*.jpg',
-		'$lib/media/*/*/*.jpeg',
-		'$lib/media/*/*/*.webp',
-		'$lib/media/*/*/*.gif'
+		'$lib/projects/*/*/*.png',
+		'$lib/projects/*/*/*.jpg',
+		'$lib/projects/*/*/*.jpeg',
+		'$lib/projects/*/*/*.JPG',
+		'$lib/projects/*/*/*.JPEG',
+		'$lib/projects/*/*/*.webp',
+		'$lib/projects/*/*/*.gif'
 	],
 	{
 		eager: false,
@@ -81,11 +81,13 @@ export const ditheredMediaFilesModules = import.meta.glob(['$lib/ditheredMedia/*
 
 export const homeMediaMetadataLoaders = import.meta.glob(
 	[
-		'$lib/media/*/*.png',
-		'$lib/media/*/*.jpg',
-		'$lib/media/*/*.jpeg',
-		'$lib/media/*/*.webp',
-		'$lib/media/*/*.gif'
+		'$lib/projects/*/*.png',
+		'$lib/projects/*/*.jpg',
+		'$lib/projects/*/*.jpeg',
+		'$lib/projects/*/*.JPG',
+		'$lib/projects/*/*.JPEG',
+		'$lib/projects/*/*.webp',
+		'$lib/projects/*/*.gif'
 	],
 	{
 		eager: false,

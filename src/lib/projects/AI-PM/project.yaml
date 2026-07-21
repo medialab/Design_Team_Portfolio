@@ -1,0 +1,18 @@
+title: AI‑Political Machines
+description: >-
+  Do AI systems learn and leverage political opinions of users in recommendations? AIPM as a project is a point of
+  articulation between algorithmic and social dynamics, and thus proposes a computer science and sociological angle to
+  the question of the political impact of algorithms on social media. The project builds on ideological social network
+  embedding methods and political surveys research to propose a double network and opinion space modeling of digital
+  public spaces. Using this double network and spatial opinion analysis, the project proposes to test whether algorithms
+  learn and leverage political opinions of users through algorithmic explainability, how they affect information
+  dynamics in public debate, and to open a path towards actionable tools capable of guiding algorithm design,
+  governance, and policy.
+link: https://medialab.sciencespo.fr/en/activities/ai-political-machine/
+tag: AI-PM
+year_begin: '2022'
+year_end: '2024'
+project_type: Research
+team_people: Pedro Ramaciotti Morales, Tim Faverjon, Antoine Vendeville
+media_captions:
+  thumb_AI-PM.jpg: ''

@@ -112,7 +112,6 @@
 	};
 
 	$effect(() => {
-		// react to mouse movement
 		void props.mousePosition;
 		updateFarness();
 	});
@@ -144,7 +143,7 @@
 
 <a
 	bind:this={cardEl}
-	class="group [--card-hover-y:0px] flex h-[14vh] w-fit flex-row items-center justify-start gap-0 bg-(--primary-white) origin-[left_center] transition-opacity duration-250 ease-(--curve) hover:[--card-hover-y:-2px] max-md:relative max-md:h-fit max-md:w-full max-md:flex-col max-md:items-start max-md:bg-transparent"
+	class="group [--card-hover-y:0px] flex h-[14vh] w-fit flex-row items-center justify-start gap-0 bg-(--primary-white) origin-[left_center] rounded-lg transition-all duration-250 ease-(--curve) hover:[--card-hover-y:-2px] max-md:relative max-md:h-fit max-md:w-full max-md:flex-col max-md:items-start max-md:bg-transparent"
 	href={resolve('/[project]', { project: props.tag })}
 	onpointerenter={() => setCardHoverState(true)}
 	onpointerleave={() => setCardHoverState(false)}
@@ -161,7 +160,6 @@
 		style="aspect-ratio: {ra};"
 		in:fade={{ duration: 260 }}
 	>
-		<!-- This is the thumn fixed that shows on hover -->
 		{#if thumbnailSrc}
 			<enhanced:img
 				src={thumbnailSrc}
@@ -183,7 +181,6 @@
 			</div>
 		{/if}
 
-		<!-- This is the stack of images that shows on hover -->
 		{#if !props.isMobile}
 			<div
 				class="absolute inset-0 z-[-1] h-full w-full opacity-0 transition-opacity duration-250 [transition-timing-function:--curve] group-hover:opacity-100 max-md:invisible max-md:hidden"
@@ -204,29 +201,28 @@
 		{/if}
 	</div>
 	<div
-		class="z-10 flex h-full w-fit flex-col items-start justify-center gap-2.5 p-2.5 max-md:relative max-md:w-full bg-surface"
+		class="z-10 flex h-full w-fit flex-col items-start justify-center gap-2.5 p-2.5 transition-colors duration-250 ease-(--curve) max-md:relative max-md:w-full bg-surface group-hover:bg-(--permanent-black)"
 		style={`max-width: ${props.isMobile ? 'none' : cardSizeMaxWidth};`}
 		in:fade={{ duration: 260 }}
 	>
 		<h2
 			id="title_container"
-			class="w-full bg-surface [display:-webkit-box] overflow-visible text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-3 line-clamp-3 max-md:w-[95%]"
+			class="w-full bg-surface transition-colors duration-250 ease-(--curve) [display:-webkit-box] overflow-visible text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-3 line-clamp-3 max-md:w-[95%] group-hover:bg-(--permanent-black) group-hover:text-(--permanent-white)"
 			in:fly={{ y: 16, duration: 650, delay: 60 }}
 		>
 			{props.title}
 		</h2>
-		<div class="bg-surface" in:fly={{ y: 16, duration: 650, delay: 110 }}>
+		<div class="bg-surface transition-colors duration-250 ease-(--curve) group-hover:bg-(--permanent-black)" in:fly={{ y: 16, duration: 650, delay: 110 }}>
 			{#if props.year_end}
-				<p class="notes"><b>Period:</b> {props.year_begin} - {props.year_end}</p>
+				<p class="notes transition-colors duration-250 ease-(--curve) group-hover:text-(--permanent-white)">{props.year_begin} &ndash; {props.year_end}</p>
 			{:else}
-				<p class="notes"><b>Year:</b> {props.year_begin}</p>
+				<p class="notes transition-colors duration-250 ease-(--curve) group-hover:text-(--permanent-white)">{props.year_begin}</p>
 			{/if}
 			{#if props.team_people}
 				<p
-					class="notes [display:-webkit-box] overflow-hidden text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-2 line-clamp-2"
+					class="notes transition-colors duration-250 ease-(--curve) [display:-webkit-box] overflow-hidden text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-2 line-clamp-2 group-hover:text-(--permanent-white)"
 					id="people"
 				>
-					<b>Team:</b>
 					{props.team_people}
 				</p>
 			{/if}

@@ -75,7 +75,7 @@
 	button,
 	a {
 		all: unset;
-		@apply m-0 box-border cursor-pointer border-0 bg-transparent p-0 text-inherit;
+		@apply m-0 box-border cursor-pointer border-0 bg-transparent p-0 text-inherit inline-flex;
 		font: inherit;
 		color: inherit;
 	}
@@ -130,8 +130,32 @@
 
 @media (hover: hover) and (pointer: fine) {
 	button:hover,
+	button:hover p,
+	button:hover h1,
+	button:hover h2,
+	button:hover h3,
+	button:hover span,
+	button:hover .notes,
+	button:hover svg,
+	a:hover,
+	a:hover p,
+	a:hover h1,
+	a:hover h2,
+	a:hover h3,
+	a:hover span,
+	a:hover .notes,
+	a:hover svg {
+		color: var(--permanent-white);
+	}
+
+	button:hover svg path,
+	a:hover svg path {
+		fill: var(--permanent-white);
+	}
+
+	button:hover,
 	a:hover {
-		filter: invert(100%) !important;
+		background-color: var(--permanent-black);
 	}
 }
 

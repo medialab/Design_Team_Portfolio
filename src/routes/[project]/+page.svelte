@@ -2,10 +2,11 @@
 	import type { PageProps } from './$types';
 	import PdfWrapper from '$lib/components/pdf_wrapper.svelte';
 
-	import { colorMode } from '$lib/stores/color-mode';
-	import { deviceType } from '$lib/stores/device-type';
-	import { SITE_NAME, DEFAULT_OG_IMAGE, buildCanonicalUrl, toAbsoluteUrl } from '$lib/utils/seo';
-	import { isImageMetadata } from '$lib/media/guards';
+	import { colorMode } from '$lib/utils/stores/color-mode';
+	import { deviceType } from '$lib/utils/stores/device-type';
+	import { SITE_NAME } from '$lib/utils/seo';
+	import { SITE_ORIGIN, SITE_BASE_PATH } from '$lib/utils/config';
+	import { isImageMetadata } from '$lib/projects/guards';
 	import { createPointerTrailMask } from '$lib/utils/pointer-trail';
 	import { onDestroy } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -14,18 +15,16 @@
 	const options = {};
 	const pointerTrail = createPointerTrailMask(1000);
 
-	const stemFromFilePath = (filePath: string): string | null => {
+	const fileName = (filePath: string): string | null => {
 		const baseName = filePath.split('/').pop();
-		if (!baseName) return null;
-		const stem = baseName.replace(/\.[^.]+$/, '');
-		return stem || null;
+		return baseName || null;
 	};
 
 	const didascaliaFromFilePath = (filePath: string | undefined): string | null => {
 		if (!filePath) return null;
-		const stem = stemFromFilePath(filePath);
-		if (!stem) return null;
-		return data.didascaliaByStem?.[stem] ?? null;
+		const name = fileName(filePath);
+		if (!name) return null;
+		return data.didascaliaByStem?.[name] ?? null;
 	};
 
 	let { data }: PageProps = $props();
@@ -42,8 +41,8 @@
 
 	const pageTitle = `${project.title} | ${SITE_NAME}`;
 	const pageDescription = project.description;
-	const pageUrl = buildCanonicalUrl(`/${encodeURIComponent(project.tag)}`);
-	const pageImage = data.thumbnailSrc ? toAbsoluteUrl(data.thumbnailSrc) : DEFAULT_OG_IMAGE;
+	const pageUrl = `${SITE_ORIGIN}${SITE_BASE_PATH}/${encodeURIComponent(project.tag)}/`;
+	const pageImage = data.thumbnailSrc ? `${SITE_ORIGIN}${data.thumbnailSrc}` : `${SITE_ORIGIN}${SITE_BASE_PATH}/og/og.png`;
 
 	let videoRefs: HTMLVideoElement[] = $state([]);
 
@@ -86,7 +85,7 @@
 		class="relative flex min-h-screen w-full flex-row gap-5 max-md:mt-5 max-md:h-full max-md:w-full max-md:flex-col max-md:gap-5 max-md:p-5"
 	>
 		<div
-			class="sticky top-40 ml-10 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-2.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
+			class="sticky top-20 self-start ml-10 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-2.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
 		>
 			<!-- <button
 					class="hero_backhome sharing_button"
@@ -132,22 +131,6 @@
 				>
 					{project.title}
 				</h1>
-				<div class="flex h-fit w-full flex-col gap-0">
-					<p
-						class="notes"
-						in:fly={{ y: 20, duration: 700, delay: 200 }}
-						style="transition-delay: 0.2s;"
-					>
-						Period: {project.year_begin} - {project.year_end}
-					</p>
-					<p
-						class="notes"
-						in:fly={{ y: 20, duration: 700, delay: 240 }}
-						style="transition-delay: 0.2s;"
-					>
-						Team: {project.team_people}
-					</p>
-				</div>
 			</div>
 			<hr
 				class="h-px w-full bg-(--permanent-black)"
@@ -171,11 +154,21 @@
 				>
 					{project.description}
 				</p>
+				{#if project.sections?.length}
+					<div class="flex flex-col gap-4 mt-6">
+						{#each project.sections as section}
+							<section id={section.id} class="flex flex-col gap-1 scroll-mt-40">
+								<h3 class="text-base font-medium text-(--permanent-black)">{section.title}</h3>
+								<p class="text-sm text-(--permanent-black)">{section.content}</p>
+							</section>
+						{/each}
+					</div>
+				{/if}
 			</div>
 		</div>
 
 		<article
-			class="relative z-0 grid h-fit min-h-[calc(100vh-110px)] w-3/5 grid-cols-2 gap-x-5 gap-y-5 bg-background pt-40 pr-10 pb-20 max-md:flex max-md:w-full max-md:flex-col max-md:gap-2.5 max-md:p-0"
+			class="relative z-0 grid h-fit min-h-[calc(100vh-110px)] w-3/5 grid-cols-2 gap-x-5 gap-y-5 bg-background pt-40 pr-10 pb-20 max-md:flex max-md:w-full max-md:flex-col max-md:gap-2.5 max-md:p-0 xl:grid-cols-3"
 		>
 			{#each orderedProjectMediaFiles as key, index}
 				{@const mediaFile = data.projectMediaFiles[key]}
@@ -248,7 +241,7 @@
 				{/if}
 			{/each}
 			{#if orderedSubGalleryMediaFiles.length > 0}
-				<div class="grid grid-flow-dense grid-cols-3 gap-2.5 max-md:grid-cols-2">
+				<div class="grid grid-flow-dense grid-cols-3 gap-2.5 max-md:grid-cols-2 xl:grid-cols-4">
 					{#each orderedSubGalleryMediaFiles as m}
 						{@const mediaFile = data.subGalleryMediaFiles[m]}
 

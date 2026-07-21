@@ -3,8 +3,8 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/header.svelte';
 	import Footer from '$lib/components/footer.svelte';
-	import { colorMode } from '$lib/stores/color-mode';
-	import { deviceType } from '$lib/stores/device-type';
+	import { colorMode } from '$lib/utils/stores/color-mode';
+	import { deviceType } from '$lib/utils/stores/device-type';
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 

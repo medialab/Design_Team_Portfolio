@@ -8,7 +8,14 @@ export type Project = {
 	project_type?: string;
 	team_people?: string;
 	author?: string;
-	[key: string]: string | undefined;
+	sections?: MarkdownSection[];
+	media_captions?: Record<string, string>;
+};
+
+export type MarkdownSection = {
+	id: string;
+	title: string;
+	content: string;
 };
 
 export type DeviceType = {
@@ -19,7 +26,6 @@ export type DeviceType = {
 
 export type YamlData = {
 	projects: Project[];
-	[key: string]: unknown;
 };
 
 export type YamlTextModule = {

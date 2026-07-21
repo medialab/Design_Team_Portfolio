@@ -7,7 +7,7 @@
 	import { writable } from 'svelte/store';
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
-	import { deviceType } from '$lib/stores/device-type';
+	import { deviceType } from '$lib/utils/stores/device-type';
 
 	let { data }: PageProps = $props();
 
