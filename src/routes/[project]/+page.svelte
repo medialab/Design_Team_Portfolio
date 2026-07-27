@@ -15,16 +15,18 @@
 	const options = {};
 	const pointerTrail = createPointerTrailMask(1000);
 
-	const fileName = (filePath: string): string | null => {
+	const stemFromFilePath = (filePath: string): string | null => {
 		const baseName = filePath.split('/').pop();
-		return baseName || null;
+		if (!baseName) return null;
+		const stem = baseName.replace(/\.[^.]+$/, '');
+		return stem || null;
 	};
 
 	const didascaliaFromFilePath = (filePath: string | undefined): string | null => {
 		if (!filePath) return null;
-		const name = fileName(filePath);
-		if (!name) return null;
-		return data.didascaliaByStem?.[name] ?? null;
+		const stem = stemFromFilePath(filePath);
+		if (!stem) return null;
+		return data.didascaliaByStem?.[stem] ?? null;
 	};
 
 	let { data }: PageProps = $props();
@@ -38,6 +40,45 @@
 	const orderedSubGalleryMediaFiles = Object.keys(data.subGalleryMediaFiles).sort((a, b) =>
 		a.localeCompare(b, 'en', { numeric: true })
 	);
+
+	type MediaRowItem = {
+		key: string;
+		mediaFile: any;
+		filePath: string | undefined;
+		didascalia: string | null;
+	};
+
+	type MediaRow =
+		| { kind: 'video'; key: string; mediaFile: any; index: number }
+		| { kind: 'pdf'; key: string; mediaFile: any }
+		| { kind: 'image-full'; items: [MediaRowItem] }
+		| { kind: 'image-portrait'; items: [MediaRowItem] };
+
+	const mediaRows = $derived.by(() => {
+		const rows: MediaRow[] = [];
+		let videoIndex = 0;
+
+		for (const key of orderedProjectMediaFiles) {
+			const mediaFile = data.projectMediaFiles[key];
+
+			if (key.toLowerCase().endsWith('.mp4') || key.toLowerCase().endsWith('.mov')) {
+				rows.push({ kind: 'video', key, mediaFile, index: videoIndex });
+				videoIndex++;
+			} else if (key.endsWith('.pdf')) {
+				rows.push({ kind: 'pdf', key, mediaFile });
+			} else if (!key.toLowerCase().includes('thumb') && key && isImageMetadata(mediaFile)) {
+				const filePath = key.split('/').pop();
+				const didascalia = didascaliaFromFilePath(filePath);
+				if (mediaFile.width > mediaFile.height) {
+					rows.push({ kind: 'image-full', items: [{ key, mediaFile, filePath, didascalia }] });
+				} else {
+					rows.push({ kind: 'image-portrait', items: [{ key, mediaFile, filePath, didascalia }] });
+				}
+			}
+		}
+
+		return rows;
+	});
 
 	const pageTitle = `${project.title} | ${SITE_NAME}`;
 	const pageDescription = project.description;
@@ -85,7 +126,7 @@
 		class="relative flex min-h-screen w-full flex-row gap-5 max-md:mt-5 max-md:h-full max-md:w-full max-md:flex-col max-md:gap-5 max-md:p-5"
 	>
 		<div
-			class="sticky top-20 self-start ml-10 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-2.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
+			class="sticky top-28 ml-5 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-1.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
 		>
 			<!-- <button
 					class="hero_backhome sharing_button"
@@ -131,6 +172,22 @@
 				>
 					{project.title}
 				</h1>
+				<div class="flex h-fit w-full flex-col gap-0">
+					<p
+						class="notes"
+						in:fly={{ y: 20, duration: 700, delay: 200 }}
+						style="transition-delay: 0.2s;"
+					>
+						Period: {project.year_begin} - {project.year_end}
+					</p>
+					<p
+						class="notes"
+						in:fly={{ y: 20, duration: 700, delay: 240 }}
+						style="transition-delay: 0.2s;"
+					>
+						Team: {project.team_people}
+					</p>
+				</div>
 			</div>
 			<hr
 				class="h-px w-full bg-(--permanent-black)"
@@ -154,44 +211,33 @@
 				>
 					{project.description}
 				</p>
-				{#if project.sections?.length}
-					<div class="flex flex-col gap-4 mt-6">
-						{#each project.sections as section}
-							<section id={section.id} class="flex flex-col gap-1 scroll-mt-40">
-								<h3 class="text-base font-medium text-(--permanent-black)">{section.title}</h3>
-								<p class="text-sm text-(--permanent-black)">{section.content}</p>
-							</section>
-						{/each}
-					</div>
-				{/if}
+
 			</div>
 		</div>
 
 		<article
-			class="relative z-0 grid h-fit min-h-[calc(100vh-110px)] w-3/5 grid-cols-2 gap-x-5 gap-y-5 bg-background pt-40 pr-10 pb-20 max-md:flex max-md:w-full max-md:flex-col max-md:gap-2.5 max-md:p-0 xl:grid-cols-3"
+			class="relative z-0 grid h-fit min-h-[calc(100vh-110px)] w-3/5 grid-cols-2 gap-x-5 gap-y-5 bg-background pt-28 pr-5 pb-20 max-md:flex max-md:w-full max-md:flex-col max-md:gap-2.5 max-md:p-0"
 		>
-			{#each orderedProjectMediaFiles as key, index}
-				{@const mediaFile = data.projectMediaFiles[key]}
-				{#if key.toLowerCase().endsWith('.mp4') || key.toLowerCase().endsWith('.mov')}
-					{@const video = videoRefs[index]}
+			{#each mediaRows as row}
+				{#if row.kind === 'video'}
 					<div
 						class="col-span-2 flex h-fit w-full flex-col gap-2.5"
 						in:fly={{ y: 16, duration: 550 }}
 					>
 						<video
-							src={mediaFile.default}
+							src={row.mediaFile.default}
 							use:inview={options}
 							oninview_enter={() => {
-								if (!video) return;
-								video.play();
+								if (!videoRefs[row.index]) return;
+								videoRefs[row.index].play();
 							}}
 							oninview_leave={() => {
-								if (!video) return;
-								video.pause();
+								if (!videoRefs[row.index]) return;
+								videoRefs[row.index].pause();
 							}}
 							preload="metadata"
 							muted
-							bind:this={videoRefs[index] as HTMLVideoElement}
+							bind:this={videoRefs[row.index] as HTMLVideoElement}
 							controls={false}
 							autoplay={true}
 							playsinline={true}
@@ -201,24 +247,22 @@
 						>
 						</video>
 					</div>
-				{:else if key.endsWith('.pdf')}
-					{#if mediaFile.default}
+				{:else if row.kind === 'pdf'}
+					{#if row.mediaFile.default}
 						<div
 							class="col-span-2 flex h-fit w-full flex-col gap-2.5"
 							in:fly={{ y: 16, duration: 550 }}
 						>
 							<PdfWrapper
-								mediafile={mediaFile}
+								mediafile={row.mediaFile}
 								scale={0.7}
 								twoPage={$deviceType.isMobile ? false : true}
 							/>
 						</div>
 					{/if}
-				{:else if !key.toLowerCase().includes('thumb') && key && isImageMetadata(mediaFile)}
-					{@const filePath = key.split('/').pop()}
-					{@const didascalia = didascaliaFromFilePath(filePath)}
+				{:else if row.kind === 'image-full'}
 					<div
-						class={`${mediaFile.width > mediaFile.height ? 'col-span-2' : 'col-span-1'} relative overflow-hidden`}
+						class="col-span-2 relative overflow-hidden"
 						in:fly={{ y: 16, duration: 550 }}
 						role="img"
 						aria-label="Project media"
@@ -227,29 +271,56 @@
 							class="h-auto w-full overflow-hidden bg-inverse object-cover transition-[filter] duration-300 [transition-timing-function:--curve]"
 							class:grayscale={$colorMode === 'dark'}
 							style="transition-delay: 0.4s;"
-							src={mediaFile.src}
+							src={row.items[0].mediaFile.src}
 							alt="Project media"
 						/>
-						{#if didascalia}
+						{#if row.items[0].didascalia}
 							<div
 								class="absolute bottom-0 left-0 z-10 h-5 w-fit bg-(--permanent-white) px-1.25 text-[12px] text-(--permanent-black)"
 							>
-								<p class="notes">{didascalia}</p>
+								<p class="notes">{row.items[0].didascalia}</p>
 							</div>
 						{/if}
+					</div>
+				{:else if row.kind === 'image-portrait'}
+					<div
+						class="col-span-2 flex justify-center bg-background"
+						in:fly={{ y: 16, duration: 550 }}
+					>
+						<div class="relative w-1/2 overflow-hidden" role="img" aria-label="Project media">
+							<enhanced:img
+								class="h-auto w-full overflow-hidden bg-inverse object-cover transition-[filter] duration-300 [transition-timing-function:--curve]"
+								class:grayscale={$colorMode === 'dark'}
+								style="transition-delay: 0.4s;"
+								src={row.items[0].mediaFile.src}
+								alt="Project media"
+							/>
+							{#if row.items[0].didascalia}
+								<div
+									class="absolute bottom-0 left-0 z-10 h-5 w-fit bg-(--permanent-white) px-1.25 text-[12px] text-(--permanent-black)"
+								>
+									<p class="notes">{row.items[0].didascalia}</p>
+								</div>
+							{/if}
+						</div>
 					</div>
 				{/if}
 			{/each}
 			{#if orderedSubGalleryMediaFiles.length > 0}
-				<div class="grid grid-flow-dense grid-cols-3 gap-2.5 max-md:grid-cols-2 xl:grid-cols-4">
+				<div class="col-span-2 grid grid-flow-dense grid-cols-3 gap-2.5 max-md:grid-cols-2">
 					{#each orderedSubGalleryMediaFiles as m}
 						{@const mediaFile = data.subGalleryMediaFiles[m]}
-
-						<enhanced:img
-							src={mediaFile.src}
-							alt="Sub gallery media"
-							class="col-span-1 h-full w-full overflow-hidden bg-inverse object-cover transition-[filter] duration-300 [transition-timing-function:--curve]"
-						/>
+						<div
+							class={`${mediaFile.width > mediaFile.height ? 'col-span-3 max-md:col-span-2' : 'col-span-1'} relative overflow-hidden`}
+							role="img"
+							aria-label="Sub gallery media"
+						>
+							<enhanced:img
+								src={mediaFile.src}
+								alt="Sub gallery media"
+								class="h-auto w-full overflow-hidden bg-inverse object-cover transition-[filter] duration-300 [transition-timing-function:--curve]"
+							/>
+						</div>
 					{/each}
 				</div>
 			{/if}

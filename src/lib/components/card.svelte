@@ -113,7 +113,7 @@
 
 	$effect(() => {
 		void props.mousePosition;
-		updateFarness();
+		if (!isHovered) updateFarness();
 	});
 
 	$effect(() => {
@@ -193,7 +193,7 @@
 							fetchpriority="low"
 							alt={props.title}
 							style={`z-index: ${stackIndex + 1}; transform: ${splitTransform(stackIndex)}; transition-delay: ${stackIndex * 100}ms;`}
-							class="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-300 [transition-timing-function:--curve]"
+							class="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-300 [transition-timing-function:--curve] [filter:grayscale(1)_contrast(2)_brightness(1.1)]"
 						/>
 					{/each}
 				{/if}

@@ -3,7 +3,7 @@
 </script>
 
 <footer
-	class="fixed right-0 bottom-5 left-0 z-[100] flex h-fit w-full flex-row items-center justify-between px-5 py-5 max-md:static"
+	class="fixed right-0 bottom-2 left-0 z-[100] flex h-fit w-full flex-row items-center justify-between px-5 py-2 max-md:static"
 >
 	<p class="notes bg-white p-1.5 text-[#1f1f1f]">Privacy policy</p>
 	<a

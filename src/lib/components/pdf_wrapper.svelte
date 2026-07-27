@@ -72,7 +72,13 @@
 	}
 
 	:global(.null) {
-		justify-items: center !important;
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+	}
+
+	:global(.parent) {
+		margin: 0 !important;
 	}
 
 	:global(#topBtn) {
