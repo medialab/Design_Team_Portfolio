@@ -4,7 +4,6 @@
 	import PdfWrapper from '$lib/components/pdf_wrapper.svelte';
 
 	import { colorMode } from '$lib/utils/stores/color-mode';
-	import { deviceType } from '$lib/utils/stores/device-type';
 	import { SITE_NAME } from '$lib/utils/seo';
 	import { SITE_ORIGIN, SITE_BASE_PATH } from '$lib/utils/config';
 	import { isImageMetadata } from '$lib/projects/guards';
@@ -154,7 +153,7 @@
 		<!-- THIS IS A STICKY SIDEBAR WITH THUMBNAIL, TITLE, PERIOD, TEAM, AND DESCRIPTION -->
 		<div
 			id="project-metadata"
-			class="sticky top-28 ml-5 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-1.5 text-(--permanent-black) transition-all duration-1300 [transition-timing-function:--curve] max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
+			class="sticky top-28 ml-5 flex h-fit w-2/5 flex-col gap-5 overflow-visible bg-(--permanent-white) p-1.5 text-(--permanent-black) max-md:static max-md:top-auto max-md:ml-0 max-md:w-full max-md:bg-transparent max-md:p-0 max-md:translate-y-0"
 		>
 			<!-- THUMBNAIL AND DITHER OVERLAY -->
 			<div
@@ -199,7 +198,6 @@
 				<h1
 					id="project-title"
 					class="w-[90%] text-[32px] leading-[1.1] text-(--permanent-black) max-md:text-primary"
-					in:fly={{ y: 20, duration: 700, delay: 130 }}
 				>
 					{project.title}
 				</h1>
@@ -208,38 +206,25 @@
 					<p
 						id="period-label"
 						class="notes"
-						in:fly={{ y: 20, duration: 700, delay: 200 }}
-						style="transition-delay: 0.2s;"
 					>
 						<b>{project.year_begin} - {project.year_end}</b>
 					</p>
 					<p
 						id="team-label"
 						class="notes"
-						in:fly={{ y: 20, duration: 700, delay: 240 }}
-						style="transition-delay: 0.2s;"
 					>
 						{project.team_people}
 					</p>
 				</div>
 			</div>
-			<!-- SEPARATOR LINE -->
-			<hr
-				id="metadata-separator"
-				class="h-px w-full bg-(--permanent-black) max-md:bg-secondary"
-				in:fly={{ y: 20, duration: 700, delay: 350 }}
-				style="transition-delay: 0.35s;"
-			/>
 			<!-- PROJECT DESCRIPTION -->
 			<div
 				id="metadata-description"
-				class="flex flex-col gap-1.25 overflow-hidden transition-all duration-500 delay-100 [transition-timing-function:--curve]"
+				class="flex flex-col gap-1.25 overflow-hidden"
 			>
 				<p
 					id="description-text"
 					class="pr-1.25 [display:-webkit-box] overflow-hidden text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-10 line-clamp-10 max-md:pr-0 max-md:-webkit-line-clamp-15 max-md:line-clamp-15 text-(--permanent-black) max-md:text-primary"
-					in:fly={{ y: 20, duration: 700, delay: 380 }}
-					style="transition-delay: 0.35s;"
 				>
 					{project.description}
 				</p>
@@ -301,7 +286,7 @@
 							<PdfWrapper
 								mediafile={row.mediaFile}
 								scale={0.7}
-								twoPage={$deviceType.isMobile ? false : true}
+								twoPage={typeof window !== 'undefined' ? window.innerWidth >= 768 : false}
 							/>
 						</div>
 					{/if}
@@ -341,7 +326,7 @@
 						class="col-span-2 flex justify-center bg-white"
 						in:fly={{ y: 16, duration: 550 }}
 					>
-						<div id="image-portrait-container" class="relative w-1/2 overflow-hidden" role="img" aria-label="Project media">
+						<div id="image-portrait-container" class="relative w-1/2 max-md:w-full overflow-hidden" role="img" aria-label="Project media">
 							<enhanced:img
 								id="image-portrait-element"
 								class="h-auto w-full overflow-hidden bg-inverse object-cover transition-[filter] duration-300 [transition-timing-function:--curve]"
