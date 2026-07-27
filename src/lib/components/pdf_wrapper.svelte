@@ -84,4 +84,13 @@
 	:global(#topBtn) {
 		display: none !important;
 	}
+
+	:global(#pdf_viewer button:hover) {
+		filter: none !important;
+	}
+
+	:global(#pdf_viewer button:hover p) {
+		background: var(--permanent-black) !important;
+		color: var(--permanent-white) !important;
+	}
 </style>
