@@ -6,12 +6,12 @@
 
 {#snippet logo_container()}
 	<a
-		class="w-max hidden md:flex flex-col items-center justify-center"
+		class="w-max hidden md:flex flex-col items-center justify-center bg-surface px-1"
 		href={resolve('/')}
 		id="logo_container"
 	>
-		<p class="notes bg-surface px-1 text-primary">medialab Sciences Po</p>
-		<h1 class="bg-surface px-1 text-primary">Collective Inquiries and Inventive Formats group</h1>
+		<p class="notes text-primary">medialab Sciences Po</p>
+		<h1 class="text-primary">Collective Inquiries and Inventive Formats group</h1>
 	</a>
 {/snippet}
 
@@ -95,3 +95,14 @@
 	{@render logo_container()}
 	{@render colorswitch_container()}
 </header>
+
+<style>
+	#logo_container:hover {
+		filter: none !important;
+	}
+	#logo_container:hover p,
+	#logo_container:hover h1 {
+		color: var(--permanent-white);
+		background: var(--permanent-black);
+	}
+</style>
