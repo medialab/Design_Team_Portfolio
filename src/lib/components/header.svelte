@@ -19,7 +19,7 @@
 	<div class="hover_container">
 		<div class="md:flex hidden gap-1">
 			{#if $colorMode === 'light'}
-				<button onclick={() => colorMode.set('dark')} aria-label="Switch to dark mode" class="bg-white p-1.5">
+				<button onclick={() => colorMode.set('dark')} aria-label="Switch to dark mode" class="bg-surface p-1.5">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5"
 						><path
 							d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"
@@ -27,7 +27,7 @@
 					>
 				</button>
 			{:else}
-				<button onclick={() => colorMode.set('light')} aria-label="Switch to light mode" class="bg-white p-1.5">
+				<button onclick={() => colorMode.set('light')} aria-label="Switch to light mode" class="bg-surface p-1.5">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5"
 						><path
 							d="M380-160q133 0 226.5-93.5T700-480q0-133-93.5-226.5T380-800h-21q-10 0-19 2 57 66 88.5 147.5T460-480q0 89-31.5 170.5T340-162q9 2 19 2h21Zm0 80q-53 0-103.5-13.5T180-134q93-54 146.5-146T380-480q0-108-53.5-200T180-826q46-27 96.5-40.5T380-880q83 0 156 31.5T663-763q54 54 85.5 127T780-480q0 83-31.5 156T663-197q-54 54-127 85.5T380-80Zm80-400Z"
