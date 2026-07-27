@@ -211,7 +211,7 @@
 						in:fly={{ y: 20, duration: 700, delay: 200 }}
 						style="transition-delay: 0.2s;"
 					>
-						Period: {project.year_begin} - {project.year_end}
+						<b>{project.year_begin} - {project.year_end}</b>
 					</p>
 					<p
 						id="team-label"
@@ -219,14 +219,14 @@
 						in:fly={{ y: 20, duration: 700, delay: 240 }}
 						style="transition-delay: 0.2s;"
 					>
-						Team: {project.team_people}
+						{project.team_people}
 					</p>
 				</div>
 			</div>
 			<!-- SEPARATOR LINE -->
 			<hr
 				id="metadata-separator"
-				class="h-px w-full bg-(--permanent-black)"
+				class="h-px w-full bg-(--permanent-black) max-md:bg-secondary"
 				in:fly={{ y: 20, duration: 700, delay: 350 }}
 				style="transition-delay: 0.35s;"
 			/>
@@ -237,7 +237,7 @@
 			>
 				<p
 					id="description-text"
-					class="pr-1.25 [display:-webkit-box] overflow-hidden text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-10 line-clamp-10 max-md:pr-0 max-md:-webkit-line-clamp-15 max-md:line-clamp-15 text-(--permanent-black)"
+					class="pr-1.25 [display:-webkit-box] overflow-hidden text-ellipsis [-webkit-box-orient:vertical] -webkit-line-clamp-10 line-clamp-10 max-md:pr-0 max-md:-webkit-line-clamp-15 max-md:line-clamp-15 text-(--permanent-black) max-md:text-primary"
 					in:fly={{ y: 20, duration: 700, delay: 380 }}
 					style="transition-delay: 0.35s;"
 				>

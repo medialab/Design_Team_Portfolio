@@ -68,16 +68,18 @@ export const load: PageServerLoad = async ({ params }) => {
 			throw error(404, 'Project not found');
 		}
 
-		const projectMediaFiles = await resolveProjectMediaFiles(project.tag);
-		const subGalleryMediaFiles = await resolveProjectImageFiles(
-			subGalleryModules as Record<string, ImageMetadataLoader>,
-			project.tag
-		);
+		const [projectMediaFiles, subGalleryMediaFiles, ditheredProjectMediaFiles] = await Promise.all([
+			resolveProjectMediaFiles(project.tag),
+			resolveProjectImageFiles(
+				subGalleryModules as Record<string, ImageMetadataLoader>,
+				project.tag
+			),
+			resolveProjectImageFiles(
+				ditheredMediaFilesModules as Record<string, ImageMetadataLoader>,
+				project.tag
+			)
+		]);
 		const didascaliaByStem = buildDidascaliaByStem(project.media_captions || {});
-		const ditheredProjectMediaFiles = await resolveProjectImageFiles(
-			ditheredMediaFilesModules as Record<string, ImageMetadataLoader>,
-			project.tag
-		);
 
 		const sourceThumbEntry = Object.entries(projectMediaFiles).find(
 			([key, value]) => key.toLowerCase().includes('thumb') && isImageMetadata(value)

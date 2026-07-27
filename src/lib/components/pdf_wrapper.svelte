@@ -36,26 +36,20 @@
 	id="pdf_viewer"
 	class="pdf_viewer relative z-20 flex w-full place-content-center items-center justify-center overflow-hidden bg-transparent object-cover"
 >
-	<button
+	<p
+		id="pdf-next-arrow"
 		onclick={nextPage}
-		class="pointer-events-none absolute top-0 right-0 z-[4] flex h-full w-[30%] flex-col items-end justify-center bg-transparent"
+		class="notes pointer-events-auto absolute top-1/2 right-0 z-30 h-fit w-fit -translate-y-1/2 bg-(--permanent-white) px-2.5 py-1.25 text-[32px] text-(--permanent-black) cursor-pointer"
 	>
-		<p
-			class="notes pointer-events-auto z-[4] h-fit w-fit -translate-y-1/2 bg-(--permanent-white) px-2.5 py-1.25 text-[32px] text-(--permanent-black)"
-		>
-			→
-		</p>
-	</button>
-	<button
+		→
+	</p>
+	<p
+		id="pdf-prev-arrow"
 		onclick={prevPage}
-		class="pointer-events-none absolute top-0 left-0 z-[4] flex h-full w-[30%] flex-col items-start justify-center bg-transparent"
+		class="notes pointer-events-auto absolute top-1/2 left-0 z-30 h-fit w-fit -translate-y-1/2 bg-(--permanent-white) px-2.5 py-1.25 text-[32px] text-(--permanent-black) cursor-pointer"
 	>
-		<p
-			class="notes pointer-events-auto z-[4] h-fit w-fit -translate-y-1/2 bg-(--permanent-white) px-2.5 py-1.25 text-[32px] text-(--permanent-black)"
-		>
-			←
-		</p>
-	</button>
+		←
+	</p>
 	<PdfViewer
 		url={props.mediafile.default}
 		showButtons={[]}
@@ -85,7 +79,9 @@
 		display: none !important;
 	}
 
-	:global(#pdf_viewer button:hover) {
-		filter: none !important;
+	:global(#pdf-prev-arrow:hover),
+	:global(#pdf-next-arrow:hover) {
+		background: var(--permanent-black) !important;
+		color: var(--permanent-white) !important;
 	}
 </style>

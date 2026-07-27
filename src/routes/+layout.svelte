@@ -17,6 +17,13 @@
 			isTablet: width >= 768 && width < 1024,
 			isDesktop: width >= 1024
 		});
+
+		const handleImageError = (e: Event) => {
+			if (e.target instanceof HTMLImageElement) {
+				e.target.style.display = 'none';
+			}
+		};
+		window.addEventListener('error', handleImageError, true);
 	});
 
 	$effect(() => {
