@@ -3,6 +3,7 @@ import { extractYamlData } from '$lib/projects/yaml';
 import {
 	ditheredMediaFilesModules,
 	mediaFilesModules,
+	pdfFilesModules,
 	subGalleryModules
 } from '$lib/utils/medias';
 import type { ImageMetadata, Project } from '$lib/utils/types';
@@ -13,6 +14,7 @@ import { buildDidascaliaByStem } from '$lib/projects/didascalia';
 
 type ProjectMediaFile = ImageMetadata | { default: string };
 type MediaFileLoader = () => Promise<ImageMetadata | string>;
+type PdfFileLoader = () => Promise<string>;
 type ImageMetadataLoader = () => Promise<ImageMetadata>;
 
 const resolveProjectMediaFiles = async (
@@ -30,7 +32,19 @@ const resolveProjectMediaFiles = async (
 				: ([key, loaded] as const);
 		})
 	);
-	return Object.fromEntries(entries);
+
+	const pdfLoaders = getProjectFilesByTag(
+		pdfFilesModules as Record<string, PdfFileLoader>,
+		projectTag
+	);
+	const pdfEntries = await Promise.all(
+		Object.entries(pdfLoaders).map(async ([key, loader]) => {
+			const url = await loader();
+			return [key, { default: url }] as const;
+		})
+	);
+
+	return Object.fromEntries([...entries, ...pdfEntries]);
 };
 
 const resolveProjectImageFiles = async (

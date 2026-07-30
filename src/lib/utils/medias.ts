@@ -14,7 +14,6 @@ export const mediaFilesModules = import.meta.glob(
 		'$lib/projects/*/*.JPEG',
 		'$lib/projects/*/*.webp',
 		'$lib/projects/*/*.gif',
-		'$lib/projects/*/*.pdf',
 		'$lib/projects/*/*.mp4',
 		'$lib/projects/*/*.mov',
 		'$lib/projects/*/*.MOV',
@@ -22,8 +21,7 @@ export const mediaFilesModules = import.meta.glob(
 		'$lib/projects/*/_videos/*.mp4',
 		'$lib/projects/*/_videos/*.mov',
 		'$lib/projects/*/_videos/*.MOV',
-		'$lib/projects/*/_videos/*.webm',
-		'$lib/projects/*/_documents/*.pdf'
+		'$lib/projects/*/_videos/*.webm'
 	],
 	{
 		eager: false,
@@ -41,6 +39,15 @@ export const mediaFilesModules = import.meta.glob(
 		}
 	}
 ) as Record<string, MediaFileLoader>;
+
+type PdfFileLoader = () => Promise<string>;
+export const pdfFilesModules = import.meta.glob(
+	['$lib/projects/*/*.pdf', '$lib/projects/*/_documents/*.pdf'],
+	{
+		eager: false,
+		import: 'default'
+	}
+) as Record<string, PdfFileLoader>;
 
 export const subGalleryModules = import.meta.glob(
 	[

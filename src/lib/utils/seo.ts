@@ -2,9 +2,9 @@ export const SITE_NAME = 'Design Team Portfolio';
 export const SITE_DESCRIPTION =
 	'A curated collection of design projects showcasing innovative work across disciplines.';
 export const SITE_ORIGIN =
-	(typeof process !== 'undefined' && (process as any).env?.SITE_ORIGIN) || 'https://medialab.github.io';
+	(typeof process !== 'undefined' && (process as any).env?.SITE_ORIGIN) || 'https://glean.medialab.sciencespo.fr';
 export const SITE_BASE_PATH =
-	(typeof process !== 'undefined' && (process as any).env?.SITE_BASE_PATH) || '/glean';
+	(typeof process !== 'undefined' && (process as any).env?.SITE_BASE_PATH) || '';
 
 const ensureLeadingSlash = (value: string): string => (value.startsWith('/') ? value : `/${value}`);
 
